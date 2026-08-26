@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Generador de Liturgia</title>
+  
+  <!-- ÍCONO EN LA PESTAÑA DEL NAVEGADOR -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
   <style>
     :root {
       --primary: #004b87;
@@ -98,7 +101,6 @@
       cursor: pointer;
     }
 
-    .btn-main { background-color: var(--primary); color: white; }
     .btn-export-jpg { background-color: #2e7d32; color: white; }
     .btn-whatsapp { background-color: #25d366; color: white; }
 
@@ -259,8 +261,8 @@
       </form>
 
       <div class="btn-group">
-        <button type="button" class="btn-export-jpg" onclick="exportarJPG()">📸 Descargar</button>
-        <button type="button" class="btn-whatsapp" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
+        <button type="button" class="btn-export-jpg" onclick="exportarJPG()">📸 Descargar JPG HD</button>
+        <button type="button" class="btn-whatsapp" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp HD</button>
       </div>
     </div>
 
@@ -296,7 +298,6 @@
 
     // FUNCION PRINCIPAL DIBUJAR DATOS SOBRE COORDENADAS
     function actualizarVistaPrevia() {
-      // Ajustes para renderizado de alta calidad
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
 
@@ -386,14 +387,44 @@
       dibujarTexto('mensajeMusical', '#15803d', '20px Arial');
     }
 
-    // EXPORTAR IMAGEN JPG DE MÁXIMA CALIDAD (1.0)
+    // EXPORTAR IMAGEN COMPATIBLE CON IPHONE, ANDROID Y PC
     function exportarJPG() {
       actualizarVistaPrevia();
-      const enlace = document.createElement('a');
-      const fechaVal = document.getElementById('fecha').value || 'liturgia';
-      enlace.download = `Liturgia_${fechaVal.replace(/\s+/g, '_')}.jpg`;
-      enlace.href = canvas.toDataURL('image/jpeg', 1.0); // 1.0 es la máxima calidad sin pérdida
-      enlace.click();
+      
+      // Detectar dispostivos iOS (iPhone/iPad)
+      const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      if (esIOS) {
+        const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+        const nuevaVentana = window.open();
+        if (nuevaVentana) {
+          nuevaVentana.document.write(`
+            <html>
+              <head>
+                <title>Liturgia HD</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                  body { margin: 0; background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; color: white; font-family: sans-serif; text-align: center; padding: 15px; box-sizing: border-box; }
+                  img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+                  p { margin-top: 15px; font-size: 14px; color: #cbd5e1; }
+                </style>
+              </head>
+              <body>
+                <img src="${dataUrl}" alt="Liturgia">
+                <p>📲 <b>Mantén presionada la imagen</b> y selecciona <b>"Guardar en Fotos"</b>.</p>
+              </body>
+            </html>
+          `);
+        } else {
+          alert('Por favor, permite las ventanas emergentes en Safari para guardar la imagen.');
+        }
+      } else {
+        const fechaVal = document.getElementById('fecha').value || 'liturgia';
+        const enlace = document.createElement('a');
+        enlace.download = `Liturgia_${fechaVal.replace(/\s+/g, '_')}.jpg`;
+        enlace.href = canvas.toDataURL('image/jpeg', 1.0);
+        enlace.click();
+      }
     }
 
     // ENVIAR POR WHATSAPP EN ALTA RESOLUCIÓN
@@ -411,7 +442,6 @@
       const predicadorVal = document.getElementById('predicador').value || '';
       const lecturaVal = document.getElementById('lectura').value || '';
 
-      // Construcción del mensaje formateado
       let mensaje = `📋 *LITURGIA DEL CULTO*\n`;
       if (fechaVal) mensaje += `📅 *Fecha:* ${fechaVal}\n`;
       if (predicadorVal) mensaje += `🎙️ *Predicador:* ${predicadorVal}\n`;
@@ -421,7 +451,6 @@
       const numeroRaw = document.getElementById('numeroWA').value.trim();
       const numero = numeroRaw.replace(/[^0-9]/g, '');
 
-      // Copiar imagen en PNG de alta definición al portapapeles
       try {
         canvas.toBlob(async (blob) => {
           if (navigator.clipboard && window.ClipboardItem) {
@@ -431,12 +460,11 @@
           } else {
             exportarJPG();
           }
-        }, 'image/png'); // Usar PNG nativo de alta fidelidad
+        }, 'image/png');
       } catch (e) {
         exportarJPG();
       }
 
-      // Redirección a WhatsApp
       const mensajeURLEncoded = encodeURIComponent(mensaje);
       let urlWA = '';
       
