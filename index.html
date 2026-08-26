@@ -99,10 +99,20 @@
       font-size: 13px;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .btn-export-jpg { background-color: #2e7d32; color: white; }
     .btn-whatsapp { background-color: #25d366; color: white; }
+
+    /* ESTILOS PARA BOTONES DESHABILITADOS */
+    button:disabled {
+      background-color: #cbd5e1 !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed !important;
+      opacity: 0.7;
+      box-shadow: none !important;
+    }
 
     canvas {
       width: 100%;
@@ -138,7 +148,7 @@
         
         <div class="field-group">
           <label>1. Fecha del Sermón:</label>
-          <input type="date" id="fecha" class="input-text" value="">
+          <input type="date" id="fecha" class="input-text" value="" required>
           <div class="coord-inputs">
             <span>X:</span><input type="number" id="fecha_x" value="696">
             <span>Y:</span><input type="number" id="fecha_y" value="488">
@@ -150,7 +160,7 @@
 
         <div class="field-group">
           <label>2. Predicador Principal:</label>
-          <input type="text" id="predicador" class="input-text" placeholder="Ej: Pr. Juan Gómez" value="">
+          <input type="text" id="predicador" class="input-text" placeholder="Ej: Pr. Juan Gómez" value="" required>
           <div class="coord-inputs">
             <span>X1:</span><input type="number" id="predicador_x" value="260">
             <span>Y1:</span><input type="number" id="predicador_y" value="1532">
@@ -161,7 +171,7 @@
 
         <div class="field-group">
           <label>3. Lectura Bíblica:</label>
-          <input type="text" id="lectura" class="input-text" placeholder="Ej: Juan 3:16" value="">
+          <input type="text" id="lectura" class="input-text" placeholder="Ej: Juan 3:16" value="" required>
           <div class="coord-inputs">
             <span>X:</span><input type="number" id="lectura_x" value="293">
             <span>Y:</span><input type="number" id="lectura_y" value="761">
@@ -170,7 +180,7 @@
 
         <div class="field-group">
           <label>4. Himno Inicial (N°):</label>
-          <input type="text" id="himnoInicial" class="input-text" placeholder="Ej: 222" value="">
+          <input type="text" id="himnoInicial" class="input-text" placeholder="Ej: 222" value="" required>
           <div class="coord-inputs">
             <span>X:</span><input type="number" id="himnoInicial_x" value="280">
             <span>Y:</span><input type="number" id="himnoInicial_y" value="816">
@@ -179,7 +189,7 @@
 
         <div class="field-group">
           <label>5. Himno Final (N°):</label>
-          <input type="text" id="himnoFinal" class="input-text" placeholder="Ej: 333" value="">
+          <input type="text" id="himnoFinal" class="input-text" placeholder="Ej: 333" value="" required>
           <div class="coord-inputs">
             <span>X:</span><input type="number" id="himnoFinal_x" value="280">
             <span>Y:</span><input type="number" id="himnoFinal_y" value="1380">
@@ -191,7 +201,7 @@
 
         <div class="field-group">
           <label>6. Acompañante 1:</label>
-          <input type="text" id="acompanante1" class="input-text" placeholder="Ej: Hno. Carlos Ruiz" value="">
+          <input type="text" id="acompanante1" class="input-text" placeholder="Ej: Hno. Carlos Ruiz" value="" required>
           <div class="coord-inputs">
             <span>X1:</span><input type="number" id="acompanante1_x" value="300">
             <span>Y1:</span><input type="number" id="acompanante1_y" value="1560">
@@ -210,7 +220,7 @@
 
         <div class="field-group">
           <label>7. Acompañante 2:</label>
-          <input type="text" id="acompanante2" class="input-text" placeholder="Ej: Hna. Ana López" value="">
+          <input type="text" id="acompanante2" class="input-text" placeholder="Ej: Hna. Ana López" value="" required>
           <div class="coord-inputs">
             <span>X1:</span><input type="number" id="acompanante2_x" value="300">
             <span>Y1:</span><input type="number" id="acompanante2_y" value="1587">
@@ -227,7 +237,7 @@
 
         <div class="field-group">
           <label>8. Familia para Oración:</label>
-          <input type="text" id="familiaOracion" class="input-text" placeholder="Ej: Familia Méndez Castro" value="">
+          <input type="text" id="familiaOracion" class="input-text" placeholder="Ej: Familia Méndez Castro" value="" required>
           <div class="coord-inputs">
             <span>X:</span><input type="number" id="familiaOracion_x" value="554">
             <span>Y:</span><input type="number" id="familiaOracion_y" value="930">
@@ -236,7 +246,7 @@
 
         <div class="field-group">
           <label>9. Responsable Adoración Infantil:</label>
-          <input type="text" id="adoracionInfantil" class="input-text" placeholder="Ej: Hna. María Silva" value="">
+          <input type="text" id="adoracionInfantil" class="input-text" placeholder="Ej: Hna. María Silva" value="" required>
           <div class="coord-inputs">
             <span>X:</span><input type="number" id="adoracionInfantil_x" value="554">
             <span>Y:</span><input type="number" id="adoracionInfantil_y" value="1019">
@@ -245,7 +255,7 @@
 
         <div class="field-group">
           <label>10. Responsable Mensaje Musical:</label>
-          <input type="text" id="mensajeMusical" class="input-text" placeholder="Ej: Coro Central" value="">
+          <input type="text" id="mensajeMusical" class="input-text" placeholder="Ej: Coro Central" value="" required>
           <div class="coord-inputs">
             <span>X:</span><input type="number" id="mensajeMusical_x" value="554">
             <span>Y:</span><input type="number" id="mensajeMusical_y" value="1258">
@@ -261,8 +271,8 @@
       </form>
 
       <div class="btn-group">
-        <button type="button" class="btn-export-jpg" onclick="exportarJPG()">📸 Descargar</button>
-        <button type="button" class="btn-whatsapp" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
+        <button type="button" id="btnExportar" class="btn-export-jpg" onclick="exportarJPG()" disabled>📸 Descargar JPG HD</button>
+        <button type="button" id="btnWhatsapp" class="btn-whatsapp" onclick="enviarWhatsApp()" disabled>📲 Enviar por WhatsApp HD</button>
       </div>
     </div>
 
@@ -290,11 +300,38 @@
       plantilla.src = 'CULTO DE.png';
     };
 
-    // Escuchar cambios en inputs para actualizar en tiempo real
+    // FUNCIÓN PARA VALIDAR SI EL FORMULARIO ESTÁ COMPLETO
+    function validarFormulario() {
+      const camposRequeridos = document.querySelectorAll('#liturgiaForm input[required]');
+      let todoLleno = true;
+
+      camposRequeridos.forEach(input => {
+        if (!input.value.trim()) {
+          todoLleno = false;
+        }
+      });
+
+      const btnExportar = document.getElementById('btnExportar');
+      const btnWhatsapp = document.getElementById('btnWhatsapp');
+
+      btnExportar.disabled = !todoLleno;
+      btnWhatsapp.disabled = !todoLleno;
+    }
+
+    // Escuchar cambios en inputs para actualizar vista y habilitar/deshabilitar botones
     document.querySelectorAll('#liturgiaForm input').forEach(input => {
-      input.addEventListener('input', actualizarVistaPrevia);
-      input.addEventListener('change', actualizarVistaPrevia);
+      input.addEventListener('input', () => {
+        actualizarVistaPrevia();
+        validarFormulario();
+      });
+      input.addEventListener('change', () => {
+        actualizarVistaPrevia();
+        validarFormulario();
+      });
     });
+
+    // Validar en la carga inicial
+    validarFormulario();
 
     // FUNCION PRINCIPAL DIBUJAR DATOS SOBRE COORDENADAS
     function actualizarVistaPrevia() {
@@ -391,7 +428,6 @@
     function exportarJPG() {
       actualizarVistaPrevia();
       
-      // Detectar dispositivos iOS (iPhone/iPad)
       const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
       if (esIOS) {
@@ -427,7 +463,7 @@
       }
     }
 
-    // ENVIAR POR WHATSAPP (OPTIMIZADO PARA ANDROID, IPHONE Y PC)
+    // ENVIAR POR WHATSAPP
     async function enviarWhatsApp() {
       actualizarVistaPrevia();
       const fechaRaw = document.getElementById('fecha').value;
@@ -451,7 +487,6 @@
       const numeroRaw = document.getElementById('numeroWA').value.trim();
       const numero = numeroRaw.replace(/[^0-9]/g, '');
 
-      // Convertir canvas a Blob/Archivo
       canvas.toBlob(async (blob) => {
         if (!blob) {
           exportarJPG();
@@ -460,7 +495,6 @@
 
         const archivoImagen = new File([blob], `Liturgia_${fechaVal || 'culto'}.png`, { type: 'image/png' });
 
-        // 1. ANDROID / MÓVIL CON MENÚ NATIVO DE COMPARTIR ARCHIVOS
         if (navigator.canShare && navigator.canShare({ files: [archivoImagen] })) {
           try {
             await navigator.share({
@@ -472,7 +506,6 @@
             console.log('Compartir cancelado o no soportado:', err);
           }
         } 
-        // 2. PC O SISTEMAS CON CLIPBOARD COMPATIBLE
         else if (navigator.clipboard && window.ClipboardItem) {
           try {
             const item = new ClipboardItem({ 'image/png': blob });
@@ -489,7 +522,6 @@
 
           window.open(urlWA, '_blank');
         } 
-        // 3. RESPALDO
         else {
           exportarJPG();
           const mensajeURLEncoded = encodeURIComponent(mensaje);
