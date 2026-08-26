@@ -261,8 +261,8 @@
       </form>
 
       <div class="btn-group">
-        <button type="button" class="btn-export-jpg" onclick="exportarJPG()">📸 Descargar</button>
-        <button type="button" class="btn-whatsapp" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
+        <button type="button" class="btn-export-jpg" onclick="exportarJPG()">📸 Descargar JPG HD</button>
+        <button type="button" class="btn-whatsapp" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp HD</button>
       </div>
     </div>
 
@@ -391,7 +391,7 @@
     function exportarJPG() {
       actualizarVistaPrevia();
       
-      // Detectar dispostivos iOS (iPhone/iPad)
+      // Detectar dispositivos iOS (iPhone/iPad)
       const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
       if (esIOS) {
@@ -427,7 +427,7 @@
       }
     }
 
-    // ENVIAR POR WHATSAPP EN ALTA RESOLUCIÓN
+    // ENVIAR POR WHATSAPP (OPTIMIZADO PARA ANDROID, IPHONE Y PC)
     async function enviarWhatsApp() {
       actualizarVistaPrevia();
       const fechaRaw = document.getElementById('fecha').value;
@@ -451,30 +451,55 @@
       const numeroRaw = document.getElementById('numeroWA').value.trim();
       const numero = numeroRaw.replace(/[^0-9]/g, '');
 
-      try {
-        canvas.toBlob(async (blob) => {
-          if (navigator.clipboard && window.ClipboardItem) {
+      // Convertir canvas a Blob/Archivo
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          exportarJPG();
+          return;
+        }
+
+        const archivoImagen = new File([blob], `Liturgia_${fechaVal || 'culto'}.png`, { type: 'image/png' });
+
+        // 1. ANDROID / MÓVIL CON MENÚ NATIVO DE COMPARTIR ARCHIVOS
+        if (navigator.canShare && navigator.canShare({ files: [archivoImagen] })) {
+          try {
+            await navigator.share({
+              files: [archivoImagen],
+              title: 'Liturgia del Culto',
+              text: mensaje
+            });
+          } catch (err) {
+            console.log('Compartir cancelado o no soportado:', err);
+          }
+        } 
+        // 2. PC O SISTEMAS CON CLIPBOARD COMPATIBLE
+        else if (navigator.clipboard && window.ClipboardItem) {
+          try {
             const item = new ClipboardItem({ 'image/png': blob });
             await navigator.clipboard.write([item]);
-            alert('¡Imagen HD copiada al portapapeles! Al abrir WhatsApp presiona Ctrl+V (o Pegar).');
-          } else {
+            alert('¡Imagen HD copiada al portapapeles! Al abrir WhatsApp presiona Pegar.');
+          } catch (e) {
             exportarJPG();
           }
-        }, 'image/png');
-      } catch (e) {
-        exportarJPG();
-      }
 
-      const mensajeURLEncoded = encodeURIComponent(mensaje);
-      let urlWA = '';
-      
-      if (numero) {
-        urlWA = `https://wa.me/${numero}?text=${mensajeURLEncoded}`;
-      } else {
-        urlWA = `https://api.whatsapp.com/send?text=${mensajeURLEncoded}`;
-      }
+          const mensajeURLEncoded = encodeURIComponent(mensaje);
+          let urlWA = numero 
+            ? `https://wa.me/${numero}?text=${mensajeURLEncoded}`
+            : `https://api.whatsapp.com/send?text=${mensajeURLEncoded}`;
 
-      window.open(urlWA, '_blank');
+          window.open(urlWA, '_blank');
+        } 
+        // 3. RESPALDO
+        else {
+          exportarJPG();
+          const mensajeURLEncoded = encodeURIComponent(mensaje);
+          let urlWA = numero 
+            ? `https://wa.me/${numero}?text=${mensajeURLEncoded}`
+            : `https://api.whatsapp.com/send?text=${mensajeURLEncoded}`;
+
+          window.open(urlWA, '_blank');
+        }
+      }, 'image/png');
     }
   </script>
 </body>
