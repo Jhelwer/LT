@@ -33,13 +33,24 @@
       margin: 0 auto;
     }
 
-    .form-card, .preview-card {
+    .form-card {
       background: var(--card);
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       flex: 1;
       min-width: 380px;
+    }
+
+    /* LA VISTA PREVIA INICIA OCULTA POR DEFECTO */
+    .preview-card {
+      background: var(--card);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      flex: 1;
+      min-width: 380px;
+      display: none; 
     }
 
     h2, h3 { color: var(--primary); margin-top: 0; }
@@ -276,8 +287,8 @@
       </div>
     </div>
 
-    <!-- COLUMNA DERECHA: VISTA PREVIA -->
-    <div class="preview-card">
+    <!-- COLUMNA DERECHA: VISTA PREVIA (SE MUESTRA DINÁMICAMENTE) -->
+    <div class="preview-card" id="previewCard">
       <h3>Vista Previa</h3>
       <canvas id="canvasLiturgia" width="864" height="1821"></canvas>
     </div>
@@ -287,6 +298,7 @@
   <script>
     const canvas = document.getElementById('canvasLiturgia');
     const ctx = canvas.getContext('2d');
+    const previewCard = document.getElementById('previewCard');
     
     // CARGA AUTOMÁTICA DE PLANTILLA
     let plantilla = new Image();
@@ -314,11 +326,19 @@
       const btnExportar = document.getElementById('btnExportar');
       const btnWhatsapp = document.getElementById('btnWhatsapp');
 
+      // Habilitar/Deshabilitar botones
       btnExportar.disabled = !todoLleno;
       btnWhatsapp.disabled = !todoLleno;
+
+      // Mostrar u Ocultar la sección de vista previa
+      if (todoLleno) {
+        previewCard.style.display = 'block';
+      } else {
+        previewCard.style.display = 'none';
+      }
     }
 
-    // Escuchar cambios en inputs para actualizar vista y habilitar/deshabilitar botones
+    // Escuchar cambios en inputs para actualizar vista y habilitar/deshabilitar secciones
     document.querySelectorAll('#liturgiaForm input').forEach(input => {
       input.addEventListener('input', () => {
         actualizarVistaPrevia();
