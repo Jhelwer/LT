@@ -115,6 +115,8 @@
 
     .btn-export-jpg { background-color: #2e7d32; color: white; }
     .btn-whatsapp { background-color: #25d366; color: white; }
+    .btn-reset { background-color: #e2e8f0; color: #475569; }
+    .btn-reset:hover { background-color: #cbd5e1; color: #1e293b; }
 
     /* ESTILOS PARA BOTONES DESHABILITADOS */
     button:disabled {
@@ -133,14 +135,6 @@
       border-radius: 8px;
       display: block;
       margin: 0 auto;
-    }
-
-    .whatsapp-box {
-      background: #e8f8f0;
-      border: 1px solid #a3e635;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 15px;
     }
   </style>
 </head>
@@ -273,17 +267,12 @@
           </div>
         </div>
 
-        <!-- CONFIGURACIÓN WHATSAPP -->
-        <div class="whatsapp-box">
-          <label for="numeroWA">📱 Número de WhatsApp (opcional con código de país):</label>
-          <input type="text" id="numeroWA" class="input-text" placeholder="Ej: 51987654321 (vacío para seleccionar grupo/chat)">
-        </div>
-
       </form>
 
       <div class="btn-group">
         <button type="button" id="btnExportar" class="btn-export-jpg" onclick="exportarJPG()" disabled>📸 Descargar</button>
         <button type="button" id="btnWhatsapp" class="btn-whatsapp" onclick="enviarWhatsApp()" disabled>📤 Compartir</button>
+        <button type="button" id="btnLimpiar" class="btn-reset" onclick="limpiarFormulario()">🔄 Limpiar campos</button>
       </div>
     </div>
 
@@ -316,7 +305,7 @@
     function guardarEnLocalStorage() {
       const datosFormulario = {};
       document.querySelectorAll('#liturgiaForm input').forEach(input => {
-        if (input.id) {
+        if (input.id && input.type !== 'number') { // Se evitan guardar inputs de coordenadas ocultos
           datosFormulario[input.id] = input.value;
         }
       });
@@ -342,6 +331,13 @@
 
     function limpiarLocalStorage() {
       localStorage.removeItem('liturgiaData');
+    }
+
+    function limpiarFormulario() {
+      document.getElementById('liturgiaForm').reset();
+      limpiarLocalStorage();
+      actualizarVistaPrevia();
+      validarFormulario();
     }
 
     // FUNCIÓN PARA VALIDAR SI EL FORMULARIO ESTÁ COMPLETO
@@ -390,7 +386,7 @@
     // Validar en la carga inicial
     validarFormulario();
 
-    // FUNCION PRINCIPAL DIBUJAR DATOS SOBRE COORDENADAS
+    // FUNCIÓN PRINCIPAL DIBUJAR DATOS SOBRE COORDENADAS
     function actualizarVistaPrevia() {
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
@@ -484,7 +480,7 @@
     // EXPORTAR IMAGEN COMPATIBLE CON IPHONE, ANDROID Y PC
     function exportarJPG() {
       actualizarVistaPrevia();
-      limpiarLocalStorage(); // Limpia los datos locales al finalizar
+      limpiarLocalStorage();
       
       const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
@@ -524,7 +520,7 @@
     // ENVIAR POR WHATSAPP
     async function enviarWhatsApp() {
       actualizarVistaPrevia();
-      limpiarLocalStorage(); // Limpia los datos locales al finalizar
+      limpiarLocalStorage();
       
       const fechaRaw = document.getElementById('fecha').value;
       let fechaVal = '';
@@ -543,9 +539,6 @@
       if (predicadorVal) mensaje += `🎙️ *Predicador:* ${predicadorVal}\n`;
       if (lecturaVal) mensaje += `📖 *Lectura:* ${lecturaVal}\n`;
       mensaje += `\n📌 _Se adjunta la imagen con la programación completa._`;
-
-      const numeroRaw = document.getElementById('numeroWA').value.trim();
-      const numero = numeroRaw.replace(/[^0-9]/g, '');
 
       canvas.toBlob(async (blob) => {
         if (!blob) {
@@ -576,20 +569,12 @@
           }
 
           const mensajeURLEncoded = encodeURIComponent(mensaje);
-          let urlWA = numero 
-            ? `https://wa.me/${numero}?text=${mensajeURLEncoded}`
-            : `https://api.whatsapp.com/send?text=${mensajeURLEncoded}`;
-
-          window.open(urlWA, '_blank');
+          window.open(`https://api.whatsapp.com/send?text=${mensajeURLEncoded}`, '_blank');
         } 
         else {
           exportarJPG();
           const mensajeURLEncoded = encodeURIComponent(mensaje);
-          let urlWA = numero 
-            ? `https://wa.me/${numero}?text=${mensajeURLEncoded}`
-            : `https://api.whatsapp.com/send?text=${mensajeURLEncoded}`;
-
-          window.open(urlWA, '_blank');
+          window.open(`https://api.whatsapp.com/send?text=${mensajeURLEncoded}`, '_blank');
         }
       }, 'image/png');
     }
