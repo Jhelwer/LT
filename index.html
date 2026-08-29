@@ -15,6 +15,7 @@
       --bg: #f0f4f8;
       --card: #ffffff;
       --text: #2c3e50;
+      --success: #2e7d32;
     }
 
     body {
@@ -40,6 +41,37 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       flex: 1;
       min-width: 380px;
+    }
+
+    /* ESTILOS DE LA BARRA DE PROGRESO */
+    .progress-container {
+      margin-bottom: 20px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background-color: var(--secondary);
+      border-radius: 4px;
+      transition: width 0.3s ease, background-color 0.3s ease;
     }
 
     /* LA VISTA PREVIA INICIA OCULTA POR DEFECTO */
@@ -113,7 +145,7 @@
       transition: all 0.3s ease;
     }
 
-    .btn-export-jpg { background-color: #2e7d32; color: white; }
+    .btn-export-jpg { background-color: var(--success); color: white; }
     .btn-whatsapp { background-color: #25d366; color: white; }
     .btn-reset { background-color: #e2e8f0; color: #475569; }
     .btn-reset:hover { background-color: #cbd5e1; color: #1e293b; }
@@ -144,6 +176,18 @@
 
     <!-- COLUMNA IZQUIERDA: FORMULARIO -->
     <div class="form-card">
+      
+      <!-- BARRA DE PROGRESO SUPERIOR -->
+      <div class="progress-container">
+        <div class="progress-header">
+          <span>Progreso del formulario</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+      </div>
+
       <h2>Asistente de Liturgia</h2>
 
       <form id="liturgiaForm">
@@ -340,17 +384,37 @@
       validarFormulario();
     }
 
-    // FUNCIÓN PARA VALIDAR SI EL FORMULARIO ESTÁ COMPLETO
+    // FUNCIÓN PARA VALIDAR FORMULARIO Y ACTUALIZAR BARRA DE PROGRESO
     function validarFormulario() {
       const camposRequeridos = document.querySelectorAll('#liturgiaForm input[required]');
-      let todoLleno = true;
+      const totalCampos = camposRequeridos.length;
+      let camposLlenos = 0;
 
       camposRequeridos.forEach(input => {
-        if (!input.value.trim()) {
-          todoLleno = false;
+        if (input.value.trim() !== '') {
+          camposLlenos++;
         }
       });
 
+      // Calcular porcentaje
+      const porcentaje = Math.round((camposLlenos / totalCampos) * 100);
+
+      // Actualizar UI de la barra de progreso
+      const progressBar = document.getElementById('progressBar');
+      const progressText = document.getElementById('progressText');
+      
+      if (progressBar && progressText) {
+        progressBar.style.width = `${porcentaje}%`;
+        progressText.innerText = `${porcentaje}%`;
+
+        if (porcentaje === 100) {
+          progressBar.style.backgroundColor = 'var(--success)';
+        } else {
+          progressBar.style.backgroundColor = 'var(--secondary)';
+        }
+      }
+
+      const todoLleno = camposLlenos === totalCampos;
       const btnExportar = document.getElementById('btnExportar');
       const btnWhatsapp = document.getElementById('btnWhatsapp');
 
