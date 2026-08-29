@@ -312,6 +312,38 @@
       plantilla.src = 'CULTO DE.png';
     };
 
+    // FUNCIONES DE PERSISTENCIA (LOCALSTORAGE)
+    function guardarEnLocalStorage() {
+      const datosFormulario = {};
+      document.querySelectorAll('#liturgiaForm input').forEach(input => {
+        if (input.id) {
+          datosFormulario[input.id] = input.value;
+        }
+      });
+      localStorage.setItem('liturgiaData', JSON.stringify(datosFormulario));
+    }
+
+    function cargarDeLocalStorage() {
+      const datosGuardados = localStorage.getItem('liturgiaData');
+      if (datosGuardados) {
+        try {
+          const datos = JSON.parse(datosGuardados);
+          Object.keys(datos).forEach(id => {
+            const input = document.getElementById(id);
+            if (input) {
+              input.value = datos[id];
+            }
+          });
+        } catch (e) {
+          console.error('Error al cargar datos desde localStorage', e);
+        }
+      }
+    }
+
+    function limpiarLocalStorage() {
+      localStorage.removeItem('liturgiaData');
+    }
+
     // FUNCIÓN PARA VALIDAR SI EL FORMULARIO ESTÁ COMPLETO
     function validarFormulario() {
       const camposRequeridos = document.querySelectorAll('#liturgiaForm input[required]');
@@ -338,15 +370,20 @@
       }
     }
 
-    // Escuchar cambios en inputs para actualizar vista y habilitar/deshabilitar secciones
+    // Cargar datos persistidos al iniciar
+    cargarDeLocalStorage();
+
+    // Escuchar cambios en inputs para actualizar vista, guardar en localStorage y validar
     document.querySelectorAll('#liturgiaForm input').forEach(input => {
       input.addEventListener('input', () => {
         actualizarVistaPrevia();
         validarFormulario();
+        guardarEnLocalStorage();
       });
       input.addEventListener('change', () => {
         actualizarVistaPrevia();
         validarFormulario();
+        guardarEnLocalStorage();
       });
     });
 
@@ -447,6 +484,7 @@
     // EXPORTAR IMAGEN COMPATIBLE CON IPHONE, ANDROID Y PC
     function exportarJPG() {
       actualizarVistaPrevia();
+      limpiarLocalStorage(); // Limpia los datos locales al finalizar
       
       const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
@@ -486,6 +524,8 @@
     // ENVIAR POR WHATSAPP
     async function enviarWhatsApp() {
       actualizarVistaPrevia();
+      limpiarLocalStorage(); // Limpia los datos locales al finalizar
+      
       const fechaRaw = document.getElementById('fecha').value;
       let fechaVal = '';
       
