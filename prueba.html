@@ -64,16 +64,18 @@
       top: 20px;
     }
 
-    /* BARRA DE PROGRESO FIJA AL HACER SCROLL */
+    /* BARRA DE PROGRESO RESISTENTE AL ZOOM Y SCROLL */
     .progress-container {
       position: sticky;
-      top: 0;
+      top: -25px;
       background-color: var(--card);
-      padding-top: 10px;
-      padding-bottom: 15px;
-      margin-bottom: 15px;
-      z-index: 100;
-      border-bottom: 1px solid #f1f5f9;
+      padding: 15px 0 12px 0;
+      margin-top: -25px;
+      margin-bottom: 20px;
+      z-index: 999;
+      border-bottom: 1px solid #e2e8f0;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
     }
 
     .progress-header {
@@ -102,7 +104,7 @@
       transition: width 0.3s ease, background-color 0.3s ease;
     }
 
-    h2, h3 { color: var(--primary); margin-top: 0; }
+    h2, h3 { color: var(--primary); margin-top: 10px; }
 
     .section-title {
       background: #e8f4fc;
@@ -170,20 +172,17 @@
       margin-right: 65px;
     }
 
-    /* Estado 1: Incompleto */
     .st-incomplete {
       border: 1.5px solid var(--amber) !important;
       background-color: var(--amber-bg);
     }
 
-    /* Estado 2: En enfoque */
     .st-focus {
       border: 2px solid var(--focus-blue) !important;
       background-color: #ffffff;
       box-shadow: 0 0 0 3px var(--focus-glow);
     }
 
-    /* Estado 3: Completado */
     .st-complete {
       border: 1.5px solid var(--success) !important;
       background-color: var(--green-bg);
@@ -279,7 +278,6 @@
 
       <form id="liturgiaForm" autocomplete="off">
         
-        <!-- SECCIÓN 1: GENERAL -->
         <div class="section-title">1. Información General</div>
         
         <div class="field-row-2col">
@@ -308,7 +306,6 @@
           </div>
         </div>
 
-        <!-- SECCIÓN 2: PREDICADOR Y HIMNOS -->
         <div class="section-title">2. Predicador y Himnos</div>
 
         <div class="field-group">
@@ -351,7 +348,6 @@
           </div>
         </div>
 
-        <!-- SECCIÓN 3: PLATAFORMA Y ACOMPAÑANTES -->
         <div class="section-title">3. Asignaciones de Plataforma</div>
 
         <div class="field-group">
