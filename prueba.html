@@ -40,14 +40,13 @@
       justify-content: center;
     }
 
-    /* LIMITACIÓN DE ANCHO EN PC */
     .form-card {
       background: var(--card);
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       flex: 1 1 540px;
-      max-width: 580px; /* Evita que se estire demasiado en monitores grandes */
+      max-width: 580px;
       box-sizing: border-box;
     }
 
@@ -64,7 +63,6 @@
       top: 20px;
     }
 
-    /* BARRA DE PROGRESO SUPERIOR */
     .progress-container {
       margin-bottom: 20px;
     }
@@ -108,7 +106,6 @@
       border-left: 4px solid var(--primary);
     }
 
-    /* ORGANIZACIÓN DE GRID PARA CAMPOS CORTOS EN PC */
     .field-row-2col {
       display: flex;
       flex-direction: column;
@@ -139,22 +136,32 @@
       font-size: 13px;
     }
 
-    /* ESTADOS VISUALES DE INPUTS (STATE CARDS) */
     .input-wrapper {
       position: relative;
       display: block;
+      width: 100%;
     }
 
+    /* ESTANDARIZACIÓN DE ANCHO Y ALTURA PARA TODOS LOS INPUTS */
     input[type="text"], input[type="number"], input[type="date"] {
-      padding: 9px 75px 9px 10px;
+      width: 100%; /* Ancho uniforme al 100% del contenedor */
+      padding: 0 75px 0 10px;
       box-sizing: border-box;
       border-radius: 6px;
       font-size: 13px;
+      height: 38px;
+      line-height: 38px;
       outline: none;
       transition: all 0.2s ease-in-out;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
     }
 
-    .input-text { width: 100%; }
+    /* Corrección interna para el icono de fecha en Chrome/Safari */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      margin-right: 65px;
+    }
 
     /* Estado 1: Incompleto */
     .st-incomplete {
@@ -176,7 +183,6 @@
       padding-right: 35px !important;
     }
 
-    /* BADGES INTERNOS */
     .input-badge {
       position: absolute;
       right: 8px;
@@ -273,7 +279,7 @@
           <div class="field-group">
             <label>1. Fecha del Sermón:</label>
             <div class="input-wrapper">
-              <input type="date" id="fecha" class="input-text" required>
+              <input type="date" id="fecha" required>
               <span class="input-badge badge-required">Requerido</span>
             </div>
             <div class="coord-inputs">
@@ -285,7 +291,7 @@
           <div class="field-group">
             <label>3. Lectura Bíblica:</label>
             <div class="input-wrapper">
-              <input type="text" id="lectura" class="input-text" placeholder="Ej: Juan 3:16" required>
+              <input type="text" id="lectura" placeholder="Ej: Juan 3:16" required>
               <span class="input-badge badge-required">Requerido</span>
             </div>
             <div class="coord-inputs">
@@ -301,7 +307,7 @@
         <div class="field-group">
           <label>2. Predicador Principal:</label>
           <div class="input-wrapper">
-            <input type="text" id="predicador" class="input-text" placeholder="Ej: Pr. Juan Gómez" required>
+            <input type="text" id="predicador" placeholder="Ej: Pr. Juan Gómez" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
           <div class="coord-inputs">
@@ -316,7 +322,7 @@
           <div class="field-group">
             <label>4. Himno Inicial (N°):</label>
             <div class="input-wrapper">
-              <input type="text" id="himnoInicial" class="input-text" placeholder="Ej: 222" required>
+              <input type="text" id="himnoInicial" placeholder="Ej: 222" required>
               <span class="input-badge badge-required">Requerido</span>
             </div>
             <div class="coord-inputs">
@@ -328,7 +334,7 @@
           <div class="field-group">
             <label>5. Himno Final (N°):</label>
             <div class="input-wrapper">
-              <input type="text" id="himnoFinal" class="input-text" placeholder="Ej: 333" required>
+              <input type="text" id="himnoFinal" placeholder="Ej: 333" required>
               <span class="input-badge badge-required">Requerido</span>
             </div>
             <div class="coord-inputs">
@@ -344,7 +350,7 @@
         <div class="field-group">
           <label>6. Acompañante 1:</label>
           <div class="input-wrapper">
-            <input type="text" id="acompanante1" class="input-text" placeholder="Ej: Hno. Carlos Ruiz" required>
+            <input type="text" id="acompanante1" placeholder="Ej: Hno. Carlos Ruiz" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
           <div class="coord-inputs">
@@ -366,7 +372,7 @@
         <div class="field-group">
           <label>7. Acompañante 2:</label>
           <div class="input-wrapper">
-            <input type="text" id="acompanante2" class="input-text" placeholder="Ej: Hna. Ana López" required>
+            <input type="text" id="acompanante2" placeholder="Ej: Hna. Ana López" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
           <div class="coord-inputs">
@@ -386,7 +392,7 @@
         <div class="field-group">
           <label>8. Familia para Oración:</label>
           <div class="input-wrapper">
-            <input type="text" id="familiaOracion" class="input-text" placeholder="Ej: Familia Méndez Castro" required>
+            <input type="text" id="familiaOracion" placeholder="Ej: Familia Méndez Castro" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
           <div class="coord-inputs">
@@ -398,7 +404,7 @@
         <div class="field-group">
           <label>9. Responsable Adoración Infantil:</label>
           <div class="input-wrapper">
-            <input type="text" id="adoracionInfantil" class="input-text" placeholder="Ej: Hna. María Silva" required>
+            <input type="text" id="adoracionInfantil" placeholder="Ej: Hna. María Silva" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
           <div class="coord-inputs">
@@ -410,7 +416,7 @@
         <div class="field-group">
           <label>10. Responsable Mensaje Musical:</label>
           <div class="input-wrapper">
-            <input type="text" id="mensajeMusical" class="input-text" placeholder="Ej: Coro Central" required>
+            <input type="text" id="mensajeMusical" placeholder="Ej: Coro Central" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
           <div class="coord-inputs">
@@ -437,7 +443,6 @@
   </div>
 
   <script>
-    // CACHÉ DEL DOM PARA MAYOR VELOCIDAD
     const canvas = document.getElementById('canvasLiturgia');
     const ctx = canvas.getContext('2d');
     const previewCard = document.getElementById('previewCard');
@@ -448,21 +453,18 @@
     const btnWhatsapp = document.getElementById('btnWhatsapp');
     const camposRequeridos = Array.from(document.querySelectorAll('#liturgiaForm input[required]'));
 
-    // CARGA DE PLANTILLA
     let plantilla = new Image();
     plantilla.src = 'plantilla.png';
 
     plantilla.onload = () => actualizarVistaPreviaDirecta();
     plantilla.onerror = () => { plantilla.src = 'CULTO DE.png'; };
 
-    // RETARDE CONTROLADO (DEBOUNCE)
     let renderTimeout;
     function solicitarActualizacionCanvas() {
       clearTimeout(renderTimeout);
       renderTimeout = setTimeout(actualizarVistaPreviaDirecta, 60);
     }
 
-    // PERSISTENCIA (LOCALSTORAGE)
     function guardarEnLocalStorage() {
       const datosFormulario = {};
       camposRequeridos.forEach(input => {
@@ -497,7 +499,6 @@
       actualizarVistaPreviaDirecta();
     }
 
-    // GESTIÓN DE ESTADOS UI
     function actualizarInterfazEstado() {
       let camposLlenos = 0;
 
@@ -508,7 +509,7 @@
         if (input.value.trim() !== '') {
           camposLlenos++;
           if (document.activeElement !== input) {
-            input.className = 'input-text st-complete';
+            input.className = 'st-complete';
           }
           if (badge) {
             badge.className = 'input-badge badge-check';
@@ -516,7 +517,7 @@
           }
         } else {
           if (document.activeElement !== input) {
-            input.className = 'input-text st-incomplete';
+            input.className = 'st-incomplete';
           }
           if (badge) {
             badge.className = 'input-badge badge-required';
@@ -536,10 +537,9 @@
       previewCard.style.display = todoLleno ? 'block' : 'none';
     }
 
-    // EVENT DELEGATION
     form.addEventListener('focusin', (e) => {
       if (e.target.matches('input[required]')) {
-        e.target.className = 'input-text st-focus';
+        e.target.className = 'st-focus';
       }
     });
 
@@ -555,7 +555,6 @@
       solicitarActualizacionCanvas();
     });
 
-    // DIBUJO EN CANVAS
     function actualizarVistaPreviaDirecta() {
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
@@ -622,7 +621,6 @@
       dibujarTexto('mensajeMusical', '#15803d', '20px Arial');
     }
 
-    // EXPORTAR Y COMPARTIR
     function exportarJPG() {
       actualizarVistaPreviaDirecta();
       limpiarLocalStorage();
@@ -723,7 +721,6 @@
       }, 'image/png');
     }
 
-    // INICIALIZACIÓN
     cargarDeLocalStorage();
     actualizarInterfazEstado();
   </script>
