@@ -33,18 +33,35 @@
     .main-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
-      max-width: 1400px;
+      gap: 25px;
+      max-width: 1250px;
       margin: 0 auto;
+      align-items: flex-start;
+      justify-content: center;
     }
 
+    /* LIMITACIÓN DE ANCHO EN PC */
     .form-card {
       background: var(--card);
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      flex: 1;
-      min-width: 380px;
+      flex: 1 1 540px;
+      max-width: 580px; /* Evita que se estire demasiado en monitores grandes */
+      box-sizing: border-box;
+    }
+
+    .preview-card {
+      background: var(--card);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      flex: 1 1 420px;
+      max-width: 500px;
+      box-sizing: border-box;
+      display: none; 
+      position: sticky;
+      top: 20px;
     }
 
     /* BARRA DE PROGRESO SUPERIOR */
@@ -78,16 +95,6 @@
       transition: width 0.3s ease, background-color 0.3s ease;
     }
 
-    .preview-card {
-      background: var(--card);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      flex: 1;
-      min-width: 380px;
-      display: none; 
-    }
-
     h2, h3 { color: var(--primary); margin-top: 0; }
 
     .section-title {
@@ -101,12 +108,28 @@
       border-left: 4px solid var(--primary);
     }
 
+    /* ORGANIZACIÓN DE GRID PARA CAMPOS CORTOS EN PC */
+    .field-row-2col {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+    }
+
+    @media (min-width: 640px) {
+      .field-row-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+    }
+
     .field-group {
       background: #fafafa;
       border: 1px solid #e2e8f0;
-      padding: 12px;
+      padding: 12px 14px;
       border-radius: 8px;
       margin-bottom: 12px;
+      box-sizing: border-box;
     }
 
     label {
@@ -139,7 +162,7 @@
       background-color: var(--amber-bg);
     }
 
-    /* Estado 2: En foque / En proceso */
+    /* Estado 2: En enfoque */
     .st-focus {
       border: 2px solid var(--focus-blue) !important;
       background-color: #ffffff;
@@ -214,7 +237,6 @@
 
     canvas {
       width: 100%;
-      max-width: 480px;
       height: auto;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
@@ -247,20 +269,34 @@
         <!-- SECCIÓN 1: GENERAL -->
         <div class="section-title">1. Información General</div>
         
-        <div class="field-group">
-          <label>1. Fecha del Sermón:</label>
-          <div class="input-wrapper">
-            <input type="date" id="fecha" class="input-text" required>
-            <span class="input-badge badge-required">Requerido</span>
+        <div class="field-row-2col">
+          <div class="field-group">
+            <label>1. Fecha del Sermón:</label>
+            <div class="input-wrapper">
+              <input type="date" id="fecha" class="input-text" required>
+              <span class="input-badge badge-required">Requerido</span>
+            </div>
+            <div class="coord-inputs">
+              <span>X:</span><input type="number" id="fecha_x" value="696">
+              <span>Y:</span><input type="number" id="fecha_y" value="488">
+            </div>
           </div>
-          <div class="coord-inputs">
-            <span>X:</span><input type="number" id="fecha_x" value="696">
-            <span>Y:</span><input type="number" id="fecha_y" value="488">
+
+          <div class="field-group">
+            <label>3. Lectura Bíblica:</label>
+            <div class="input-wrapper">
+              <input type="text" id="lectura" class="input-text" placeholder="Ej: Juan 3:16" required>
+              <span class="input-badge badge-required">Requerido</span>
+            </div>
+            <div class="coord-inputs">
+              <span>X:</span><input type="number" id="lectura_x" value="293">
+              <span>Y:</span><input type="number" id="lectura_y" value="761">
+            </div>
           </div>
         </div>
 
-        <!-- SECCIÓN 2: PREDICADOR -->
-        <div class="section-title">2. Predicador y Mensaje</div>
+        <!-- SECCIÓN 2: PREDICADOR Y HIMNOS -->
+        <div class="section-title">2. Predicador y Himnos</div>
 
         <div class="field-group">
           <label>2. Predicador Principal:</label>
@@ -276,39 +312,29 @@
           </div>
         </div>
 
-        <div class="field-group">
-          <label>3. Lectura Bíblica:</label>
-          <div class="input-wrapper">
-            <input type="text" id="lectura" class="input-text" placeholder="Ej: Juan 3:16" required>
-            <span class="input-badge badge-required">Requerido</span>
+        <div class="field-row-2col">
+          <div class="field-group">
+            <label>4. Himno Inicial (N°):</label>
+            <div class="input-wrapper">
+              <input type="text" id="himnoInicial" class="input-text" placeholder="Ej: 222" required>
+              <span class="input-badge badge-required">Requerido</span>
+            </div>
+            <div class="coord-inputs">
+              <span>X:</span><input type="number" id="himnoInicial_x" value="280">
+              <span>Y:</span><input type="number" id="himnoInicial_y" value="816">
+            </div>
           </div>
-          <div class="coord-inputs">
-            <span>X:</span><input type="number" id="lectura_x" value="293">
-            <span>Y:</span><input type="number" id="lectura_y" value="761">
-          </div>
-        </div>
 
-        <div class="field-group">
-          <label>4. Himno Inicial (N°):</label>
-          <div class="input-wrapper">
-            <input type="text" id="himnoInicial" class="input-text" placeholder="Ej: 222" required>
-            <span class="input-badge badge-required">Requerido</span>
-          </div>
-          <div class="coord-inputs">
-            <span>X:</span><input type="number" id="himnoInicial_x" value="280">
-            <span>Y:</span><input type="number" id="himnoInicial_y" value="816">
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label>5. Himno Final (N°):</label>
-          <div class="input-wrapper">
-            <input type="text" id="himnoFinal" class="input-text" placeholder="Ej: 333" required>
-            <span class="input-badge badge-required">Requerido</span>
-          </div>
-          <div class="coord-inputs">
-            <span>X:</span><input type="number" id="himnoFinal_x" value="280">
-            <span>Y:</span><input type="number" id="himnoFinal_y" value="1380">
+          <div class="field-group">
+            <label>5. Himno Final (N°):</label>
+            <div class="input-wrapper">
+              <input type="text" id="himnoFinal" class="input-text" placeholder="Ej: 333" required>
+              <span class="input-badge badge-required">Requerido</span>
+            </div>
+            <div class="coord-inputs">
+              <span>X:</span><input type="number" id="himnoFinal_x" value="280">
+              <span>Y:</span><input type="number" id="himnoFinal_y" value="1380">
+            </div>
           </div>
         </div>
 
@@ -429,7 +455,7 @@
     plantilla.onload = () => actualizarVistaPreviaDirecta();
     plantilla.onerror = () => { plantilla.src = 'CULTO DE.png'; };
 
-    // FUNCIÓN DE RETARDE CONTROLADO (DEBOUNCE) PARA RENDERIZADO RÁPIDO
+    // RETARDE CONTROLADO (DEBOUNCE)
     let renderTimeout;
     function solicitarActualizacionCanvas() {
       clearTimeout(renderTimeout);
@@ -471,7 +497,7 @@
       actualizarVistaPreviaDirecta();
     }
 
-    // GESTIÓN Y VALIDACIÓN DE ESTADOS UI EN TIEMPO REAL
+    // GESTIÓN DE ESTADOS UI
     function actualizarInterfazEstado() {
       let camposLlenos = 0;
 
@@ -499,7 +525,6 @@
         }
       });
 
-      // Cálculo del progreso
       const porcentaje = Math.round((camposLlenos / camposRequeridos.length) * 100);
       progressBar.style.width = `${porcentaje}%`;
       progressText.innerText = `${porcentaje}%`;
@@ -511,7 +536,7 @@
       previewCard.style.display = todoLleno ? 'block' : 'none';
     }
 
-    // EVENT DELEGATION PARA CONTROLAR FOCOS Y CAMBIOS EFICIENTEMENTE
+    // EVENT DELEGATION
     form.addEventListener('focusin', (e) => {
       if (e.target.matches('input[required]')) {
         e.target.className = 'input-text st-focus';
@@ -561,7 +586,6 @@
         ctx.textAlign = 'left';
       }
 
-      // Fecha Formateada
       const fechaRaw = document.getElementById('fecha').value;
       if (fechaRaw) {
         const partes = fechaRaw.split('-');
@@ -579,7 +603,6 @@
         }
       }
 
-      // Dibujado masivo simplificado
       dibujarTexto('predicador', '#0f172a', 'bold 22px Arial', 'left', '_x', '_y');
       dibujarTexto('predicador', '#15803d', '20px Arial', 'left', '_x2', '_y2');
 
@@ -700,7 +723,7 @@
       }, 'image/png');
     }
 
-    // INICIALIZACIÓN AL CARGAR
+    // INICIALIZACIÓN
     cargarDeLocalStorage();
     actualizarInterfazEstado();
   </script>
