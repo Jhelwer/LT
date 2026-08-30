@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Liturgia</title>
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <style>
+    :root {
+      --primary: #004b87;
+      --secondary: #007bb5;
+      --bg: #f0f4f8;
+      --card: #ffffff;
+      --text: #2c3e50;
+      --success: #2e7d32;
+      --amber: #f97316;
+      --amber-bg: #fff7ed;
+      --focus-blue: #0284c7;
+      --focus-glow: rgba(2, 132, 199, 0.15);
+      --green-bg: #f0fdf4;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .main-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .form-card {
+      background: var(--card);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      flex: 1;
+      min-width: 380px;
+    }
+
+    /* BARRA DE PROGRESO SUPERIOR */
+    .progress-container {
+      margin-bottom: 20px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background-color: var(--secondary);
+      border-radius: 4px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    .preview-card {
+      background: var(--card);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      flex: 1;
+      min-width: 380px;
+      display: none; 
+    }
+
+    h2, h3 { color: var(--primary); margin-top: 0; }
+
+    .section-title {
+      background: #e8f4fc;
+      color: var(--primary);
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .field-group {
+      background: #fafafa;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* ESTADOS VISUALES DE INPUTS (STATE CARDS) */
+    .input-wrapper {
+      position: relative;
+      display: block;
+    }
+
+    input[type="text"], input[type="number"], input[type="date"] {
+      padding: 9px 75px 9px 10px;
+      box-sizing: border-box;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .input-text { width: 100%; }
+
+    /* Estado 1: Incompleto */
+    .st-incomplete {
+      border: 1.5px solid var(--amber) !important;
+      background-color: var(--amber-bg);
+    }
+
+    /* Estado 2: En foque / En proceso */
+    .st-focus {
+      border: 2px solid var(--focus-blue) !important;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px var(--focus-glow);
+    }
+
+    /* Estado 3: Completado */
+    .st-complete {
+      border: 1.5px solid var(--success) !important;
+      background-color: var(--green-bg);
+      padding-right: 35px !important;
+    }
+
+    /* BADGES INTERNOS */
+    .input-badge {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      font-weight: 700;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .badge-required {
+      color: #c2410c;
+      background: #ffedd5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #fed7aa;
+    }
+
+    .badge-check {
+      color: var(--success);
+      font-size: 14px;
+    }
+
+    .coord-inputs, .calibrator-box {
+      display: none !important;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-export-jpg { background-color: var(--success); color: white; }
+    .btn-whatsapp { background-color: #25d366; color: white; }
+    .btn-reset { background-color: #e2e8f0; color: #475569; }
+    .btn-reset:hover { background-color: #cbd5e1; color: #1e293b; }
+
+    button:disabled {
+      background-color: #cbd5e1 !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed !important;
+      opacity: 0.7;
+      box-shadow: none !important;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 480px;
+      height: auto;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+
+    <!-- COLUMNA IZQUIERDA: FORMULARIO -->
+    <div class="form-card">
+      
+      <div class="progress-container">
+        <div class="progress-header">
+          <span>Progreso del formulario</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+      </div>
+
+      <h2>Asistente de Liturgia</h2>
+
+      <form id="liturgiaForm" autocomplete="off">
+        
+        <!-- SECCIÓN 1: GENERAL -->
+        <div class="section-title">1. Información General</div>
+        
+        <div class="field-group">
+          <label>1. Fecha del Sermón:</label>
+          <div class="input-wrapper">
+            <input type="date" id="fecha" class="input-text" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X:</span><input type="number" id="fecha_x" value="696">
+            <span>Y:</span><input type="number" id="fecha_y" value="488">
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: PREDICADOR -->
+        <div class="section-title">2. Predicador y Mensaje</div>
+
+        <div class="field-group">
+          <label>2. Predicador Principal:</label>
+          <div class="input-wrapper">
+            <input type="text" id="predicador" class="input-text" placeholder="Ej: Pr. Juan Gómez" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X1:</span><input type="number" id="predicador_x" value="260">
+            <span>Y1:</span><input type="number" id="predicador_y" value="1532">
+            <span>X2:</span><input type="number" id="predicador_x2" value="554">
+            <span>Y2:</span><input type="number" id="predicador_y2" value="1336">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>3. Lectura Bíblica:</label>
+          <div class="input-wrapper">
+            <input type="text" id="lectura" class="input-text" placeholder="Ej: Juan 3:16" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X:</span><input type="number" id="lectura_x" value="293">
+            <span>Y:</span><input type="number" id="lectura_y" value="761">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>4. Himno Inicial (N°):</label>
+          <div class="input-wrapper">
+            <input type="text" id="himnoInicial" class="input-text" placeholder="Ej: 222" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X:</span><input type="number" id="himnoInicial_x" value="280">
+            <span>Y:</span><input type="number" id="himnoInicial_y" value="816">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>5. Himno Final (N°):</label>
+          <div class="input-wrapper">
+            <input type="text" id="himnoFinal" class="input-text" placeholder="Ej: 333" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X:</span><input type="number" id="himnoFinal_x" value="280">
+            <span>Y:</span><input type="number" id="himnoFinal_y" value="1380">
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3: PLATAFORMA Y ACOMPAÑANTES -->
+        <div class="section-title">3. Asignaciones de Plataforma</div>
+
+        <div class="field-group">
+          <label>6. Acompañante 1:</label>
+          <div class="input-wrapper">
+            <input type="text" id="acompanante1" class="input-text" placeholder="Ej: Hno. Carlos Ruiz" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X1:</span><input type="number" id="acompanante1_x" value="300">
+            <span>Y1:</span><input type="number" id="acompanante1_y" value="1560">
+            <span>X2:</span><input type="number" id="acompanante1_x2" value="554">
+            <span>Y2:</span><input type="number" id="acompanante1_y2" value="758">
+            <span>X3:</span><input type="number" id="acompanante1_x3" value="554">
+            <span>Y3:</span><input type="number" id="acompanante1_y3" value="812">
+            <span>X4:</span><input type="number" id="acompanante1_x4" value="554">
+            <span>Y4:</span><input type="number" id="acompanante1_y4" value="1300">
+            <span>X5:</span><input type="number" id="acompanante1_x5" value="554">
+            <span>Y5:</span><input type="number" id="acompanante1_y5" value="1426">
+            <span>X6:</span><input type="number" id="acompanante1_x6" value="554">
+            <span>Y6:</span><input type="number" id="acompanante1_y6" value="1100">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>7. Acompañante 2:</label>
+          <div class="input-wrapper">
+            <input type="text" id="acompanante2" class="input-text" placeholder="Ej: Hna. Ana López" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X1:</span><input type="number" id="acompanante2_x" value="300">
+            <span>Y1:</span><input type="number" id="acompanante2_y" value="1587">
+            <span>X2:</span><input type="number" id="acompanante2_x2" value="554">
+            <span>Y2:</span><input type="number" id="acompanante2_y2" value="883">
+            <span>X3:</span><input type="number" id="acompanante2_x3" value="554">
+            <span>Y3:</span><input type="number" id="acompanante2_y3" value="991">
+            <span>X4:</span><input type="number" id="acompanante2_x4" value="554">
+            <span>Y4:</span><input type="number" id="acompanante2_y4" value="1224">
+            <span>X5:</span><input type="number" id="acompanante2_x5" value="554">
+            <span>Y5:</span><input type="number" id="acompanante2_y5" value="1378">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>8. Familia para Oración:</label>
+          <div class="input-wrapper">
+            <input type="text" id="familiaOracion" class="input-text" placeholder="Ej: Familia Méndez Castro" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X:</span><input type="number" id="familiaOracion_x" value="554">
+            <span>Y:</span><input type="number" id="familiaOracion_y" value="930">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>9. Responsable Adoración Infantil:</label>
+          <div class="input-wrapper">
+            <input type="text" id="adoracionInfantil" class="input-text" placeholder="Ej: Hna. María Silva" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X:</span><input type="number" id="adoracionInfantil_x" value="554">
+            <span>Y:</span><input type="number" id="adoracionInfantil_y" value="1019">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>10. Responsable Mensaje Musical:</label>
+          <div class="input-wrapper">
+            <input type="text" id="mensajeMusical" class="input-text" placeholder="Ej: Coro Central" required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+          <div class="coord-inputs">
+            <span>X:</span><input type="number" id="mensajeMusical_x" value="554">
+            <span>Y:</span><input type="number" id="mensajeMusical_y" value="1258">
+          </div>
+        </div>
+
+      </form>
+
+      <div class="btn-group">
+        <button type="button" id="btnExportar" class="btn-export-jpg" onclick="exportarJPG()" disabled>📸 Descargar</button>
+        <button type="button" id="btnWhatsapp" class="btn-whatsapp" onclick="enviarWhatsApp()" disabled>📤 Compartir</button>
+        <button type="button" id="btnLimpiar" class="btn-reset" onclick="limpiarFormulario()">🔄 Limpiar</button>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: VISTA PREVIA -->
+    <div class="preview-card" id="previewCard">
+      <h3>Vista Previa</h3>
+      <canvas id="canvasLiturgia" width="864" height="1821"></canvas>
+    </div>
+
+  </div>
+
+  <script>
+    // CACHÉ DEL DOM PARA MAYOR VELOCIDAD
+    const canvas = document.getElementById('canvasLiturgia');
+    const ctx = canvas.getContext('2d');
+    const previewCard = document.getElementById('previewCard');
+    const form = document.getElementById('liturgiaForm');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const btnExportar = document.getElementById('btnExportar');
+    const btnWhatsapp = document.getElementById('btnWhatsapp');
+    const camposRequeridos = Array.from(document.querySelectorAll('#liturgiaForm input[required]'));
+
+    // CARGA DE PLANTILLA
+    let plantilla = new Image();
+    plantilla.src = 'plantilla.png';
+
+    plantilla.onload = () => actualizarVistaPreviaDirecta();
+    plantilla.onerror = () => { plantilla.src = 'CULTO DE.png'; };
+
+    // FUNCIÓN DE RETARDE CONTROLADO (DEBOUNCE) PARA RENDERIZADO RÁPIDO
+    let renderTimeout;
+    function solicitarActualizacionCanvas() {
+      clearTimeout(renderTimeout);
+      renderTimeout = setTimeout(actualizarVistaPreviaDirecta, 60);
+    }
+
+    // PERSISTENCIA (LOCALSTORAGE)
+    function guardarEnLocalStorage() {
+      const datosFormulario = {};
+      camposRequeridos.forEach(input => {
+        datosFormulario[input.id] = input.value;
+      });
+      localStorage.setItem('liturgiaData', JSON.stringify(datosFormulario));
+    }
+
+    function cargarDeLocalStorage() {
+      const datosGuardados = localStorage.getItem('liturgiaData');
+      if (datosGuardados) {
+        try {
+          const datos = JSON.parse(datosGuardados);
+          Object.keys(datos).forEach(id => {
+            const input = document.getElementById(id);
+            if (input) input.value = datos[id];
+          });
+        } catch (e) {
+          console.error('Error al cargar localStorage', e);
+        }
+      }
+    }
+
+    function limpiarLocalStorage() {
+      localStorage.removeItem('liturgiaData');
+    }
+
+    function limpiarFormulario() {
+      form.reset();
+      limpiarLocalStorage();
+      actualizarInterfazEstado();
+      actualizarVistaPreviaDirecta();
+    }
+
+    // GESTIÓN Y VALIDACIÓN DE ESTADOS UI EN TIEMPO REAL
+    function actualizarInterfazEstado() {
+      let camposLlenos = 0;
+
+      camposRequeridos.forEach(input => {
+        const wrapper = input.parentElement;
+        let badge = wrapper.querySelector('.input-badge');
+
+        if (input.value.trim() !== '') {
+          camposLlenos++;
+          if (document.activeElement !== input) {
+            input.className = 'input-text st-complete';
+          }
+          if (badge) {
+            badge.className = 'input-badge badge-check';
+            badge.innerText = '✓';
+          }
+        } else {
+          if (document.activeElement !== input) {
+            input.className = 'input-text st-incomplete';
+          }
+          if (badge) {
+            badge.className = 'input-badge badge-required';
+            badge.innerText = 'Requerido';
+          }
+        }
+      });
+
+      // Cálculo del progreso
+      const porcentaje = Math.round((camposLlenos / camposRequeridos.length) * 100);
+      progressBar.style.width = `${porcentaje}%`;
+      progressText.innerText = `${porcentaje}%`;
+
+      const todoLleno = camposLlenos === camposRequeridos.length;
+      progressBar.style.backgroundColor = todoLleno ? 'var(--success)' : 'var(--secondary)';
+      btnExportar.disabled = !todoLleno;
+      btnWhatsapp.disabled = !todoLleno;
+      previewCard.style.display = todoLleno ? 'block' : 'none';
+    }
+
+    // EVENT DELEGATION PARA CONTROLAR FOCOS Y CAMBIOS EFICIENTEMENTE
+    form.addEventListener('focusin', (e) => {
+      if (e.target.matches('input[required]')) {
+        e.target.className = 'input-text st-focus';
+      }
+    });
+
+    form.addEventListener('focusout', (e) => {
+      if (e.target.matches('input[required]')) {
+        actualizarInterfazEstado();
+      }
+    });
+
+    form.addEventListener('input', (e) => {
+      actualizarInterfazEstado();
+      guardarEnLocalStorage();
+      solicitarActualizacionCanvas();
+    });
+
+    // DIBUJO EN CANVAS
+    function actualizarVistaPreviaDirecta() {
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+
+      if (plantilla.complete && plantilla.naturalWidth !== 0) {
+        ctx.drawImage(plantilla, 0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#64748b';
+        ctx.font = '20px Arial';
+        ctx.fillText('Cargando plantilla...', 330, 900);
+        return;
+      }
+
+      function dibujarTexto(idCampo, color, fuente, alineacion = 'left', sufijoX = '_x', sufijoY = '_y') {
+        const elemento = document.getElementById(idCampo);
+        if (!elemento || !elemento.value) return;
+
+        const elemX = document.getElementById(`${idCampo}${sufijoX}`);
+        const elemY = document.getElementById(`${idCampo}${sufijoY}`);
+        if (!elemX || !elemY) return;
+
+        ctx.font = fuente;
+        ctx.fillStyle = color;
+        ctx.textAlign = alineacion;
+        ctx.fillText(elemento.value, parseInt(elemX.value) || 0, parseInt(elemY.value) || 0);
+        ctx.textAlign = 'left';
+      }
+
+      // Fecha Formateada
+      const fechaRaw = document.getElementById('fecha').value;
+      if (fechaRaw) {
+        const partes = fechaRaw.split('-');
+        const fechaObj = new Date(partes[0], partes[1] - 1, partes[2]);
+        const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+
+        const elemX = document.getElementById('fecha_x');
+        const elemY = document.getElementById('fecha_y');
+        if (elemX && elemY) {
+          ctx.font = 'bold 22px Arial';
+          ctx.fillStyle = '#1e3a8a';
+          ctx.textAlign = 'center';
+          ctx.fillText(fechaFormateada, parseInt(elemX.value) || 0, parseInt(elemY.value) || 0);
+          ctx.textAlign = 'left';
+        }
+      }
+
+      // Dibujado masivo simplificado
+      dibujarTexto('predicador', '#0f172a', 'bold 22px Arial', 'left', '_x', '_y');
+      dibujarTexto('predicador', '#15803d', '20px Arial', 'left', '_x2', '_y2');
+
+      ['_x', '_x2', '_x3', '_x4', '_x5', '_x6'].forEach((suf, i) => {
+        dibujarTexto('acompanante1', '#0f172a', i === 0 ? 'bold 22px Arial' : 'bold 20px Arial', 'left', suf, `_y${i === 0 ? '' : i + 1}`);
+      });
+
+      ['_x', '_x2', '_x3', '_x4', '_x5'].forEach((suf, i) => {
+        dibujarTexto('acompanante2', '#0f172a', i === 0 ? 'bold 22px Arial' : 'bold 20px Arial', 'left', suf, `_y${i === 0 ? '' : i + 1}`);
+      });
+
+      dibujarTexto('lectura', '#1e40af', 'italic 20px Arial');
+      dibujarTexto('himnoInicial', '#0f172a', 'bold 22px Arial');
+      dibujarTexto('himnoFinal', '#0f172a', 'bold 22px Arial');
+      dibujarTexto('familiaOracion', '#15803d', '20px Arial');
+      dibujarTexto('adoracionInfantil', '#15803d', '20px Arial');
+      dibujarTexto('mensajeMusical', '#15803d', '20px Arial');
+    }
+
+    // EXPORTAR Y COMPARTIR
+    function exportarJPG() {
+      actualizarVistaPreviaDirecta();
+      limpiarLocalStorage();
+
+      const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      if (esIOS) {
+        const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+        const nuevaVentana = window.open();
+        if (nuevaVentana) {
+          nuevaVentana.document.write(`
+            <html>
+              <head>
+                <title>Liturgia HD</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                  body { margin: 0; background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; color: white; font-family: sans-serif; text-align: center; padding: 15px; box-sizing: border-box; }
+                  img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+                  p { margin-top: 15px; font-size: 14px; color: #cbd5e1; }
+                </style>
+              </head>
+              <body>
+                <img src="${dataUrl}" alt="Liturgia">
+                <p>📲 <b>Mantén presionada la imagen</b> y selecciona <b>"Guardar en Fotos"</b>.</p>
+              </body>
+            </html>
+          `);
+        } else {
+          alert('Por favor, permite las ventanas emergentes en Safari para guardar la imagen.');
+        }
+      } else {
+        const fechaVal = document.getElementById('fecha').value || 'liturgia';
+        const enlace = document.createElement('a');
+        enlace.download = `Liturgia_${fechaVal.replace(/\s+/g, '_')}.jpg`;
+        enlace.href = canvas.toDataURL('image/jpeg', 1.0);
+        enlace.click();
+      }
+    }
+
+    async function enviarWhatsApp() {
+      actualizarVistaPreviaDirecta();
+      limpiarLocalStorage();
+
+      const fechaRaw = document.getElementById('fecha').value;
+      let fechaVal = '';
+
+      if (fechaRaw) {
+        const partes = fechaRaw.split('-');
+        const fechaObj = new Date(partes[0], partes[1] - 1, partes[2]);
+        fechaVal = fechaObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+      }
+
+      const predicadorVal = document.getElementById('predicador').value || '';
+      const lecturaVal = document.getElementById('lectura').value || '';
+
+      let mensaje = `📋 *LITURGIA DEL CULTO*\n`;
+      if (fechaVal) mensaje += `📅 *Fecha:* ${fechaVal}\n`;
+      if (predicadorVal) mensaje += `🎙️ *Predicador:* ${predicadorVal}\n`;
+      if (lecturaVal) mensaje += `📖 *Lectura:* ${lecturaVal}\n`;
+      mensaje += `\n📌 _Se adjunta la imagen con la programación completa._`;
+
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          exportarJPG();
+          return;
+        }
+
+        const archivoImagen = new File([blob], `Liturgia_${fechaVal || 'culto'}.png`, { type: 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [archivoImagen] })) {
+          try {
+            await navigator.share({
+              files: [archivoImagen],
+              title: 'Liturgia del Culto',
+              text: mensaje
+            });
+          } catch (err) {
+            console.log('Compartir cancelado o no soportado:', err);
+          }
+        } 
+        else if (navigator.clipboard && window.ClipboardItem) {
+          try {
+            const item = new ClipboardItem({ 'image/png': blob });
+            await navigator.clipboard.write([item]);
+            alert('¡Imagen HD copiada al portapapeles! Al abrir WhatsApp presiona Pegar.');
+          } catch (e) {
+            exportarJPG();
+          }
+
+          const mensajeURLEncoded = encodeURIComponent(mensaje);
+          window.open(`https://api.whatsapp.com/send?text=${mensajeURLEncoded}`, '_blank');
+        } 
+        else {
+          exportarJPG();
+          const mensajeURLEncoded = encodeURIComponent(mensaje);
+          window.open(`https://api.whatsapp.com/send?text=${mensajeURLEncoded}`, '_blank');
+        }
+      }, 'image/png');
+    }
+
+    // INICIALIZACIÓN AL CARGAR
+    cargarDeLocalStorage();
+    actualizarInterfazEstado();
+  </script>
+</body>
+</html>
