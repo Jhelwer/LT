@@ -168,10 +168,6 @@
       appearance: none;
     }
 
-    input[type="date"]::-webkit-calendar-picker-indicator {
-      margin-right: 65px;
-    }
-
     .field-hint {
       display: block;
       font-size: 11px;
@@ -226,10 +222,6 @@
       font-size: 14px;
     }
 
-    .coord-inputs, .calibrator-box {
-      display: none !important;
-    }
-
     .btn-group {
       display: flex;
       gap: 10px;
@@ -257,7 +249,6 @@
       color: #94a3b8 !important;
       cursor: not-allowed !important;
       opacity: 0.7;
-      box-shadow: none !important;
     }
 
     canvas {
@@ -301,10 +292,6 @@
               <span class="input-badge badge-required">Requerido</span>
             </div>
             <span class="field-hint" id="fechaHint">📅 Solo se permiten días sábados.</span>
-            <div class="coord-inputs">
-              <span>X:</span><input type="number" id="fecha_x" value="696">
-              <span>Y:</span><input type="number" id="fecha_y" value="488">
-            </div>
           </div>
 
           <div class="field-group">
@@ -312,10 +299,6 @@
             <div class="input-wrapper">
               <input type="text" id="lectura" placeholder="Ej: Juan 3:16" required>
               <span class="input-badge badge-required">Requerido</span>
-            </div>
-            <div class="coord-inputs">
-              <span>X:</span><input type="number" id="lectura_x" value="293">
-              <span>Y:</span><input type="number" id="lectura_y" value="761">
             </div>
           </div>
         </div>
@@ -328,12 +311,6 @@
             <input type="text" id="predicador" placeholder="Ej: Pr. Juan Gómez" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
-          <div class="coord-inputs">
-            <span>X1:</span><input type="number" id="predicador_x" value="260">
-            <span>Y1:</span><input type="number" id="predicador_y" value="1532">
-            <span>X2:</span><input type="number" id="predicador_x2" value="554">
-            <span>Y2:</span><input type="number" id="predicador_y2" value="1336">
-          </div>
         </div>
 
         <div class="field-row-2col">
@@ -343,10 +320,6 @@
               <input type="text" id="himnoInicial" placeholder="Ej: 222" required>
               <span class="input-badge badge-required">Requerido</span>
             </div>
-            <div class="coord-inputs">
-              <span>X:</span><input type="number" id="himnoInicial_x" value="280">
-              <span>Y:</span><input type="number" id="himnoInicial_y" value="816">
-            </div>
           </div>
 
           <div class="field-group">
@@ -354,10 +327,6 @@
             <div class="input-wrapper">
               <input type="text" id="himnoFinal" placeholder="Ej: 333" required>
               <span class="input-badge badge-required">Requerido</span>
-            </div>
-            <div class="coord-inputs">
-              <span>X:</span><input type="number" id="himnoFinal_x" value="280">
-              <span>Y:</span><input type="number" id="himnoFinal_y" value="1380">
             </div>
           </div>
         </div>
@@ -370,20 +339,6 @@
             <input type="text" id="acompanante1" placeholder="Ej: Hno. Carlos Ruiz" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
-          <div class="coord-inputs">
-            <span>X1:</span><input type="number" id="acompanante1_x" value="300">
-            <span>Y1:</span><input type="number" id="acompanante1_y" value="1560">
-            <span>X2:</span><input type="number" id="acompanante1_x2" value="554">
-            <span>Y2:</span><input type="number" id="acompanante1_y2" value="758">
-            <span>X3:</span><input type="number" id="acompanante1_x3" value="554">
-            <span>Y3:</span><input type="number" id="acompanante1_y3" value="812">
-            <span>X4:</span><input type="number" id="acompanante1_x4" value="554">
-            <span>Y4:</span><input type="number" id="acompanante1_y4" value="1300">
-            <span>X5:</span><input type="number" id="acompanante1_x5" value="554">
-            <span>Y5:</span><input type="number" id="acompanante1_y5" value="1426">
-            <span>X6:</span><input type="number" id="acompanante1_x6" value="554">
-            <span>Y6:</span><input type="number" id="acompanante1_y6" value="1100">
-          </div>
         </div>
 
         <div class="field-group">
@@ -391,18 +346,6 @@
           <div class="input-wrapper">
             <input type="text" id="acompanante2" placeholder="Ej: Hna. Ana López" required>
             <span class="input-badge badge-required">Requerido</span>
-          </div>
-          <div class="coord-inputs">
-            <span>X1:</span><input type="number" id="acompanante2_x" value="300">
-            <span>Y1:</span><input type="number" id="acompanante2_y" value="1587">
-            <span>X2:</span><input type="number" id="acompanante2_x2" value="554">
-            <span>Y2:</span><input type="number" id="acompanante2_y2" value="883">
-            <span>X3:</span><input type="number" id="acompanante2_x3" value="554">
-            <span>Y3:</span><input type="number" id="acompanante2_y3" value="991">
-            <span>X4:</span><input type="number" id="acompanante2_x4" value="554">
-            <span>Y4:</span><input type="number" id="acompanante2_y4" value="1224">
-            <span>X5:</span><input type="number" id="acompanante2_x5" value="554">
-            <span>Y5:</span><input type="number" id="acompanante2_y5" value="1378">
           </div>
         </div>
 
@@ -412,10 +355,6 @@
             <input type="text" id="familiaOracion" placeholder="Ej: Familia Méndez Castro" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
-          <div class="coord-inputs">
-            <span>X:</span><input type="number" id="familiaOracion_x" value="554">
-            <span>Y:</span><input type="number" id="familiaOracion_y" value="930">
-          </div>
         </div>
 
         <div class="field-group">
@@ -424,10 +363,6 @@
             <input type="text" id="adoracionInfantil" placeholder="Ej: Hna. María Silva" required>
             <span class="input-badge badge-required">Requerido</span>
           </div>
-          <div class="coord-inputs">
-            <span>X:</span><input type="number" id="adoracionInfantil_x" value="554">
-            <span>Y:</span><input type="number" id="adoracionInfantil_y" value="1019">
-          </div>
         </div>
 
         <div class="field-group">
@@ -435,10 +370,6 @@
           <div class="input-wrapper">
             <input type="text" id="mensajeMusical" placeholder="Ej: Coro Central" required>
             <span class="input-badge badge-required">Requerido</span>
-          </div>
-          <div class="coord-inputs">
-            <span>X:</span><input type="number" id="mensajeMusical_x" value="554">
-            <span>Y:</span><input type="number" id="mensajeMusical_y" value="1258">
           </div>
         </div>
 
@@ -473,20 +404,48 @@
       const fechaHint = document.getElementById('fechaHint');
       const camposRequeridos = Array.from(document.querySelectorAll('#liturgiaForm input[required]'));
 
-      // DÍA RESTRINGIDO: 6 = Sábado (0 es Domingo, 1 es Lunes, etc.)
-      const DIA_PERMITIDO = 6; 
+      const DIA_PERMITIDO = 6; // Sábado
+
+      // COORDENADAS FIJAS PARA CADA CAMPO
+      const COORDENADAS = {
+        fecha: { x: 696, y: 488 },
+        lectura: { x: 293, y: 761 },
+        predicador: [
+          { x: 260, y: 1532 },
+          { x: 554, y: 1336 }
+        ],
+        himnoInicial: { x: 280, y: 816 },
+        himnoFinal: { x: 280, y: 1380 },
+        acompanante1: [
+          { x: 300, y: 1560 },
+          { x: 554, y: 758 },
+          { x: 554, y: 812 },
+          { x: 554, y: 1300 },
+          { x: 554, y: 1426 },
+          { x: 554, y: 1100 }
+        ],
+        acompanante2: [
+          { x: 300, y: 1587 },
+          { x: 554, y: 883 },
+          { x: 554, y: 991 },
+          { x: 554, y: 1224 },
+          { x: 554, y: 1378 }
+        ],
+        familiaOracion: { x: 554, y: 930 },
+        adoracionInfantil: { x: 554, y: 1019 },
+        mensajeMusical: { x: 554, y: 1258 }
+      };
 
       function validarFechaSabado(mostrarAlerta = true) {
         if (!inputFecha.value) return true;
 
         const partes = inputFecha.value.split('-');
-        // Crear fecha usando hora local (año, mes - 1, día)
         const fechaSeleccionada = new Date(partes[0], partes[1] - 1, partes[2]);
         const diaSemana = fechaSeleccionada.getDay();
 
         if (diaSemana !== DIA_PERMITIDO) {
           if (mostrarAlerta) {
-            alert('⚠️ Por favor selecciona un día SÁBADO. La fecha seleccionada no corresponde al día del culto.');
+            alert('⚠️ Por favor selecciona un día SÁBADO.');
           }
           inputFecha.value = '';
           fechaHint.className = 'field-hint error';
@@ -613,6 +572,17 @@
         }
       });
 
+      function dibujarTextoDirecto(idCampo, color, fuente, x, y, alineacion = 'left') {
+        const elemento = document.getElementById(idCampo);
+        if (!elemento || !elemento.value) return;
+
+        ctx.font = fuente;
+        ctx.fillStyle = color;
+        ctx.textAlign = alineacion;
+        ctx.fillText(elemento.value, x, y);
+        ctx.textAlign = 'left';
+      }
+
       function actualizarVistaPreviaDirecta() {
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
@@ -628,55 +598,41 @@
           return;
         }
 
-        function dibujarTexto(idCampo, color, fuente, alineacion = 'left', sufijoX = '_x', sufijoY = '_y') {
-          const elemento = document.getElementById(idCampo);
-          if (!elemento || !elemento.value) return;
-
-          const elemX = document.getElementById(`${idCampo}${sufijoX}`);
-          const elemY = document.getElementById(`${idCampo}${sufijoY}`);
-          if (!elemX || !elemY) return;
-
-          ctx.font = fuente;
-          ctx.fillStyle = color;
-          ctx.textAlign = alineacion;
-          ctx.fillText(elemento.value, parseInt(elemX.value) || 0, parseInt(elemY.value) || 0);
-          ctx.textAlign = 'left';
-        }
-
+        // 1. Fecha
         const fechaRaw = document.getElementById('fecha').value;
         if (fechaRaw) {
           const partes = fechaRaw.split('-');
           const fechaObj = new Date(partes[0], partes[1] - 1, partes[2]);
           const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
 
-          const elemX = document.getElementById('fecha_x');
-          const elemY = document.getElementById('fecha_y');
-          if (elemX && elemY) {
-            ctx.font = 'bold 22px Arial';
-            ctx.fillStyle = '#1e3a8a';
-            ctx.textAlign = 'center';
-            ctx.fillText(fechaFormateada, parseInt(elemX.value) || 0, parseInt(elemY.value) || 0);
-            ctx.textAlign = 'left';
-          }
+          ctx.font = 'bold 22px Arial';
+          ctx.fillStyle = '#1e3a8a';
+          ctx.textAlign = 'center';
+          ctx.fillText(fechaFormateada, COORDENADAS.fecha.x, COORDENADAS.fecha.y);
+          ctx.textAlign = 'left';
         }
 
-        dibujarTexto('predicador', '#0f172a', 'bold 22px Arial', 'left', '_x', '_y');
-        dibujarTexto('predicador', '#15803d', '20px Arial', 'left', '_x2', '_y2');
+        // 2. Predicador
+        dibujarTextoDirecto('predicador', '#0f172a', 'bold 22px Arial', COORDENADAS.predicador[0].x, COORDENADAS.predicador[0].y);
+        dibujarTextoDirecto('predicador', '#15803d', '20px Arial', COORDENADAS.predicador[1].x, COORDENADAS.predicador[1].y);
 
-        ['_x', '_x2', '_x3', '_x4', '_x5', '_x6'].forEach((suf, i) => {
-          dibujarTexto('acompanante1', '#0f172a', i === 0 ? 'bold 22px Arial' : 'bold 20px Arial', 'left', suf, `_y${i === 0 ? '' : i + 1}`);
+        // 3. Acompañante 1
+        COORDENADAS.acompanante1.forEach((pt, i) => {
+          dibujarTextoDirecto('acompanante1', '#0f172a', i === 0 ? 'bold 22px Arial' : 'bold 20px Arial', pt.x, pt.y);
         });
 
-        ['_x', '_x2', '_x3', '_x4', '_x5'].forEach((suf, i) => {
-          dibujarTexto('acompanante2', '#0f172a', i === 0 ? 'bold 22px Arial' : 'bold 20px Arial', 'left', suf, `_y${i === 0 ? '' : i + 1}`);
+        // 4. Acompañante 2
+        COORDENADAS.acompanante2.forEach((pt, i) => {
+          dibujarTextoDirecto('acompanante2', '#0f172a', i === 0 ? 'bold 22px Arial' : 'bold 20px Arial', pt.x, pt.y);
         });
 
-        dibujarTexto('lectura', '#1e40af', 'italic 20px Arial');
-        dibujarTexto('himnoInicial', '#0f172a', 'bold 22px Arial');
-        dibujarTexto('himnoFinal', '#0f172a', 'bold 22px Arial');
-        dibujarTexto('familiaOracion', '#15803d', '20px Arial');
-        dibujarTexto('adoracionInfantil', '#15803d', '20px Arial');
-        dibujarTexto('mensajeMusical', '#15803d', '20px Arial');
+        // 5. Resto de campos
+        dibujarTextoDirecto('lectura', '#1e40af', 'italic 20px Arial', COORDENADAS.lectura.x, COORDENADAS.lectura.y);
+        dibujarTextoDirecto('himnoInicial', '#0f172a', 'bold 22px Arial', COORDENADAS.himnoInicial.x, COORDENADAS.himnoInicial.y);
+        dibujarTextoDirecto('himnoFinal', '#0f172a', 'bold 22px Arial', COORDENADAS.himnoFinal.x, COORDENADAS.himnoFinal.y);
+        dibujarTextoDirecto('familiaOracion', '#15803d', '20px Arial', COORDENADAS.familiaOracion.x, COORDENADAS.familiaOracion.y);
+        dibujarTextoDirecto('adoracionInfantil', '#15803d', '20px Arial', COORDENADAS.adoracionInfantil.x, COORDENADAS.adoracionInfantil.y);
+        dibujarTextoDirecto('mensajeMusical', '#15803d', '20px Arial', COORDENADAS.mensajeMusical.x, COORDENADAS.mensajeMusical.y);
       }
 
       window.exportarJPG = function() {
@@ -779,7 +735,6 @@
         }, 'image/png');
       };
 
-      // Inicialización
       cargarDeLocalStorage();
       actualizarInterfazEstado();
     });
