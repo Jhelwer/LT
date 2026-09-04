@@ -20,6 +20,7 @@
       --focus-blue: #0284c7;
       --focus-glow: rgba(2, 132, 199, 0.15);
       --green-bg: #f0fdf4;
+      --danger: #ef4444;
     }
 
     body {
@@ -64,16 +65,17 @@
       top: 20px;
     }
 
-    /* BARRA DE PROGRESO FIJA AL HACER SCROLL */
     .progress-container {
       position: sticky;
-      top: 0;
+      top: -25px;
       background-color: var(--card);
-      padding-top: 10px;
-      padding-bottom: 15px;
-      margin-bottom: 15px;
-      z-index: 100;
-      border-bottom: 1px solid #f1f5f9;
+      padding: 15px 0 12px 0;
+      margin-top: -25px;
+      margin-bottom: 20px;
+      z-index: 999;
+      border-bottom: 1px solid #e2e8f0;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
     }
 
     .progress-header {
@@ -102,7 +104,7 @@
       transition: width 0.3s ease, background-color 0.3s ease;
     }
 
-    h2, h3 { color: var(--primary); margin-top: 0; }
+    h2, h3 { color: var(--primary); margin-top: 10px; }
 
     .section-title {
       background: #e8f4fc;
@@ -170,20 +172,30 @@
       margin-right: 65px;
     }
 
-    /* Estado 1: Incompleto */
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .field-hint.error {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
     .st-incomplete {
       border: 1.5px solid var(--amber) !important;
       background-color: var(--amber-bg);
     }
 
-    /* Estado 2: En enfoque */
     .st-focus {
       border: 2px solid var(--focus-blue) !important;
       background-color: #ffffff;
       box-shadow: 0 0 0 3px var(--focus-glow);
     }
 
-    /* Estado 3: Completado */
     .st-complete {
       border: 1.5px solid var(--success) !important;
       background-color: var(--green-bg);
@@ -279,16 +291,16 @@
 
       <form id="liturgiaForm" autocomplete="off">
         
-        <!-- SECCIÓN 1: GENERAL -->
         <div class="section-title">1. Información General</div>
         
         <div class="field-row-2col">
           <div class="field-group">
-            <label>1. Fecha del Sermón:</label>
+            <label for="fecha">1. Fecha del Sermón:</label>
             <div class="input-wrapper">
               <input type="date" id="fecha" required>
               <span class="input-badge badge-required">Requerido</span>
             </div>
+            <span class="field-hint" id="fechaHint">📅 Solo se permiten días sábados.</span>
             <div class="coord-inputs">
               <span>X:</span><input type="number" id="fecha_x" value="696">
               <span>Y:</span><input type="number" id="fecha_y" value="488">
@@ -296,7 +308,7 @@
           </div>
 
           <div class="field-group">
-            <label>3. Lectura Bíblica:</label>
+            <label for="lectura">3. Lectura Bíblica:</label>
             <div class="input-wrapper">
               <input type="text" id="lectura" placeholder="Ej: Juan 3:16" required>
               <span class="input-badge badge-required">Requerido</span>
@@ -308,11 +320,10 @@
           </div>
         </div>
 
-        <!-- SECCIÓN 2: PREDICADOR Y HIMNOS -->
         <div class="section-title">2. Predicador y Himnos</div>
 
         <div class="field-group">
-          <label>2. Predicador Principal:</label>
+          <label for="predicador">2. Predicador Principal:</label>
           <div class="input-wrapper">
             <input type="text" id="predicador" placeholder="Ej: Pr. Juan Gómez" required>
             <span class="input-badge badge-required">Requerido</span>
@@ -327,7 +338,7 @@
 
         <div class="field-row-2col">
           <div class="field-group">
-            <label>4. Himno Inicial (N°):</label>
+            <label for="himnoInicial">4. Himno Inicial (N°):</label>
             <div class="input-wrapper">
               <input type="text" id="himnoInicial" placeholder="Ej: 222" required>
               <span class="input-badge badge-required">Requerido</span>
@@ -339,7 +350,7 @@
           </div>
 
           <div class="field-group">
-            <label>5. Himno Final (N°):</label>
+            <label for="himnoFinal">5. Himno Final (N°):</label>
             <div class="input-wrapper">
               <input type="text" id="himnoFinal" placeholder="Ej: 333" required>
               <span class="input-badge badge-required">Requerido</span>
@@ -351,11 +362,10 @@
           </div>
         </div>
 
-        <!-- SECCIÓN 3: PLATAFORMA Y ACOMPAÑANTES -->
         <div class="section-title">3. Asignaciones de Plataforma</div>
 
         <div class="field-group">
-          <label>6. Acompañante 1:</label>
+          <label for="acompanante1">6. Acompañante 1:</label>
           <div class="input-wrapper">
             <input type="text" id="acompanante1" placeholder="Ej: Hno. Carlos Ruiz" required>
             <span class="input-badge badge-required">Requerido</span>
@@ -377,7 +387,7 @@
         </div>
 
         <div class="field-group">
-          <label>7. Acompañante 2:</label>
+          <label for="acompanante2">7. Acompañante 2:</label>
           <div class="input-wrapper">
             <input type="text" id="acompanante2" placeholder="Ej: Hna. Ana López" required>
             <span class="input-badge badge-required">Requerido</span>
@@ -397,7 +407,7 @@
         </div>
 
         <div class="field-group">
-          <label>8. Familia para Oración:</label>
+          <label for="familiaOracion">8. Familia para Oración:</label>
           <div class="input-wrapper">
             <input type="text" id="familiaOracion" placeholder="Ej: Familia Méndez Castro" required>
             <span class="input-badge badge-required">Requerido</span>
@@ -409,7 +419,7 @@
         </div>
 
         <div class="field-group">
-          <label>9. Responsable Adoración Infantil:</label>
+          <label for="adoracionInfantil">9. Responsable Adoración Infantil:</label>
           <div class="input-wrapper">
             <input type="text" id="adoracionInfantil" placeholder="Ej: Hna. María Silva" required>
             <span class="input-badge badge-required">Requerido</span>
@@ -421,7 +431,7 @@
         </div>
 
         <div class="field-group">
-          <label>10. Responsable Mensaje Musical:</label>
+          <label for="mensajeMusical">10. Responsable Mensaje Musical:</label>
           <div class="input-wrapper">
             <input type="text" id="mensajeMusical" placeholder="Ej: Coro Central" required>
             <span class="input-badge badge-required">Requerido</span>
@@ -458,7 +468,42 @@
     const progressText = document.getElementById('progressText');
     const btnExportar = document.getElementById('btnExportar');
     const btnWhatsapp = document.getElementById('btnWhatsapp');
+    const inputFecha = document.getElementById('fecha');
+    const fechaHint = document.getElementById('fechaHint');
     const camposRequeridos = Array.from(document.querySelectorAll('#liturgiaForm input[required]'));
+
+    // DÍA RESTRINGIDO: 6 = Sábado (0 es Domingo, 1 es Lunes, etc.)
+    const DIA_PERMITIDO = 6; 
+
+    function validarFechaSabado(mostrarAlerta = true) {
+      if (!inputFecha.value) return true;
+
+      const partes = inputFecha.value.split('-');
+      // Crear fecha usando hora local (año, mes - 1, día)
+      const fechaSeleccionada = new Date(partes[0], partes[1] - 1, partes[2]);
+      const diaSemana = fechaSeleccionada.getDay();
+
+      if (diaSemana !== DIA_PERMITIDO) {
+        if (mostrarAlerta) {
+          alert('⚠️ Por favor selecciona un día SÁBADO. La fecha seleccionada no corresponde al día del culto.');
+        }
+        inputFecha.value = '';
+        fechaHint.className = 'field-hint error';
+        fechaHint.innerText = '⚠️ Selección no válida: Debes elegir un SÁBADO.';
+        return false;
+      }
+
+      fechaHint.className = 'field-hint';
+      fechaHint.innerText = '📅 Solo se permiten días sábados.';
+      return true;
+    }
+
+    inputFecha.addEventListener('change', () => {
+      validarFechaSabado(true);
+      actualizarInterfazEstado();
+      guardarEnLocalStorage();
+      solicitarActualizacionCanvas();
+    });
 
     let plantilla = new Image();
     plantilla.src = 'plantilla.png';
@@ -489,6 +534,7 @@
             const input = document.getElementById(id);
             if (input) input.value = datos[id];
           });
+          validarFechaSabado(false);
         } catch (e) {
           console.error('Error al cargar localStorage', e);
         }
@@ -502,6 +548,8 @@
     function limpiarFormulario() {
       form.reset();
       limpiarLocalStorage();
+      fechaHint.className = 'field-hint';
+      fechaHint.innerText = '📅 Solo se permiten días sábados.';
       actualizarInterfazEstado();
       actualizarVistaPreviaDirecta();
     }
@@ -557,9 +605,11 @@
     });
 
     form.addEventListener('input', (e) => {
-      actualizarInterfazEstado();
-      guardarEnLocalStorage();
-      solicitarActualizacionCanvas();
+      if (e.target !== inputFecha) {
+        actualizarInterfazEstado();
+        guardarEnLocalStorage();
+        solicitarActualizacionCanvas();
+      }
     });
 
     function actualizarVistaPreviaDirecta() {
