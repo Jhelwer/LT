@@ -300,7 +300,7 @@
               <input type="date" id="fecha" required>
               <span class="input-badge badge-required">Requerido</span>
             </div>
-            <span class="field-hint" id="fechaHint">📅 Solo se permiten días sábados.</span>
+            <span class="field-hint" id="fechaHint">📅 Selecciona un día sábado.</span>
             <div class="coord-inputs">
               <span>X:</span><input type="number" id="fecha_x" value="696">
               <span>Y:</span><input type="number" id="fecha_y" value="488">
@@ -472,11 +472,27 @@
     const fechaHint = document.getElementById('fechaHint');
     const camposRequeridos = Array.from(document.querySelectorAll('#liturgiaForm input[required]'));
 
-    // DÍA RESTRINGIDO: 6 = Sábado (0 es Domingo, 1 es Lunes, etc.)
-    const DIA_PERMITIDO = 6; 
+    const DIA_PERMITIDO = 6; // Sábado (0=Domingo, 6=Sábado)
 
-    function validarFechaSabado(mostrarAlerta = true) {
-      if (!inputFecha.value) return true;
+    // Calcula y retorna la fecha en formato YYYY-MM-DD para el sábado más próximo
+    function obtenerProximoSabado() {
+      const hoy = new Date();
+      const diaSemana = hoy.getDay();
+      let diasHastaSabado = (DIA_PERMITIDO - diaSemana + 7) % 7;
+      
+      const proximoSabado = new Date(hoy);
+      proximoSabado.setDate(hoy.getDate() + diasHastaSabado);
+
+      const yyyy = proximoSabado.getFullYear();
+      const mm = String(proximoSabado.getMonth() + 1).padStart(2, '0');
+      const dd = String(proximoSabado.getDate()).padStart(2, '0');
+      
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Valida si la fecha elegida es un sábado de manera silenciosa (sin alert)
+    function validarFechaSabado() {
+      if (!inputFecha.value) return false;
 
       const partes = inputFecha.value.split('-');
       const fechaSeleccionada = new Date(partes[0], partes[1] - 1, partes[2]);
@@ -484,11 +500,7 @@
 
       if (diaSemana !== DIA_PERMITIDO) {
         fechaHint.className = 'field-hint error';
-        fechaHint.innerText = '⚠️ La fecha seleccionada no es sábado.';
-        if (mostrarAlerta) {
-          alert('⚠️ Recuerda seleccionar un día SÁBADO en el calendario.');
-        }
-        inputFecha.value = '';
+        fechaHint.innerText = '⚠️ La fecha seleccionada no es sábado. Por favor elige un sábado.';
         return false;
       }
 
@@ -497,8 +509,20 @@
       return true;
     }
 
+    // Al enfocar/presionar el campo, si está vacío se selecciona automáticamente el próximo sábado
+    inputFecha.addEventListener('focus', () => {
+      if (!inputFecha.value) {
+        inputFecha.value = obtenerProximoSabado();
+        validarFechaSabado();
+        actualizarInterfazEstado();
+        guardarEnLocalStorage();
+        solicitarActualizacionCanvas();
+      }
+    });
+
+    // Al cambiar la fecha seleccionada en el calendario
     inputFecha.addEventListener('change', () => {
-      validarFechaSabado(true);
+      validarFechaSabado();
       actualizarInterfazEstado();
       guardarEnLocalStorage();
       solicitarActualizacionCanvas();
@@ -533,7 +557,7 @@
             const input = document.getElementById(id);
             if (input) input.value = datos[id];
           });
-          validarFechaSabado(false);
+          validarFechaSabado();
         } catch (e) {
           console.error('Error al cargar localStorage', e);
         }
@@ -548,7 +572,7 @@
       form.reset();
       limpiarLocalStorage();
       fechaHint.className = 'field-hint';
-      fechaHint.innerText = '📅 Solo se permiten días sábados.';
+      fechaHint.innerText = '📅 Selecciona un día sábado.';
       actualizarInterfazEstado();
       actualizarVistaPreviaDirecta();
     }
@@ -584,7 +608,9 @@
       progressBar.style.width = `${porcentaje}%`;
       progressText.innerText = `${porcentaje}%`;
 
-      const todoLleno = camposLlenos === camposRequeridos.length;
+      const esFechaValida = validarFechaSabado();
+      const todoLleno = camposLlenos === camposRequeridos.length && esFechaValida;
+
       progressBar.style.backgroundColor = todoLleno ? 'var(--success)' : 'var(--secondary)';
       btnExportar.disabled = !todoLleno;
       btnWhatsapp.disabled = !todoLleno;
