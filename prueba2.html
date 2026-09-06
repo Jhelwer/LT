@@ -1,743 +1,5842 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generador de Liturgia</title>
-  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <meta name="theme-color" content="#004b87">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <meta name="apple-mobile-web-app-title" content="Liturgia">
+
+  <title>Asistente de Liturgia 2.0</title>
+
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <style>
+
+    /* =========================================================
+
+       VARIABLES
+
+    ========================================================= */
+
     :root {
+
       --primary: #004b87;
+
+      --primary-dark: #00345f;
+
       --secondary: #007bb5;
-      --bg: #f0f4f8;
+
+      --secondary-light: #e8f4fc;
+
+      --bg: #f1f5f9;
+
       --card: #ffffff;
-      --text: #2c3e50;
-      --success: #2e7d32;
-      --amber: #f97316;
-      --amber-bg: #fff7ed;
-      --focus-blue: #0284c7;
+
+      --text: #1e293b;
+
+      --muted: #64748b;
+
+      --border: #dbe3ec;
+
+      --success: #15803d;
+
+      --success-bg: #f0fdf4;
+
+      --warning: #ea580c;
+
+      --warning-bg: #fff7ed;
+
+      --danger: #dc2626;
+
+      --danger-bg: #fef2f2;
+
+      --focus: #0284c7;
+
       --focus-glow: rgba(2, 132, 199, 0.15);
-      --green-bg: #f0fdf4;
-      --danger: #ef4444;
+
+      --shadow:
+
+        0 10px 30px rgba(15, 23, 42, 0.08);
+
+      --radius: 14px;
+
+    }
+
+    body.dark {
+
+      --bg: #0f172a;
+
+      --card: #1e293b;
+
+      --text: #f1f5f9;
+
+      --muted: #94a3b8;
+
+      --border: #334155;
+
+      --secondary-light: #172554;
+
+      --success-bg: #052e16;
+
+      --warning-bg: #431407;
+
+      --danger-bg: #450a0a;
+
+    }
+
+    * {
+
+      box-sizing: border-box;
+
+    }
+
+    html {
+
+      scroll-behavior: smooth;
+
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg);
+
+      font-family:
+
+        -apple-system,
+
+        BlinkMacSystemFont,
+
+        "Segoe UI",
+
+        Roboto,
+
+        Helvetica,
+
+        Arial,
+
+        sans-serif;
+
+      background: var(--bg);
+
       color: var(--text);
+
       margin: 0;
+
       padding: 20px;
+
+      transition:
+
+        background-color 0.25s ease,
+
+        color 0.25s ease;
+
+      padding-bottom: env(safe-area-inset-bottom);
+
     }
 
-    .main-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 25px;
-      max-width: 1250px;
-      margin: 0 auto;
-      align-items: flex-start;
-      justify-content: center;
-    }
+    button,
 
-    .form-card {
-      background: var(--card);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      flex: 1 1 540px;
-      max-width: 580px;
-      box-sizing: border-box;
-      position: relative;
-    }
+    input {
 
-    .preview-card {
-      background: var(--card);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      flex: 1 1 420px;
-      max-width: 500px;
-      box-sizing: border-box;
-      display: none; 
-      position: sticky;
-      top: 20px;
-    }
+      font-family: inherit;
 
-    .progress-container {
-      position: sticky;
-      top: -25px;
-      background-color: var(--card);
-      padding: 15px 0 12px 0;
-      margin-top: -25px;
-      margin-bottom: 20px;
-      z-index: 999;
-      border-bottom: 1px solid #e2e8f0;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-    }
-
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: #64748b;
-      margin-bottom: 6px;
-    }
-
-    .progress-bar-bg {
-      width: 100%;
-      height: 8px;
-      background-color: #e2e8f0;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background-color: var(--secondary);
-      border-radius: 4px;
-      transition: width 0.3s ease, background-color 0.3s ease;
-    }
-
-    h2, h3 { color: var(--primary); margin-top: 10px; }
-
-    .section-title {
-      background: #e8f4fc;
-      color: var(--primary);
-      padding: 10px 15px;
-      border-radius: 6px;
-      font-weight: bold;
-      margin-top: 20px;
-      margin-bottom: 15px;
-      border-left: 4px solid var(--primary);
-    }
-
-    .field-row-2col {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-    }
-
-    @media (min-width: 640px) {
-      .field-row-2col {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-      }
-    }
-
-    .field-group {
-      background: #fafafa;
-      border: 1px solid #e2e8f0;
-      padding: 12px 14px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      box-sizing: border-box;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      font-size: 13px;
-    }
-
-    .input-wrapper {
-      position: relative;
-      display: block;
-      width: 100%;
-    }
-
-    input[type="text"], input[type="number"], input[type="date"] {
-      width: 100%;
-      padding: 0 75px 0 10px;
-      box-sizing: border-box;
-      border-radius: 6px;
-      font-size: 13px;
-      height: 38px;
-      line-height: 38px;
-      outline: none;
-      transition: all 0.2s ease-in-out;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-    }
-
-    .field-hint {
-      display: block;
-      font-size: 11px;
-      color: #64748b;
-      margin-top: 4px;
-      font-weight: 500;
-    }
-
-    .field-hint.error {
-      color: var(--danger);
-      font-weight: 600;
-    }
-
-    .st-incomplete {
-      border: 1.5px solid var(--amber) !important;
-      background-color: var(--amber-bg);
-    }
-
-    .st-focus {
-      border: 2px solid var(--focus-blue) !important;
-      background-color: #ffffff;
-      box-shadow: 0 0 0 3px var(--focus-glow);
-    }
-
-    .st-complete {
-      border: 1.5px solid var(--success) !important;
-      background-color: var(--green-bg);
-      padding-right: 35px !important;
-    }
-
-    .input-badge {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 11px;
-      font-weight: 700;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .badge-required {
-      color: #c2410c;
-      background: #ffedd5;
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid #fed7aa;
-    }
-
-    .badge-check {
-      color: var(--success);
-      font-size: 14px;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 20px;
     }
 
     button {
-      padding: 10px 16px;
-      border: none;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
+
+      -webkit-tap-highlight-color: transparent;
+
     }
 
-    .btn-export-jpg { background-color: var(--success); color: white; }
-    .btn-whatsapp { background-color: #25d366; color: white; }
-    .btn-reset { background-color: #e2e8f0; color: #475569; }
-    .btn-reset:hover { background-color: #cbd5e1; color: #1e293b; }
+    /* =========================================================
+
+       CONTENEDOR PRINCIPAL
+
+    ========================================================= */
+
+    .main-container {
+
+      display: grid;
+
+      grid-template-columns: minmax(400px, 580px) minmax(400px, 520px);
+
+      gap: 25px;
+
+      max-width: 1200px;
+
+      margin: 0 auto;
+
+      align-items: start;
+
+    }
+
+    .form-card,
+
+    .preview-card {
+
+      background: var(--card);
+
+      border-radius: var(--radius);
+
+      box-shadow: var(--shadow);
+
+      border: 1px solid var(--border);
+
+    }
+
+    .form-card {
+
+      padding: 25px;
+
+      position: relative;
+
+    }
+
+    .preview-card {
+
+      padding: 20px;
+
+      position: sticky;
+
+      top: 20px;
+
+    }
+
+    /* =========================================================
+
+       ENCABEZADO
+
+    ========================================================= */
+
+    .app-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 20px;
+
+      gap: 15px;
+
+    }
+
+    .app-title {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+    }
+
+    .app-logo {
+
+      width: 45px;
+
+      height: 45px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background:
+
+        linear-gradient(
+
+          135deg,
+
+          var(--primary),
+
+          var(--secondary)
+
+        );
+
+      color: white;
+
+      border-radius: 12px;
+
+      font-size: 22px;
+
+      box-shadow:
+
+        0 5px 15px rgba(0, 75, 135, 0.25);
+
+    }
+
+    h1,
+
+    h2,
+
+    h3 {
+
+      margin: 0;
+
+      color: var(--primary);
+
+    }
+
+    h1 {
+
+      font-size: 22px;
+
+    }
+
+    h2 {
+
+      font-size: 18px;
+
+    }
+
+    h3 {
+
+      font-size: 17px;
+
+    }
+
+    .subtitle {
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+    }
+
+    .header-actions {
+
+      display: flex;
+
+      gap: 7px;
+
+    }
+
+    .icon-button {
+
+      width: 40px;
+
+      height: 40px;
+
+      border: 1px solid var(--border);
+
+      background: var(--card);
+
+      color: var(--text);
+
+      border-radius: 10px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      cursor: pointer;
+
+      font-size: 18px;
+
+      transition: 0.2s;
+
+    }
+
+    .icon-button:hover {
+
+      transform: translateY(-1px);
+
+      border-color: var(--secondary);
+
+    }
+
+    /* =========================================================
+
+       PROGRESO
+
+    ========================================================= */
+
+    .progress-container {
+
+      position: sticky;
+
+      top: -25px;
+
+      background: var(--card);
+
+      padding:
+
+        15px
+
+        0
+
+        12px;
+
+      margin:
+
+        -25px
+
+        0
+
+        20px;
+
+      z-index: 50;
+
+      border-bottom: 1px solid var(--border);
+
+    }
+
+    .progress-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 7px;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      color: var(--muted);
+
+    }
+
+    .progress-bar-bg {
+
+      height: 8px;
+
+      background: #e2e8f0;
+
+      border-radius: 99px;
+
+      overflow: hidden;
+
+    }
+
+    .progress-bar-fill {
+
+      width: 0%;
+
+      height: 100%;
+
+      background: var(--secondary);
+
+      border-radius: inherit;
+
+      transition:
+
+        width 0.35s ease,
+
+        background-color 0.3s ease;
+
+    }
+
+    /* =========================================================
+
+       SECCIONES
+
+    ========================================================= */
+
+    .section-title {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      background: var(--secondary-light);
+
+      color: var(--primary);
+
+      padding: 11px 14px;
+
+      border-radius: 9px;
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      margin:
+
+        22px
+
+        0
+
+        14px;
+
+      border-left:
+
+        4px solid
+
+        var(--primary);
+
+    }
+
+    .section-number {
+
+      width: 25px;
+
+      height: 25px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: var(--primary);
+
+      color: white;
+
+      border-radius: 50%;
+
+      font-size: 11px;
+
+    }
+
+    /* =========================================================
+
+       CAMPOS
+
+    ========================================================= */
+
+    .field-row-2col {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(2, minmax(0, 1fr));
+
+      gap: 13px;
+
+    }
+
+    .field-group {
+
+      background: rgba(148, 163, 184, 0.04);
+
+      border:
+
+        1px solid
+
+        var(--border);
+
+      padding: 13px;
+
+      border-radius: 10px;
+
+      margin-bottom: 12px;
+
+      transition:
+
+        border-color 0.2s,
+
+        box-shadow 0.2s,
+
+        transform 0.2s;
+
+    }
+
+    .field-group:focus-within {
+
+      border-color: var(--focus);
+
+      box-shadow:
+
+        0 0 0 3px
+
+        var(--focus-glow);
+
+    }
+
+    label {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 7px;
+
+      font-weight: 700;
+
+      font-size: 12px;
+
+    }
+
+    .input-wrapper {
+
+      position: relative;
+
+    }
+
+    input[type="text"],
+
+    input[type="number"],
+
+    input[type="date"] {
+
+      width: 100%;
+
+      height: 42px;
+
+      border:
+
+        1.5px solid
+
+        var(--border);
+
+      border-radius: 8px;
+
+      background: var(--card);
+
+      color: var(--text);
+
+      padding:
+
+        0
+
+        75px
+
+        0
+
+        11px;
+
+      font-size: 14px;
+
+      outline: none;
+
+      transition: 0.2s;
+
+      -webkit-appearance: none;
+
+      appearance: none;
+
+    }
+
+    input:focus {
+
+      border-color: var(--focus);
+
+      box-shadow:
+
+        0 0 0 3px
+
+        var(--focus-glow);
+
+    }
+
+    input.st-incomplete {
+
+      border-color: var(--warning);
+
+      background: var(--warning-bg);
+
+    }
+
+    input.st-complete {
+
+      border-color: var(--success);
+
+      background: var(--success-bg);
+
+      padding-right: 38px;
+
+    }
+
+    input.st-focus {
+
+      border:
+
+        2px solid
+
+        var(--focus);
+
+      background: var(--card);
+
+    }
+
+    .input-badge {
+
+      position: absolute;
+
+      right: 8px;
+
+      top: 50%;
+
+      transform:
+
+        translateY(-50%);
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      pointer-events: none;
+
+    }
+
+    .badge-required {
+
+      color: var(--warning);
+
+      background: var(--warning-bg);
+
+      border:
+
+        1px solid
+
+        #fed7aa;
+
+      padding:
+
+        3px
+
+        6px;
+
+      border-radius: 5px;
+
+    }
+
+    .badge-check {
+
+      color: var(--success);
+
+      font-size: 17px;
+
+    }
+
+    .field-hint {
+
+      display: block;
+
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      font-weight: 600;
+
+    }
+
+    .field-hint.error {
+
+      color: var(--danger);
+
+    }
+
+    /* Coordenadas ocultas */
+
+    .coord-inputs {
+
+      display: none;
+
+    }
+
+    /* =========================================================
+
+       BOTONES
+
+    ========================================================= */
+
+    .btn-group {
+
+      display: grid;
+
+      grid-template-columns:
+
+        1fr 1fr;
+
+      gap: 10px;
+
+      margin-top: 22px;
+
+    }
+
+    button {
+
+      min-height: 43px;
+
+      border: none;
+
+      border-radius: 9px;
+
+      padding:
+
+        10px
+
+        15px;
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+
+        transform 0.18s,
+
+        box-shadow 0.18s,
+
+        opacity 0.18s;
+
+    }
+
+    button:hover:not(:disabled) {
+
+      transform: translateY(-1px);
+
+      box-shadow:
+
+        0 5px 14px
+
+        rgba(15, 23, 42, 0.12);
+
+    }
+
+    button:active:not(:disabled) {
+
+      transform: translateY(0);
+
+    }
 
     button:disabled {
-      background-color: #cbd5e1 !important;
-      color: #94a3b8 !important;
-      cursor: not-allowed !important;
-      opacity: 0.7;
+
+      opacity: 0.45;
+
+      cursor: not-allowed;
+
+    }
+
+    .btn-export-jpg {
+
+      background: var(--success);
+
+      color: white;
+
+    }
+
+    .btn-whatsapp {
+
+      background: #25d366;
+
+      color: white;
+
+    }
+
+    .btn-reset {
+
+      background: #e2e8f0;
+
+      color: #334155;
+
+    }
+
+    .btn-designer {
+
+      background: var(--primary);
+
+      color: white;
+
+    }
+
+    .btn-copy {
+
+      background: #f1f5f9;
+
+      color: #334155;
+
+    }
+
+    .btn-secondary {
+
+      background: var(--secondary-light);
+
+      color: var(--primary);
+
+    }
+
+    /* =========================================================
+
+       PREVIEW
+
+    ========================================================= */
+
+    .preview-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 15px;
+
+    }
+
+    .preview-status {
+
+      font-size: 10px;
+
+      padding:
+
+        4px
+
+        8px;
+
+      border-radius: 99px;
+
+      background: var(--success-bg);
+
+      color: var(--success);
+
+      font-weight: 800;
+
+    }
+
+    .canvas-wrapper {
+
+      position: relative;
+
+      width: 100%;
+
+      background: #e2e8f0;
+
+      border-radius: 10px;
+
+      padding: 8px;
+
+      overflow: hidden;
+
     }
 
     canvas {
+
       width: 100%;
+
       height: auto;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
+
       display: block;
-      margin: 0 auto;
+
+      border-radius: 6px;
+
+      background: white;
+
+      box-shadow:
+
+        0 3px 15px
+
+        rgba(0, 0, 0, 0.12);
+
     }
+
+    .preview-empty {
+
+      position: absolute;
+
+      inset: 0;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+      padding: 30px;
+
+      background:
+
+        rgba(255, 255, 255, 0.88);
+
+      color: #64748b;
+
+      font-size: 13px;
+
+      pointer-events: none;
+
+    }
+
+    body.dark .preview-empty {
+
+      background:
+
+        rgba(15, 23, 42, 0.88);
+
+    }
+
+    .preview-tools {
+
+      display: flex;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+
+      margin-top: 12px;
+
+    }
+
+    .preview-tools button {
+
+      flex: 1;
+
+      min-width: 110px;
+
+    }
+
+    /* =========================================================
+
+       DESIGNER
+
+    ========================================================= */
+
+    .designer-panel {
+
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 15px;
+
+      border:
+
+        1px solid
+
+        var(--border);
+
+      border-radius: 10px;
+
+      background:
+
+        rgba(148, 163, 184, 0.06);
+
+    }
+
+    .designer-panel.active {
+
+      display: block;
+
+    }
+
+    .designer-title {
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      margin-bottom: 10px;
+
+      color: var(--primary);
+
+    }
+
+    .designer-grid {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(2, 1fr);
+
+      gap: 8px;
+
+    }
+
+    .designer-control {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 4px;
+
+    }
+
+    .designer-control label {
+
+      font-size: 10px;
+
+      color: var(--muted);
+
+    }
+
+    .designer-control input,
+
+    .designer-control select {
+
+      height: 36px;
+
+      border:
+
+        1px solid
+
+        var(--border);
+
+      border-radius: 7px;
+
+      padding: 0 8px;
+
+      background: var(--card);
+
+      color: var(--text);
+
+      font-size: 12px;
+
+    }
+
+    .designer-actions {
+
+      display: grid;
+
+      grid-template-columns:
+
+        1fr 1fr;
+
+      gap: 8px;
+
+      margin-top: 12px;
+
+    }
+
+    .designer-help {
+
+      margin-top: 10px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      line-height: 1.4;
+
+    }
+
+    /* =========================================================
+
+       TOAST
+
+    ========================================================= */
+
+    .toast-container {
+
+      position: fixed;
+
+      left: 50%;
+
+      bottom:
+
+        calc(
+
+          20px +
+
+          env(safe-area-inset-bottom)
+
+        );
+
+      transform:
+
+        translateX(-50%);
+
+      z-index: 9999;
+
+      pointer-events: none;
+
+    }
+
+    .toast {
+
+      background: #0f172a;
+
+      color: white;
+
+      padding:
+
+        11px
+
+        16px;
+
+      border-radius: 10px;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      box-shadow:
+
+        0 8px 25px
+
+        rgba(0,0,0,0.25);
+
+      animation:
+
+        toastIn 0.25s ease;
+
+      white-space: nowrap;
+
+    }
+
+    @keyframes toastIn {
+
+      from {
+
+        opacity: 0;
+
+        transform: translateY(10px);
+
+      }
+
+      to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+      }
+
+    }
+
+    /* =========================================================
+
+       MODAL
+
+    ========================================================= */
+
+    .modal-overlay {
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 9000;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+
+      background:
+
+        rgba(15, 23, 42, 0.55);
+
+      backdrop-filter:
+
+        blur(4px);
+
+    }
+
+    .modal-overlay.active {
+
+      display: flex;
+
+    }
+
+    .modal {
+
+      width: 100%;
+
+      max-width: 430px;
+
+      background: var(--card);
+
+      border-radius: 15px;
+
+      padding: 22px;
+
+      box-shadow:
+
+        0 20px 60px
+
+        rgba(0,0,0,0.25);
+
+    }
+
+    .modal h3 {
+
+      margin-bottom: 8px;
+
+    }
+
+    .modal p {
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.5;
+
+      margin-bottom: 20px;
+
+    }
+
+    .modal-buttons {
+
+      display: grid;
+
+      grid-template-columns:
+
+        1fr 1fr;
+
+      gap: 10px;
+
+    }
+
+    /* =========================================================
+
+       MOBILE ACTION BAR
+
+    ========================================================= */
+
+    .mobile-actions {
+
+      display: none;
+
+    }
+
+    /* =========================================================
+
+       RESPONSIVE
+
+    ========================================================= */
+
+    @media (max-width: 950px) {
+
+      body {
+
+        padding: 12px;
+
+      }
+
+      .main-container {
+
+        grid-template-columns: 1fr;
+
+        max-width: 650px;
+
+      }
+
+      .preview-card {
+
+        position: relative;
+
+        top: auto;
+
+      }
+
+    }
+
+    @media (max-width: 640px) {
+
+      body {
+
+        padding:
+
+          8px
+
+          8px
+
+          calc(
+
+            75px +
+
+            env(safe-area-inset-bottom)
+
+          );
+
+      }
+
+      .form-card,
+
+      .preview-card {
+
+        padding: 15px;
+
+        border-radius: 12px;
+
+      }
+
+      .app-title {
+
+        gap: 9px;
+
+      }
+
+      .app-logo {
+
+        width: 40px;
+
+        height: 40px;
+
+        font-size: 19px;
+
+      }
+
+      h1 {
+
+        font-size: 18px;
+
+      }
+
+      .subtitle {
+
+        font-size: 10px;
+
+      }
+
+      .field-row-2col {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+
+      }
+
+      input[type="text"],
+
+      input[type="number"],
+
+      input[type="date"] {
+
+        height: 45px;
+
+        font-size: 16px;
+
+      }
+
+      .btn-group {
+
+        display: none;
+
+      }
+
+      .preview-card {
+
+        margin-top: 0;
+
+      }
+
+      .mobile-actions {
+
+        position: fixed;
+
+        display: grid;
+
+        grid-template-columns:
+
+          1fr
+
+          1.4fr;
+
+        gap: 8px;
+
+        left: 0;
+
+        right: 0;
+
+        bottom: 0;
+
+        z-index: 1000;
+
+        padding:
+
+          9px
+
+          10px
+
+          calc(
+
+            9px +
+
+            env(safe-area-inset-bottom)
+
+          );
+
+        background:
+
+          rgba(255,255,255,0.94);
+
+        backdrop-filter:
+
+          blur(14px);
+
+        border-top:
+
+          1px solid
+
+          var(--border);
+
+      }
+
+      body.dark .mobile-actions {
+
+        background:
+
+          rgba(30,41,59,0.94);
+
+      }
+
+      .mobile-actions button {
+
+        min-height: 48px;
+
+      }
+
+      .designer-grid {
+
+        grid-template-columns: 1fr;
+
+      }
+
+    }
+
   </style>
+
 </head>
+
 <body>
 
   <div class="main-container">
 
-    <!-- COLUMNA IZQUIERDA: FORMULARIO -->
-    <div class="form-card">
-      
+    <!-- =====================================================
+
+         FORMULARIO
+
+    ====================================================== -->
+
+    <section class="form-card">
+
       <div class="progress-container">
+
         <div class="progress-header">
-          <span>Progreso del formulario</span>
+
+          <span>Progreso de la liturgia</span>
+
           <span id="progressText">0%</span>
+
         </div>
+
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progressBar"></div>
+
+          <div
+
+            class="progress-bar-fill"
+
+            id="progressBar">
+
+          </div>
+
         </div>
+
       </div>
 
-      <h2>Asistente de Liturgia</h2>
+      <!-- ENCABEZADO -->
 
-      <form id="liturgiaForm" autocomplete="off">
-        
-        <div class="section-title">1. Información General</div>
-        
+      <header class="app-header">
+
+        <div class="app-title">
+
+          <div class="app-logo">
+
+            📋
+
+          </div>
+
+          <div>
+
+            <h1>Asistente de Liturgia</h1>
+
+            <div class="subtitle">
+
+              Generador de programación del culto
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="header-actions">
+
+          <button
+
+            class="icon-button"
+
+            id="btnTheme"
+
+            title="Cambiar tema">
+
+            🌙
+
+          </button>
+
+        </div>
+
+      </header>
+
+      <form
+
+        id="liturgiaForm"
+
+        autocomplete="off"
+
+        novalidate>
+
+        <!-- =================================================
+
+             SECCIÓN 1
+
+        ================================================== -->
+
+        <div class="section-title">
+
+          <span class="section-number">
+
+            1
+
+          </span>
+
+          Información general
+
+        </div>
+
         <div class="field-row-2col">
-          <div class="field-group">
-            <label for="fecha">1. Fecha del Sermón:</label>
-            <div class="input-wrapper">
-              <input type="date" id="fecha" required>
-              <span class="input-badge badge-required">Requerido</span>
-            </div>
-            <span class="field-hint" id="fechaHint">📅 Solo se permiten días sábados.</span>
-          </div>
+
+          <!-- FECHA -->
 
           <div class="field-group">
-            <label for="lectura">3. Lectura Bíblica:</label>
+
+            <label for="fecha">
+
+              <span>📅 Fecha del sermón</span>
+
+            </label>
+
             <div class="input-wrapper">
-              <input type="text" id="lectura" placeholder="Ej: Juan 3:16" required>
-              <span class="input-badge badge-required">Requerido</span>
+
+              <input
+
+                type="date"
+
+                id="fecha"
+
+                required>
+
+              <span
+
+                class="input-badge badge-required">
+
+                Requerido
+
+              </span>
+
             </div>
+
+            <span
+
+              class="field-hint"
+
+              id="fechaHint">
+
+              📅 Solo se permiten días sábados.
+
+            </span>
+
+            <div class="coord-inputs">
+
+              <input
+
+                type="number"
+
+                id="fecha_x"
+
+                value="696">
+
+              <input
+
+                type="number"
+
+                id="fecha_y"
+
+                value="488">
+
+            </div>
+
           </div>
+
+          <!-- LECTURA -->
+
+          <div class="field-group">
+
+            <label for="lectura">
+
+              <span>📖 Lectura bíblica</span>
+
+            </label>
+
+            <div class="input-wrapper">
+
+              <input
+
+                type="text"
+
+                id="lectura"
+
+                maxlength="80"
+
+                placeholder="Ej: Juan 3:16"
+
+                required>
+
+              <span
+
+                class="input-badge badge-required">
+
+                Requerido
+
+              </span>
+
+            </div>
+
+            <div class="coord-inputs">
+
+              <input
+
+                type="number"
+
+                id="lectura_x"
+
+                value="293">
+
+              <input
+
+                type="number"
+
+                id="lectura_y"
+
+                value="761">
+
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="section-title">2. Predicador y Himnos</div>
+        <!-- =================================================
+
+             SECCIÓN 2
+
+        ================================================== -->
+
+        <div class="section-title">
+
+          <span class="section-number">
+
+            2
+
+          </span>
+
+          Predicador y himnos
+
+        </div>
+
+        <!-- PREDICADOR -->
 
         <div class="field-group">
-          <label for="predicador">2. Predicador Principal:</label>
+
+          <label for="predicador">
+
+            <span>🎙️ Predicador principal</span>
+
+          </label>
+
           <div class="input-wrapper">
-            <input type="text" id="predicador" placeholder="Ej: Pr. Juan Gómez" required>
-            <span class="input-badge badge-required">Requerido</span>
+
+            <input
+
+              type="text"
+
+              id="predicador"
+
+              maxlength="60"
+
+              placeholder="Ej: Pr. Juan Gómez"
+
+              required>
+
+            <span
+
+              class="input-badge badge-required">
+
+              Requerido
+
+            </span>
+
           </div>
+
+          <div class="coord-inputs">
+
+            <input
+
+              type="number"
+
+              id="predicador_x"
+
+              value="260">
+
+            <input
+
+              type="number"
+
+              id="predicador_y"
+
+              value="1532">
+
+            <input
+
+              type="number"
+
+              id="predicador_x2"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="predicador_y2"
+
+              value="1336">
+
+          </div>
+
         </div>
 
         <div class="field-row-2col">
-          <div class="field-group">
-            <label for="himnoInicial">4. Himno Inicial (N°):</label>
-            <div class="input-wrapper">
-              <input type="text" id="himnoInicial" placeholder="Ej: 222" required>
-              <span class="input-badge badge-required">Requerido</span>
-            </div>
-          </div>
+
+          <!-- HIMNO INICIAL -->
 
           <div class="field-group">
-            <label for="himnoFinal">5. Himno Final (N°):</label>
+
+            <label for="himnoInicial">
+
+              <span>🎵 Himno inicial</span>
+
+            </label>
+
             <div class="input-wrapper">
-              <input type="text" id="himnoFinal" placeholder="Ej: 333" required>
-              <span class="input-badge badge-required">Requerido</span>
+
+              <input
+
+                type="number"
+
+                id="himnoInicial"
+
+                min="1"
+
+                max="999"
+
+                inputmode="numeric"
+
+                placeholder="222"
+
+                required>
+
+              <span
+
+                class="input-badge badge-required">
+
+                Requerido
+
+              </span>
+
             </div>
+
+            <div class="coord-inputs">
+
+              <input
+
+                type="number"
+
+                id="himnoInicial_x"
+
+                value="280">
+
+              <input
+
+                type="number"
+
+                id="himnoInicial_y"
+
+                value="816">
+
+            </div>
+
           </div>
+
+          <!-- HIMNO FINAL -->
+
+          <div class="field-group">
+
+            <label for="himnoFinal">
+
+              <span>🎵 Himno final</span>
+
+            </label>
+
+            <div class="input-wrapper">
+
+              <input
+
+                type="number"
+
+                id="himnoFinal"
+
+                min="1"
+
+                max="999"
+
+                inputmode="numeric"
+
+                placeholder="333"
+
+                required>
+
+              <span
+
+                class="input-badge badge-required">
+
+                Requerido
+
+              </span>
+
+            </div>
+
+            <div class="coord-inputs">
+
+              <input
+
+                type="number"
+
+                id="himnoFinal_x"
+
+                value="280">
+
+              <input
+
+                type="number"
+
+                id="himnoFinal_y"
+
+                value="1380">
+
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="section-title">3. Asignaciones de Plataforma</div>
+        <!-- =================================================
 
-        <div class="field-group">
-          <label for="acompanante1">6. Acompañante 1:</label>
-          <div class="input-wrapper">
-            <input type="text" id="acompanante1" placeholder="Ej: Hno. Carlos Ruiz" required>
-            <span class="input-badge badge-required">Requerido</span>
-          </div>
+             SECCIÓN 3
+
+        ================================================== -->
+
+        <div class="section-title">
+
+          <span class="section-number">
+
+            3
+
+          </span>
+
+          Asignaciones de plataforma
+
         </div>
 
-        <div class="field-group">
-          <label for="acompanante2">7. Acompañante 2:</label>
-          <div class="input-wrapper">
-            <input type="text" id="acompanante2" placeholder="Ej: Hna. Ana López" required>
-            <span class="input-badge badge-required">Requerido</span>
-          </div>
-        </div>
+        <!-- ACOMPAÑANTE 1 -->
 
         <div class="field-group">
-          <label for="familiaOracion">8. Familia para Oración:</label>
+
+          <label for="acompanante1">
+
+            <span>👤 Acompañante 1</span>
+
+          </label>
+
           <div class="input-wrapper">
-            <input type="text" id="familiaOracion" placeholder="Ej: Familia Méndez Castro" required>
-            <span class="input-badge badge-required">Requerido</span>
+
+            <input
+
+              type="text"
+
+              id="acompanante1"
+
+              maxlength="60"
+
+              placeholder="Ej: Hno. Carlos Ruiz"
+
+              required>
+
+            <span
+
+              class="input-badge badge-required">
+
+              Requerido
+
+            </span>
+
           </div>
+
+          <div class="coord-inputs">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_x"
+
+              value="300">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_y"
+
+              value="1560">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_x2"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_y2"
+
+              value="758">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_x3"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_y3"
+
+              value="812">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_x4"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_y4"
+
+              value="1300">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_x5"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_y5"
+
+              value="1426">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_x6"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante1_y6"
+
+              value="1100">
+
+          </div>
+
         </div>
 
-        <div class="field-group">
-          <label for="adoracionInfantil">9. Responsable Adoración Infantil:</label>
-          <div class="input-wrapper">
-            <input type="text" id="adoracionInfantil" placeholder="Ej: Hna. María Silva" required>
-            <span class="input-badge badge-required">Requerido</span>
-          </div>
-        </div>
+        <!-- ACOMPAÑANTE 2 -->
 
         <div class="field-group">
-          <label for="mensajeMusical">10. Responsable Mensaje Musical:</label>
+
+          <label for="acompanante2">
+
+            <span>👤 Acompañante 2</span>
+
+          </label>
+
           <div class="input-wrapper">
-            <input type="text" id="mensajeMusical" placeholder="Ej: Coro Central" required>
-            <span class="input-badge badge-required">Requerido</span>
+
+            <input
+
+              type="text"
+
+              id="acompanante2"
+
+              maxlength="60"
+
+              placeholder="Ej: Hna. Ana López"
+
+              required>
+
+            <span
+
+              class="input-badge badge-required">
+
+              Requerido
+
+            </span>
+
           </div>
+
+          <div class="coord-inputs">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_x"
+
+              value="300">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_y"
+
+              value="1587">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_x2"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_y2"
+
+              value="883">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_x3"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_y3"
+
+              value="991">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_x4"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_y4"
+              value="1224">
+            <input
+              type="number"
+
+              id="acompanante2_x5"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="acompanante2_y5"
+
+              value="1378">
+
+          </div>
+
+        </div>
+
+        <!-- FAMILIA -->
+
+        <div class="field-group">
+
+          <label for="familiaOracion">
+
+            <span>🙏 Familia para oración</span>
+
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+
+              type="text"
+
+              id="familiaOracion"
+
+              maxlength="70"
+
+              placeholder="Ej: Familia Méndez Castro"
+
+              required>
+
+            <span
+
+              class="input-badge badge-required">
+
+              Requerido
+
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+
+              type="number"
+
+              id="familiaOracion_x"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="familiaOracion_y"
+
+              value="930">
+
+          </div>
+
+        </div>
+
+        <!-- ADORACIÓN INFANTIL -->
+
+        <div class="field-group">
+
+          <label for="adoracionInfantil">
+
+            <span>👧 Responsable adoración infantil</span>
+
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+
+              type="text"
+
+              id="adoracionInfantil"
+
+              maxlength="70"
+
+              placeholder="Ej: Hna. María Silva"
+
+              required>
+
+            <span
+
+              class="input-badge badge-required">
+
+              Requerido
+
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+
+              type="number"
+
+              id="adoracionInfantil_x"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="adoracionInfantil_y"
+
+              value="1019">
+
+          </div>
+
+        </div>
+
+        <!-- MENSAJE MUSICAL -->
+
+        <div class="field-group">
+
+          <label for="mensajeMusical">
+
+            <span>🎶 Responsable mensaje musical</span>
+
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+
+              type="text"
+
+              id="mensajeMusical"
+
+              maxlength="70"
+
+              placeholder="Ej: Coro Central"
+
+              required>
+
+            <span
+
+              class="input-badge badge-required">
+
+              Requerido
+
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+
+              type="number"
+
+              id="mensajeMusical_x"
+
+              value="554">
+
+            <input
+
+              type="number"
+
+              id="mensajeMusical_y"
+
+              value="1258">
+
+          </div>
+
         </div>
 
       </form>
 
-      <div class="btn-group">
-        <button type="button" id="btnExportar" class="btn-export-jpg" onclick="exportarJPG()" disabled>📸 Descargar</button>
-        <button type="button" id="btnWhatsapp" class="btn-whatsapp" onclick="enviarWhatsApp()" disabled>📤 Compartir</button>
-        <button type="button" id="btnLimpiar" class="btn-reset" onclick="limpiarFormulario()">🔄 Limpiar</button>
-      </div>
-    </div>
+      <!-- BOTONES DESKTOP -->
 
-    <!-- COLUMNA DERECHA: VISTA PREVIA -->
-    <div class="preview-card" id="previewCard">
-      <h3>Vista Previa</h3>
-      <canvas id="canvasLiturgia" width="864" height="1821"></canvas>
+      <div class="btn-group">
+
+        <button
+
+          id="btnExportar"
+
+          class="btn-export-jpg"
+
+          disabled>
+
+          📸 Descargar JPG
+
+        </button>
+
+        <button
+
+          id="btnWhatsapp"
+
+          class="btn-whatsapp"
+
+          disabled>
+
+          📤 Compartir
+
+        </button>
+
+        <button
+
+          id="btnDesigner"
+
+          class="btn-designer">
+
+          ⚙️ Diseñador
+
+        </button>
+
+        <button
+
+          id="btnLimpiar"
+
+          class="btn-reset">
+
+          🔄 Limpiar
+
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+
+         VISTA PREVIA
+
+    ====================================================== -->
+
+    <section
+
+      class="preview-card"
+
+      id="previewCard">
+
+      <div class="preview-header">
+
+        <div>
+
+          <h3>Vista previa</h3>
+
+        </div>
+
+        <span
+
+          class="preview-status"
+
+          id="previewStatus">
+
+          En edición
+
+        </span>
+
+      </div>
+
+      <div class="canvas-wrapper">
+
+        <canvas
+
+          id="canvasLiturgia"
+
+          width="864"
+
+          height="1821">
+
+        </canvas>
+
+        <div
+
+          class="preview-empty"
+
+          id="previewEmpty">
+
+          <div>
+
+            <strong>
+
+              📋 Vista previa de la liturgia
+
+            </strong>
+
+            <br><br>
+
+            Completa los datos para visualizar
+
+            la programación.
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- HERRAMIENTAS -->
+
+      <div class="preview-tools">
+
+        <button
+
+          class="btn-secondary"
+
+          id="btnCopiar">
+
+          📋 Copiar texto
+
+        </button>
+
+        <button
+
+          class="btn-designer"
+
+          id="btnDesignerPreview">
+
+          ⚙️ Diseñar
+
+        </button>
+
+      </div>
+
+      <!-- ===================================================
+
+           PANEL DISEÑADOR
+
+      ==================================================== -->
+
+      <div
+
+        class="designer-panel"
+
+        id="designerPanel">
+
+        <div class="designer-title">
+
+          ⚙️ Editor de diseño
+
+        </div>
+
+        <div class="designer-control">
+
+          <label>
+
+            Elemento
+
+          </label>
+
+          <select id="designerField">
+
+            <option value="fecha">
+
+              Fecha
+
+            </option>
+
+            <option value="predicador">
+
+              Predicador
+
+            </option>
+
+            <option value="lectura">
+
+              Lectura
+
+            </option>
+
+            <option value="himnoInicial">
+
+              Himno inicial
+
+            </option>
+
+            <option value="himnoFinal">
+
+              Himno final
+
+            </option>
+
+            <option value="acompanante1">
+
+              Acompañante 1
+
+            </option>
+
+            <option value="acompanante2">
+
+              Acompañante 2
+
+            </option>
+
+            <option value="familiaOracion">
+
+              Familia de oración
+
+            </option>
+
+            <option value="adoracionInfantil">
+
+              Adoración infantil
+
+            </option>
+
+            <option value="mensajeMusical">
+
+              Mensaje musical
+
+            </option>
+
+          </select>
+
+        </div>
+
+        <br>
+
+        <div class="designer-grid">
+
+          <div class="designer-control">
+
+            <label>X</label>
+
+            <input
+
+              type="number"
+
+              id="designX">
+
+          </div>
+
+          <div class="designer-control">
+
+            <label>Y</label>
+
+            <input
+
+              type="number"
+
+              id="designY">
+
+          </div>
+
+          <div class="designer-control">
+
+            <label>Tamaño</label>
+
+            <input
+
+              type="number"
+
+              id="designFontSize"
+
+              min="8"
+
+              max="100">
+
+          </div>
+
+          <div class="designer-control">
+
+            <label>Alineación</label>
+
+            <select id="designAlign">
+
+              <option value="left">
+
+                Izquierda
+
+              </option>
+
+              <option value="center">
+
+                Centro
+
+              </option>
+
+              <option value="right">
+
+                Derecha
+
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+        <div class="designer-actions">
+
+          <button
+
+            class="btn-secondary"
+
+            id="btnMoveUp">
+
+            ↑ Subir
+
+          </button>
+
+          <button
+
+            class="btn-secondary"
+
+            id="btnMoveDown">
+
+            ↓ Bajar
+
+          </button>
+
+          <button
+
+            class="btn-secondary"
+
+            id="btnMoveLeft">
+
+            ← Izquierda
+
+          </button>
+
+          <button
+
+            class="btn-secondary"
+
+            id="btnMoveRight">
+
+            → Derecha
+
+          </button>
+
+          <button
+
+            class="btn-reset"
+
+            id="btnResetDesign">
+
+            ↩ Restablecer
+
+          </button>
+
+          <button
+
+            class="btn-export-jpg"
+
+            id="btnSaveDesign">
+
+            💾 Guardar diseño
+
+          </button>
+
+        </div>
+
+        <div class="designer-help">
+
+          💡 Puedes modificar las coordenadas
+
+          directamente. Los cambios se reflejan
+
+          inmediatamente en la vista previa.
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- =======================================================
+
+       BARRA MÓVIL
+
+  ======================================================== -->
+
+  <div class="mobile-actions">
+
+    <button
+
+      id="btnMobileClear"
+
+      class="btn-reset">
+
+      🔄 Limpiar
+
+    </button>
+
+    <button
+
+      id="btnMobileShare"
+
+      class="btn-whatsapp"
+
+      disabled>
+
+      📤 Compartir liturgia
+
+    </button>
+
+  </div>
+
+  <!-- =======================================================
+
+       MODAL CONFIRMACIÓN
+
+  ======================================================== -->
+
+  <div
+
+    class="modal-overlay"
+
+    id="confirmModal">
+
+    <div class="modal">
+
+      <h3>
+
+        ¿Limpiar liturgia?
+
+      </h3>
+
+      <p>
+
+        Se eliminarán los datos introducidos
+
+        y se restaurará el formulario.
+
+      </p>
+
+      <div class="modal-buttons">
+
+        <button
+
+          class="btn-reset"
+
+          id="btnCancelClear">
+
+          Cancelar
+
+        </button>
+
+        <button
+
+          class="btn-export-jpg"
+
+          id="btnConfirmClear">
+
+          Sí, limpiar
+
+        </button>
+
+      </div>
+
     </div>
 
   </div>
 
+  <!-- =======================================================
+
+       TOAST
+
+  ======================================================== -->
+
+  <div
+
+    class="toast-container"
+
+    id="toastContainer">
+
+  </div>
+
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const canvas = document.getElementById('canvasLiturgia');
-      const ctx = canvas.getContext('2d');
-      const previewCard = document.getElementById('previewCard');
-      const form = document.getElementById('liturgiaForm');
-      const progressBar = document.getElementById('progressBar');
-      const progressText = document.getElementById('progressText');
-      const btnExportar = document.getElementById('btnExportar');
-      const btnWhatsapp = document.getElementById('btnWhatsapp');
-      const inputFecha = document.getElementById('fecha');
-      const fechaHint = document.getElementById('fechaHint');
-      const camposRequeridos = Array.from(document.querySelectorAll('#liturgiaForm input[required]'));
 
-      const DIA_PERMITIDO = 6; // Sábado
+    /* =========================================================
 
-      // COORDENADAS FIJAS PARA CADA CAMPO
-      const COORDENADAS = {
-        fecha: { x: 696, y: 488 },
-        lectura: { x: 293, y: 761 },
-        predicador: [
-          { x: 260, y: 1532 },
-          { x: 554, y: 1336 }
-        ],
-        himnoInicial: { x: 280, y: 816 },
-        himnoFinal: { x: 280, y: 1380 },
-        acompanante1: [
-          { x: 300, y: 1560 },
-          { x: 554, y: 758 },
-          { x: 554, y: 812 },
-          { x: 554, y: 1300 },
-          { x: 554, y: 1426 },
-          { x: 554, y: 1100 }
-        ],
-        acompanante2: [
-          { x: 300, y: 1587 },
-          { x: 554, y: 883 },
-          { x: 554, y: 991 },
-          { x: 554, y: 1224 },
-          { x: 554, y: 1378 }
-        ],
-        familiaOracion: { x: 554, y: 930 },
-        adoracionInfantil: { x: 554, y: 1019 },
-        mensajeMusical: { x: 554, y: 1258 }
-      };
+       CONFIGURACIÓN GENERAL
 
-      function validarFechaSabado(mostrarAlerta = true) {
-        if (!inputFecha.value) return true;
+    ========================================================= */
 
-        const partes = inputFecha.value.split('-');
-        const fechaSeleccionada = new Date(partes[0], partes[1] - 1, partes[2]);
-        const diaSemana = fechaSeleccionada.getDay();
+    const CONFIG = {
 
-        if (diaSemana !== DIA_PERMITIDO) {
-          if (mostrarAlerta) {
-            alert('⚠️ Por favor selecciona un día SÁBADO.');
-          }
-          inputFecha.value = '';
-          fechaHint.className = 'field-hint error';
-          fechaHint.innerText = '⚠️ Selección no válida: Debes elegir un SÁBADO.';
-          return false;
+      PLANTILLA_PRINCIPAL:
+
+        'plantilla.png',
+
+      PLANTILLA_FALLBACK:
+
+        'CULTO DE.png',
+
+      STORAGE_DATOS:
+
+        'liturgiaDataV2',
+
+      STORAGE_DISENO:
+
+        'liturgiaDesignV2',
+
+      STORAGE_TEMA:
+
+        'liturgiaTheme',
+
+      DIA_PERMITIDO:
+
+        6,
+
+      MOVIMIENTO:
+
+        5
+
+    };
+
+    /* =========================================================
+
+       REFERENCIAS
+
+    ========================================================= */
+
+    const canvas =
+
+      document.getElementById(
+
+        'canvasLiturgia'
+
+      );
+
+    const ctx =
+
+      canvas.getContext('2d');
+
+    const form =
+
+      document.getElementById(
+
+        'liturgiaForm'
+
+      );
+
+    const progressBar =
+
+      document.getElementById(
+
+        'progressBar'
+
+      );
+
+    const progressText =
+
+      document.getElementById(
+
+        'progressText'
+
+      );
+
+    const btnExportar =
+
+      document.getElementById(
+
+        'btnExportar'
+
+      );
+
+    const btnWhatsapp =
+
+      document.getElementById(
+
+        'btnWhatsapp'
+
+      );
+
+    const btnMobileShare =
+
+      document.getElementById(
+
+        'btnMobileShare'
+
+      );
+
+    const previewEmpty =
+
+      document.getElementById(
+
+        'previewEmpty'
+
+      );
+
+    const previewStatus =
+
+      document.getElementById(
+
+        'previewStatus'
+
+      );
+
+    const inputFecha =
+
+      document.getElementById(
+
+        'fecha'
+
+      );
+
+    const fechaHint =
+
+      document.getElementById(
+
+        'fechaHint'
+
+      );
+
+    const camposRequeridos =
+
+      Array.from(
+
+        document.querySelectorAll(
+
+          '#liturgiaForm input[required]'
+
+        )
+
+      );
+
+    const designerPanel =
+
+      document.getElementById(
+
+        'designerPanel'
+
+      );
+
+    /* =========================================================
+
+       PLANTILLA
+
+    ========================================================= */
+
+    const plantilla =
+
+      new Image();
+
+    let plantillaCargada =
+
+      false;
+
+    let intentoFallback =
+
+      false;
+
+    plantilla.onload = () => {
+
+      plantillaCargada = true;
+
+      canvas.width =
+
+        plantilla.naturalWidth;
+
+      canvas.height =
+
+        plantilla.naturalHeight;
+
+      actualizarVistaPrevia();
+
+    };
+
+    plantilla.onerror = () => {
+
+      if (!intentoFallback) {
+
+        intentoFallback = true;
+
+        plantilla.src =
+
+          CONFIG.PLANTILLA_FALLBACK;
+
+      } else {
+
+        plantillaCargada = false;
+
+        mostrarToast(
+
+          '⚠️ No se encontró la plantilla.'
+
+        );
+
+        dibujarErrorPlantilla();
+
+      }
+
+    };
+
+    plantilla.src =
+
+      CONFIG.PLANTILLA_PRINCIPAL;
+
+    /* =========================================================
+
+       DISEÑO ORIGINAL
+
+    ========================================================= */
+
+    const DISENO_DEFAULT = {
+
+      fecha: {
+
+        x: 696,
+
+        y: 488,
+
+        fontSize: 22,
+
+        weight: 'bold',
+
+        color: '#1e3a8a',
+
+        align: 'center'
+
+      },
+
+      predicador: {
+
+        x: 260,
+
+        y: 1532,
+
+        x2: 554,
+
+        y2: 1336,
+
+        fontSize: 22,
+
+        weight: 'bold',
+
+        color: '#0f172a',
+
+        align: 'left'
+
+      },
+
+      lectura: {
+
+        x: 293,
+
+        y: 761,
+
+        fontSize: 20,
+
+        weight: 'normal',
+
+        italic: true,
+
+        color: '#1e40af',
+
+        align: 'left'
+
+      },
+
+      himnoInicial: {
+
+        x: 280,
+
+        y: 816,
+
+        fontSize: 22,
+
+        weight: 'bold',
+
+        color: '#0f172a',
+
+        align: 'left'
+
+      },
+
+      himnoFinal: {
+
+        x: 280,
+
+        y: 1380,
+
+        fontSize: 22,
+
+        weight: 'bold',
+
+        color: '#0f172a',
+
+        align: 'left'
+
+      },
+
+      acompanante1: {
+
+        x: 300,
+
+        y: 1560,
+
+        x2: 554,
+
+        y2: 758,
+
+        x3: 554,
+
+        y3: 812,
+
+        x4: 554,
+
+        y4: 1300,
+
+        x5: 554,
+
+        y5: 1426,
+
+        x6: 554,
+
+        y6: 1100,
+
+        fontSize: 20,
+
+        weight: 'bold',
+
+        color: '#0f172a',
+
+        align: 'left'
+
+      },
+
+      acompanante2: {
+
+        x: 300,
+
+        y: 1587,
+
+        x2: 554,
+
+        y2: 883,
+
+        x3: 554,
+
+        y3: 991,
+
+        x4: 554,
+
+        y4: 1224,
+
+        x5: 554,
+
+        y5: 1378,
+
+        fontSize: 20,
+
+        weight: 'bold',
+
+        color: '#0f172a',
+
+        align: 'left'
+
+      },
+
+      familiaOracion: {
+
+        x: 554,
+
+        y: 930,
+
+        fontSize: 20,
+
+        weight: 'normal',
+
+        color: '#15803d',
+
+        align: 'left'
+
+      },
+
+      adoracionInfantil: {
+
+        x: 554,
+
+        y: 1019,
+
+        fontSize: 20,
+
+        weight: 'normal',
+
+        color: '#15803d',
+
+        align: 'left'
+
+      },
+
+      mensajeMusical: {
+
+        x: 554,
+
+        y: 1258,
+
+        fontSize: 20,
+
+        weight: 'normal',
+
+        color: '#15803d',
+
+        align: 'left'
+
+      }
+
+    };
+
+    let diseno =
+
+      cargarDiseno();
+
+    /* =========================================================
+
+       UTILIDADES
+
+    ========================================================= */
+
+    function clonarObjeto(obj) {
+
+      return JSON.parse(
+
+        JSON.stringify(obj)
+
+      );
+
+    }
+
+    function cargarDiseno() {
+
+      try {
+
+        const guardado =
+
+          localStorage.getItem(
+
+            CONFIG.STORAGE_DISENO
+
+          );
+
+        if (guardado) {
+
+          const datos =
+
+            JSON.parse(guardado);
+
+          return fusionarDiseno(
+
+            clonarObjeto(DISENO_DEFAULT),
+
+            datos
+
+          );
+
         }
 
-        fechaHint.className = 'field-hint';
-        fechaHint.innerText = '📅 Solo se permiten días sábados.';
+      } catch (error) {
+
+        console.warn(
+
+          'No se pudo cargar el diseño',
+
+          error
+
+        );
+
+      }
+
+      return clonarObjeto(
+
+        DISENO_DEFAULT
+
+      );
+
+    }
+
+    function fusionarDiseno(base, cambios) {
+
+      Object.keys(cambios || {})
+
+        .forEach(id => {
+
+          if (
+
+            base[id] &&
+
+            cambios[id]
+
+          ) {
+
+            Object.assign(
+
+              base[id],
+
+              cambios[id]
+
+            );
+
+          }
+
+        });
+
+      return base;
+
+    }
+
+    function guardarDiseno() {
+
+      localStorage.setItem(
+
+        CONFIG.STORAGE_DISENO,
+
+        JSON.stringify(diseno)
+
+      );
+
+      mostrarToast(
+
+        '💾 Diseño guardado'
+
+      );
+
+    }
+
+    /* =========================================================
+
+       FECHA
+
+    ========================================================= */
+
+    function validarFechaSabado(
+
+      mostrarAlerta = true
+
+    ) {
+
+      if (!inputFecha.value) {
+
         return true;
+
       }
 
-      inputFecha.addEventListener('change', () => {
+      const partes =
+
+        inputFecha.value.split('-');
+
+      const fecha =
+
+        new Date(
+
+          partes[0],
+
+          partes[1] - 1,
+
+          partes[2]
+
+        );
+
+      const dia =
+
+        fecha.getDay();
+
+      if (
+
+        dia !==
+
+        CONFIG.DIA_PERMITIDO
+
+      ) {
+
+        if (mostrarAlerta) {
+
+          alert(
+
+            '⚠️ Por favor selecciona un día SÁBADO.'
+
+          );
+
+        }
+
+        inputFecha.value = '';
+
+        fechaHint.className =
+
+          'field-hint error';
+
+        fechaHint.innerText =
+
+          '⚠️ Debes elegir un sábado.';
+
+        return false;
+
+      }
+
+      fechaHint.className =
+
+        'field-hint';
+
+      fechaHint.innerText =
+
+        '📅 Fecha válida: sábado.';
+
+      return true;
+
+    }
+
+    inputFecha.addEventListener(
+
+      'change',
+
+      () => {
+
         validarFechaSabado(true);
+
         actualizarInterfazEstado();
-        guardarEnLocalStorage();
-        solicitarActualizacionCanvas();
-      });
 
-      let plantilla = new Image();
-      plantilla.src = 'plantilla.png';
+        guardarDatos();
 
-      plantilla.onload = () => actualizarVistaPreviaDirecta();
-      plantilla.onerror = () => { plantilla.src = 'CULTO DE.png'; };
+        actualizarVistaPrevia();
 
-      let renderTimeout;
-      function solicitarActualizacionCanvas() {
-        clearTimeout(renderTimeout);
-        renderTimeout = setTimeout(actualizarVistaPreviaDirecta, 60);
       }
 
-      function guardarEnLocalStorage() {
-        const datosFormulario = {};
-        camposRequeridos.forEach(input => {
-          datosFormulario[input.id] = input.value;
-        });
-        localStorage.setItem('liturgiaData', JSON.stringify(datosFormulario));
+    );
+
+    /* =========================================================
+
+       FORMATO DE FECHA
+
+    ========================================================= */
+
+    function obtenerFechaFormateada() {
+
+      const valor =
+
+        inputFecha.value;
+
+      if (!valor) {
+
+        return '';
+
       }
 
-      function cargarDeLocalStorage() {
-        const datosGuardados = localStorage.getItem('liturgiaData');
-        if (datosGuardados) {
-          try {
-            const datos = JSON.parse(datosGuardados);
-            Object.keys(datos).forEach(id => {
-              const input = document.getElementById(id);
-              if (input) input.value = datos[id];
-            });
-            validarFechaSabado(false);
-          } catch (e) {
-            console.error('Error al cargar localStorage', e);
-          }
+      const partes =
+
+        valor.split('-');
+
+      const fecha =
+
+        new Date(
+
+          partes[0],
+
+          partes[1] - 1,
+
+          partes[2]
+
+        );
+
+      return fecha.toLocaleDateString(
+
+        'es-ES',
+
+        {
+
+          day: 'numeric',
+
+          month: 'long'
+
         }
-      }
 
-      function limpiarLocalStorage() {
-        localStorage.removeItem('liturgiaData');
-      }
+      );
 
-      window.limpiarFormulario = function() {
-        form.reset();
-        limpiarLocalStorage();
-        fechaHint.className = 'field-hint';
-        fechaHint.innerText = '📅 Solo se permiten días sábados.';
-        actualizarInterfazEstado();
-        actualizarVistaPreviaDirecta();
-      };
+    }
 
-      function actualizarInterfazEstado() {
-        let camposLlenos = 0;
+    /* =========================================================
 
-        camposRequeridos.forEach(input => {
-          const wrapper = input.parentElement;
-          let badge = wrapper ? wrapper.querySelector('.input-badge') : null;
+       DATOS
 
-          if (input.value.trim() !== '') {
-            camposLlenos++;
-            if (document.activeElement !== input) {
-              input.className = 'st-complete';
-            }
-            if (badge) {
-              badge.className = 'input-badge badge-check';
-              badge.innerText = '✓';
-            }
-          } else {
-            if (document.activeElement !== input) {
-              input.className = 'st-incomplete';
-            }
-            if (badge) {
-              badge.className = 'input-badge badge-required';
-              badge.innerText = 'Requerido';
-            }
-          }
-        });
+    ========================================================= */
 
-        const porcentaje = Math.round((camposLlenos / camposRequeridos.length) * 100);
-        progressBar.style.width = `${porcentaje}%`;
-        progressText.innerText = `${porcentaje}%`;
+    function obtenerDatos() {
 
-        const todoLleno = camposLlenos === camposRequeridos.length;
-        progressBar.style.backgroundColor = todoLleno ? 'var(--success)' : 'var(--secondary)';
-        btnExportar.disabled = !todoLleno;
-        btnWhatsapp.disabled = !todoLleno;
-        previewCard.style.display = todoLleno ? 'block' : 'none';
-      }
+      const datos = {};
 
-      form.addEventListener('focusin', (e) => {
-        if (e.target.matches('input[required]')) {
-          e.target.className = 'st-focus';
+      camposRequeridos.forEach(
+
+        input => {
+
+          datos[input.id] =
+
+            input.value.trim();
+
         }
-      });
 
-      form.addEventListener('focusout', (e) => {
-        if (e.target.matches('input[required]')) {
-          actualizarInterfazEstado();
-        }
-      });
+      );
 
-      form.addEventListener('input', (e) => {
-        if (e.target !== inputFecha) {
-          actualizarInterfazEstado();
-          guardarEnLocalStorage();
-          solicitarActualizacionCanvas();
-        }
-      });
+      return datos;
 
-      function dibujarTextoDirecto(idCampo, color, fuente, x, y, alineacion = 'left') {
-        const elemento = document.getElementById(idCampo);
-        if (!elemento || !elemento.value) return;
+    }
 
-        ctx.font = fuente;
-        ctx.fillStyle = color;
-        ctx.textAlign = alineacion;
-        ctx.fillText(elemento.value, x, y);
-        ctx.textAlign = 'left';
+    function guardarDatos() {
+
+      try {
+
+        localStorage.setItem(
+
+          CONFIG.STORAGE_DATOS,
+
+          JSON.stringify(
+
+            obtenerDatos()
+
+          )
+
+        );
+
+      } catch (error) {
+
+        console.warn(
+
+          'No se pudieron guardar los datos.',
+
+          error
+
+        );
+
       }
 
-      function actualizarVistaPreviaDirecta() {
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
+    }
 
-        if (plantilla.complete && plantilla.naturalWidth !== 0) {
-          ctx.drawImage(plantilla, 0, 0, canvas.width, canvas.height);
-        } else {
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = '#64748b';
-          ctx.font = '20px Arial';
-          ctx.fillText('Cargando plantilla...', 330, 900);
+    function cargarDatos() {
+
+      try {
+
+        const guardado =
+
+          localStorage.getItem(
+
+            CONFIG.STORAGE_DATOS
+
+          );
+
+        if (!guardado) {
+
           return;
+
         }
 
-        // 1. Fecha
-        const fechaRaw = document.getElementById('fecha').value;
-        if (fechaRaw) {
-          const partes = fechaRaw.split('-');
-          const fechaObj = new Date(partes[0], partes[1] - 1, partes[2]);
-          const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+        const datos =
 
-          ctx.font = 'bold 22px Arial';
-          ctx.fillStyle = '#1e3a8a';
-          ctx.textAlign = 'center';
-          ctx.fillText(fechaFormateada, COORDENADAS.fecha.x, COORDENADAS.fecha.y);
-          ctx.textAlign = 'left';
-        }
+          JSON.parse(guardado);
 
-        // 2. Predicador
-        dibujarTextoDirecto('predicador', '#0f172a', 'bold 22px Arial', COORDENADAS.predicador[0].x, COORDENADAS.predicador[0].y);
-        dibujarTextoDirecto('predicador', '#15803d', '20px Arial', COORDENADAS.predicador[1].x, COORDENADAS.predicador[1].y);
+        Object.keys(datos)
 
-        // 3. Acompañante 1
-        COORDENADAS.acompanante1.forEach((pt, i) => {
-          dibujarTextoDirecto('acompanante1', '#0f172a', i === 0 ? 'bold 22px Arial' : 'bold 20px Arial', pt.x, pt.y);
-        });
+          .forEach(id => {
 
-        // 4. Acompañante 2
-        COORDENADAS.acompanante2.forEach((pt, i) => {
-          dibujarTextoDirecto('acompanante2', '#0f172a', i === 0 ? 'bold 22px Arial' : 'bold 20px Arial', pt.x, pt.y);
-        });
+            const input =
 
-        // 5. Resto de campos
-        dibujarTextoDirecto('lectura', '#1e40af', 'italic 20px Arial', COORDENADAS.lectura.x, COORDENADAS.lectura.y);
-        dibujarTextoDirecto('himnoInicial', '#0f172a', 'bold 22px Arial', COORDENADAS.himnoInicial.x, COORDENADAS.himnoInicial.y);
-        dibujarTextoDirecto('himnoFinal', '#0f172a', 'bold 22px Arial', COORDENADAS.himnoFinal.x, COORDENADAS.himnoFinal.y);
-        dibujarTextoDirecto('familiaOracion', '#15803d', '20px Arial', COORDENADAS.familiaOracion.x, COORDENADAS.familiaOracion.y);
-        dibujarTextoDirecto('adoracionInfantil', '#15803d', '20px Arial', COORDENADAS.adoracionInfantil.x, COORDENADAS.adoracionInfantil.y);
-        dibujarTextoDirecto('mensajeMusical', '#15803d', '20px Arial', COORDENADAS.mensajeMusical.x, COORDENADAS.mensajeMusical.y);
+              document.getElementById(id);
+
+            if (input) {
+
+              input.value =
+
+                datos[id];
+
+            }
+
+          });
+
+        validarFechaSabado(false);
+
+      } catch (error) {
+
+        console.warn(
+
+          'Error al recuperar datos.',
+
+          error
+
+        );
+
       }
 
-      window.exportarJPG = function() {
-        actualizarVistaPreviaDirecta();
-        limpiarLocalStorage();
+    }
 
-        const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    /* =========================================================
 
-        if (esIOS) {
-          const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
-          const nuevaVentana = window.open();
-          if (nuevaVentana) {
-            nuevaVentana.document.write(`
-              <html>
-                <head>
-                  <title>Liturgia HD</title>
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <style>
-                    body { margin: 0; background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; color: white; font-family: sans-serif; text-align: center; padding: 15px; box-sizing: border-box; }
-                    img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-                    p { margin-top: 15px; font-size: 14px; color: #cbd5e1; }
-                  </style>
-                </head>
-                <body>
-                  <img src="${dataUrl}" alt="Liturgia">
-                  <p>📲 <b>Mantén presionada la imagen</b> y selecciona <b>"Guardar en Fotos"</b>.</p>
-                </body>
-              </html>
-            `);
+       INTERFAZ
+
+    ========================================================= */
+
+    function actualizarInterfazEstado() {
+
+      let completos = 0;
+
+      camposRequeridos.forEach(
+
+        input => {
+
+          const wrapper =
+
+            input.parentElement;
+
+          const badge =
+
+            wrapper.querySelector(
+
+              '.input-badge'
+
+            );
+
+          const lleno =
+
+            input.value.trim() !== '';
+
+          if (lleno) {
+
+            completos++;
+
+            if (
+
+              document.activeElement !==
+
+              input
+
+            ) {
+
+              input.classList.remove(
+
+                'st-incomplete',
+
+                'st-focus'
+
+              );
+
+              input.classList.add(
+
+                'st-complete'
+
+              );
+
+            }
+
+            if (badge) {
+
+              badge.className =
+
+                'input-badge badge-check';
+
+              badge.innerText =
+
+                '✓';
+
+            }
+
           } else {
-            alert('Por favor, permite las ventanas emergentes en Safari para guardar la imagen.');
+
+            if (
+
+              document.activeElement !==
+
+              input
+
+            ) {
+
+              input.classList.remove(
+
+                'st-complete',
+
+                'st-focus'
+
+              );
+
+              input.classList.add(
+
+                'st-incomplete'
+
+              );
+
+            }
+
+            if (badge) {
+
+              badge.className =
+
+                'input-badge badge-required';
+
+              badge.innerText =
+
+                'Requerido';
+
+            }
+
           }
-        } else {
-          const fechaVal = document.getElementById('fecha').value || 'liturgia';
-          const enlace = document.createElement('a');
-          enlace.download = `Liturgia_${fechaVal.replace(/\s+/g, '_')}.jpg`;
-          enlace.href = canvas.toDataURL('image/jpeg', 1.0);
-          enlace.click();
-        }
-      };
 
-      window.enviarWhatsApp = async function() {
-        actualizarVistaPreviaDirecta();
-        limpiarLocalStorage();
-
-        const fechaRaw = document.getElementById('fecha').value;
-        let fechaVal = '';
-
-        if (fechaRaw) {
-          const partes = fechaRaw.split('-');
-          const fechaObj = new Date(partes[0], partes[1] - 1, partes[2]);
-          fechaVal = fechaObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
         }
 
-        const predicadorVal = document.getElementById('predicador').value || '';
-        const lecturaVal = document.getElementById('lectura').value || '';
+      );
 
-        let mensaje = `📋 *LITURGIA DEL CULTO*\n`;
-        if (fechaVal) mensaje += `📅 *Fecha:* ${fechaVal}\n`;
-        if (predicadorVal) mensaje += `🎙️ *Predicador:* ${predicadorVal}\n`;
-        if (lecturaVal) mensaje += `📖 *Lectura:* ${lecturaVal}\n`;
-        mensaje += `\n📌 _Se adjunta la imagen con la programación completa._`;
+      const porcentaje =
 
-        canvas.toBlob(async (blob) => {
-          if (!blob) {
-            exportarJPG();
+        Math.round(
+
+          (
+
+            completos /
+
+            camposRequeridos.length
+
+          ) * 100
+
+        );
+
+      progressBar.style.width =
+
+        porcentaje + '%';
+
+      progressText.innerText =
+
+        porcentaje + '%';
+
+      const todo =
+
+        completos ===
+
+        camposRequeridos.length;
+
+      progressBar.style.backgroundColor =
+
+        todo
+
+          ? 'var(--success)'
+
+          : 'var(--secondary)';
+
+      btnExportar.disabled =
+
+        !todo;
+
+      btnWhatsapp.disabled =
+
+        !todo;
+
+      btnMobileShare.disabled =
+
+        !todo;
+
+      previewEmpty.style.display =
+
+        completos === 0
+
+          ? 'flex'
+
+          : 'none';
+
+      previewStatus.innerText =
+
+        todo
+
+          ? '✓ Lista'
+
+          : `${porcentaje}% completado`;
+
+    }
+
+    /* =========================================================
+
+       INPUTS
+
+    ========================================================= */
+
+    form.addEventListener(
+
+      'focusin',
+
+      event => {
+
+        if (
+
+          event.target.matches(
+
+            'input[required]'
+
+          )
+
+        ) {
+
+          event.target.classList.remove(
+
+            'st-incomplete',
+
+            'st-complete'
+
+          );
+
+          event.target.classList.add(
+
+            'st-focus'
+
+          );
+
+        }
+
+      }
+
+    );
+
+    form.addEventListener(
+
+      'focusout',
+
+      event => {
+
+        if (
+
+          event.target.matches(
+
+            'input[required]'
+
+          )
+
+        ) {
+
+          actualizarInterfazEstado();
+
+        }
+
+      }
+
+    );
+
+    let renderTimeout;
+
+    form.addEventListener(
+
+      'input',
+
+      event => {
+
+        if (
+
+          event.target ===
+
+          inputFecha
+
+        ) {
+
+          return;
+
+        }
+
+        validarCamposNumericos();
+
+        actualizarInterfazEstado();
+
+        guardarDatos();
+
+        clearTimeout(
+
+          renderTimeout
+
+        );
+
+        renderTimeout =
+
+          setTimeout(
+
+            actualizarVistaPrevia,
+
+            50
+
+          );
+
+      }
+
+    );
+
+    /* =========================================================
+
+       VALIDACIÓN
+
+    ========================================================= */
+
+    function validarCamposNumericos() {
+
+      [
+
+        'himnoInicial',
+
+        'himnoFinal'
+
+      ]
+
+      .forEach(id => {
+
+        const input =
+
+          document.getElementById(id);
+
+        if (!input) {
+
+          return;
+
+        }
+
+        if (
+
+          input.value !== ''
+
+        ) {
+
+          let valor =
+
+            parseInt(
+
+              input.value,
+
+              10
+
+            );
+
+          if (
+
+            isNaN(valor) ||
+
+            valor < 1
+
+          ) {
+
+            input.value = '';
+
+          }
+
+          if (valor > 999) {
+
+            input.value = 999;
+
+          }
+
+        }
+
+      });
+
+    }
+
+    /* =========================================================
+
+       RENDERIZADO CANVAS
+
+    ========================================================= */
+
+    function actualizarVistaPrevia() {
+
+      ctx.imageSmoothingEnabled =
+
+        true;
+
+      ctx.imageSmoothingQuality =
+
+        'high';
+
+      if (!plantillaCargada) {
+
+        dibujarErrorPlantilla();
+
+        return;
+
+      }
+
+      ctx.clearRect(
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+      );
+
+      ctx.drawImage(
+
+        plantilla,
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+      );
+
+      dibujarTodosLosTextos();
+
+    }
+
+    function dibujarErrorPlantilla() {
+
+      ctx.clearRect(
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+      );
+
+      ctx.fillStyle =
+
+        '#f8fafc';
+
+      ctx.fillRect(
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+      );
+
+      ctx.fillStyle =
+
+        '#64748b';
+
+      ctx.textAlign =
+
+        'center';
+
+      ctx.font =
+
+        'bold 24px Arial';
+
+      ctx.fillText(
+
+        '⚠️ Plantilla no disponible',
+
+        canvas.width / 2,
+
+        canvas.height / 2
+
+      );
+
+      ctx.textAlign =
+
+        'left';
+
+    }
+
+    /* =========================================================
+
+       TEXTO INTELIGENTE
+
+    ========================================================= */
+
+    function calcularFuenteQueCabe(
+
+      texto,
+
+      maxWidth,
+
+      fuenteBase
+
+    ) {
+
+      let tamaño =
+
+        fuenteBase;
+
+      ctx.font =
+
+        `bold ${tamaño}px Arial`;
+
+      while (
+
+        ctx.measureText(texto).width >
+
+          maxWidth &&
+
+        tamaño > 11
+
+      ) {
+
+        tamaño--;
+
+        ctx.font =
+
+          `bold ${tamaño}px Arial`;
+
+      }
+
+      return tamaño;
+
+    }
+
+    function dibujarTextoInteligente(
+
+      texto,
+
+      configuracion,
+
+      opciones = {}
+
+    ) {
+
+      if (!texto) {
+
+        return;
+
+      }
+
+      const x =
+
+        configuracion.x ?? 0;
+
+      const y =
+
+        configuracion.y ?? 0;
+
+      const maxWidth =
+
+        opciones.maxWidth ||
+
+        canvas.width * 0.75;
+
+      const weight =
+
+        configuracion.weight ||
+
+        'normal';
+
+      const italic =
+
+        configuracion.italic
+
+          ? 'italic '
+
+          : '';
+
+      let fontSize =
+
+        configuracion.fontSize ||
+
+        20;
+
+      fontSize =
+
+        calcularFuenteQueCabe(
+
+          texto,
+
+          maxWidth,
+
+          fontSize
+
+        );
+
+      ctx.font =
+
+        `${italic}${weight} ${fontSize}px Arial`;
+
+      ctx.fillStyle =
+
+        configuracion.color ||
+
+        '#000';
+
+      ctx.textAlign =
+
+        configuracion.align ||
+
+        'left';
+
+      ctx.fillText(
+
+        texto,
+
+        x,
+
+        y
+
+      );
+
+      ctx.textAlign =
+
+        'left';
+
+    }
+
+    function dibujarTodosLosTextos() {
+
+      const fecha =
+
+        obtenerFechaFormateada();
+
+      if (fecha) {
+
+        dibujarTextoInteligente(
+
+          fecha,
+
+          diseno.fecha,
+
+          {
+
+            maxWidth:
+
+              canvas.width * 0.35
+
+          }
+
+        );
+
+      }
+
+      dibujarTextoInteligente(
+
+        obtenerValor(
+
+          'predicador'
+
+        ),
+
+        diseno.predicador,
+
+        {
+
+          maxWidth:
+
+            canvas.width * 0.65
+
+        }
+
+      );
+
+      if (
+
+        obtenerValor(
+
+          'predicador'
+
+        )
+
+      ) {
+
+        dibujarTextoInteligente(
+
+          obtenerValor(
+
+            'predicador'
+
+          ),
+
+          {
+
+            ...diseno.predicador,
+
+            x: diseno.predicador.x2,
+
+            y: diseno.predicador.y2,
+
+            fontSize: 20,
+
+            weight: 'normal',
+
+            color: '#15803d'
+
+          },
+
+          {
+
+            maxWidth:
+
+              canvas.width * 0.55
+
+          }
+
+        );
+
+      }
+
+      dibujarTextoInteligente(
+
+        obtenerValor('lectura'),
+
+        diseno.lectura,
+
+        {
+
+          maxWidth:
+
+            canvas.width * 0.65
+
+        }
+
+      );
+
+      dibujarTextoInteligente(
+
+        obtenerValor('himnoInicial'),
+
+        diseno.himnoInicial,
+
+        {
+
+          maxWidth:
+
+            canvas.width * 0.25
+
+        }
+
+      );
+
+      dibujarTextoInteligente(
+
+        obtenerValor('himnoFinal'),
+
+        diseno.himnoFinal,
+
+        {
+
+          maxWidth:
+
+            canvas.width * 0.25
+
+        }
+
+      );
+
+      dibujarAcompanante(
+
+        'acompanante1',
+
+        diseno.acompanante1
+
+      );
+
+      dibujarAcompanante(
+
+        'acompanante2',
+
+        diseno.acompanante2
+
+      );
+
+      dibujarTextoInteligente(
+
+        obtenerValor(
+
+          'familiaOracion'
+
+        ),
+
+        diseno.familiaOracion,
+
+        {
+
+          maxWidth:
+
+            canvas.width * 0.42
+
+        }
+
+      );
+
+      dibujarTextoInteligente(
+
+        obtenerValor(
+
+          'adoracionInfantil'
+
+        ),
+
+        diseno.adoracionInfantil,
+
+        {
+
+          maxWidth:
+
+            canvas.width * 0.42
+
+        }
+
+      );
+
+      dibujarTextoInteligente(
+
+        obtenerValor(
+
+          'mensajeMusical'
+
+        ),
+
+        diseno.mensajeMusical,
+
+        {
+
+          maxWidth:
+
+            canvas.width * 0.42
+
+        }
+
+      );
+
+    }
+
+    function dibujarAcompanante(
+
+      id,
+
+      config
+
+    ) {
+
+      const texto =
+
+        obtenerValor(id);
+
+      if (!texto) {
+
+        return;
+
+      }
+
+      const puntos = [
+
+        {
+
+          x: config.x,
+
+          y: config.y
+
+        },
+
+        {
+
+          x: config.x2,
+
+          y: config.y2
+
+        },
+
+        {
+
+          x: config.x3,
+
+          y: config.y3
+
+        },
+
+        {
+
+          x: config.x4,
+
+          y: config.y4
+
+        },
+
+        {
+
+          x: config.x5,
+
+          y: config.y5
+
+        },
+
+        {
+
+          x: config.x6,
+
+          y: config.y6
+
+        }
+
+      ];
+
+      puntos.forEach(
+
+        (punto, index) => {
+
+          if (
+
+            punto.x === undefined ||
+
+            punto.y === undefined
+
+          ) {
+
             return;
+
           }
 
-          const archivoImagen = new File([blob], `Liturgia_${fechaVal || 'culto'}.png`, { type: 'image/png' });
+          dibujarTextoInteligente(
 
-          if (navigator.canShare && navigator.canShare({ files: [archivoImagen] })) {
+            texto,
+
+            {
+
+              ...config,
+
+              x: punto.x,
+
+              y: punto.y,
+
+              fontSize:
+
+                index === 0
+
+                  ? 22
+
+                  : 20
+
+            },
+
+            {
+
+              maxWidth:
+
+                canvas.width * 0.55
+
+            }
+
+          );
+
+        }
+
+      );
+
+    }
+
+    function obtenerValor(id) {
+
+      const input =
+
+        document.getElementById(id);
+
+      return input
+
+        ? input.value.trim()
+
+        : '';
+
+    }
+
+    /* =========================================================
+
+       EXPORTACIÓN JPG
+
+    ========================================================= */
+
+    function obtenerNombreArchivo() {
+
+      const fecha =
+
+        inputFecha.value ||
+
+        'culto';
+
+      return `Liturgia_${fecha}.jpg`;
+
+    }
+
+    function exportarJPG() {
+
+      if (
+
+        !validarAntesDeExportar()
+
+      ) {
+
+        return;
+
+      }
+
+      actualizarVistaPrevia();
+
+      canvas.toBlob(
+
+        blob => {
+
+          if (!blob) {
+
+            mostrarToast(
+
+              '❌ No se pudo generar la imagen.'
+
+            );
+
+            return;
+
+          }
+
+          const url =
+
+            URL.createObjectURL(
+
+              blob
+
+            );
+
+          const enlace =
+
+            document.createElement(
+
+              'a'
+
+            );
+
+          enlace.href =
+
+            url;
+
+          enlace.download =
+
+            obtenerNombreArchivo();
+
+          document.body.appendChild(
+
+            enlace
+
+          );
+
+          enlace.click();
+
+          enlace.remove();
+
+          setTimeout(
+
+            () => URL.revokeObjectURL(url),
+
+            1000
+
+          );
+
+          mostrarToast(
+
+            '📸 Imagen generada correctamente'
+
+          );
+
+        },
+
+        'image/jpeg',
+
+        0.98
+
+      );
+
+    }
+
+    /* =========================================================
+
+       COMPARTIR
+
+    ========================================================= */
+
+    async function enviarWhatsApp() {
+
+      if (
+
+        !validarAntesDeExportar()
+
+      ) {
+
+        return;
+
+      }
+
+      actualizarVistaPrevia();
+
+      const mensaje =
+
+        generarMensaje();
+
+      canvas.toBlob(
+
+        async blob => {
+
+          if (!blob) {
+
+            mostrarToast(
+
+              '❌ No se pudo generar la imagen.'
+
+            );
+
+            return;
+
+          }
+
+          const archivo =
+
+            new File(
+
+              [
+
+                blob
+
+              ],
+
+              obtenerNombreArchivo(),
+
+              {
+
+                type:
+
+                  'image/jpeg'
+
+              }
+
+            );
+
+          if (
+
+            navigator.share &&
+
+            navigator.canShare &&
+
+            navigator.canShare({
+
+              files: [archivo]
+
+            })
+
+          ) {
+
             try {
+
               await navigator.share({
-                files: [archivoImagen],
-                title: 'Liturgia del Culto',
-                text: mensaje
+
+                files: [
+
+                  archivo
+
+                ],
+
+                title:
+
+                  'Liturgia del Culto',
+
+                text:
+
+                  mensaje
+
               });
-            } catch (err) {
-              console.log('Compartir cancelado o no soportado:', err);
-            }
-          } 
-          else if (navigator.clipboard && window.ClipboardItem) {
-            try {
-              const item = new ClipboardItem({ 'image/png': blob });
-              await navigator.clipboard.write([item]);
-              alert('¡Imagen HD copiada al portapapeles! Al abrir WhatsApp presiona Pegar.');
-            } catch (e) {
-              exportarJPG();
+
+            } catch (error) {
+
+              if (
+
+                error.name !==
+
+                'AbortError'
+
+              ) {
+
+                mostrarToast(
+
+                  '⚠️ No se pudo abrir el menú de compartir.'
+
+                );
+
+              }
+
             }
 
-            const mensajeURLEncoded = encodeURIComponent(mensaje);
-            window.open(`https://api.whatsapp.com/send?text=${mensajeURLEncoded}`, '_blank');
-          } 
-          else {
-            exportarJPG();
-            const mensajeURLEncoded = encodeURIComponent(mensaje);
-            window.open(`https://api.whatsapp.com/send?text=${mensajeURLEncoded}`, '_blank');
+            return;
+
           }
-        }, 'image/png');
-      };
 
-      cargarDeLocalStorage();
-      actualizarInterfazEstado();
+          /* FALLBACK */
+
+          descargarBlob(
+
+            blob,
+
+            obtenerNombreArchivo()
+
+          );
+
+          abrirWhatsApp(
+
+            mensaje
+
+          );
+
+        },
+
+        'image/jpeg',
+
+        0.98
+
+      );
+
+    }
+
+    function descargarBlob(
+
+      blob,
+
+      nombre
+
+    ) {
+
+      const url =
+
+        URL.createObjectURL(
+
+          blob
+
+        );
+
+      const enlace =
+
+        document.createElement(
+
+          'a'
+
+        );
+
+      enlace.href =
+
+        url;
+
+      enlace.download =
+
+        nombre;
+
+      enlace.click();
+
+      setTimeout(
+
+        () => URL.revokeObjectURL(url),
+
+        1000
+
+      );
+
+    }
+
+    function abrirWhatsApp(
+
+      mensaje
+
+    ) {
+
+      const url =
+
+        'https://wa.me/?text=' +
+
+        encodeURIComponent(
+
+          mensaje
+
+        );
+
+      window.open(
+
+        url,
+
+        '_blank'
+
+      );
+
+    }
+
+    /* =========================================================
+
+       MENSAJE WHATSAPP
+
+    ========================================================= */
+
+    function generarMensaje() {
+
+      let mensaje =
+
+        '📋 *LITURGIA DEL CULTO*\n\n';
+
+      const fecha =
+
+        obtenerFechaFormateada();
+
+      if (fecha) {
+
+        mensaje +=
+
+          `📅 *Fecha:* ${fecha}\n`;
+
+      }
+
+      const predicador =
+
+        obtenerValor(
+
+          'predicador'
+
+        );
+
+      if (predicador) {
+
+        mensaje +=
+
+          `🎙️ *Predicador:* ${predicador}\n`;
+
+      }
+
+      const lectura =
+
+        obtenerValor(
+
+          'lectura'
+
+        );
+
+      if (lectura) {
+
+        mensaje +=
+
+          `📖 *Lectura:* ${lectura}\n`;
+
+      }
+
+      const himnoInicial =
+
+        obtenerValor(
+
+          'himnoInicial'
+
+        );
+
+      if (himnoInicial) {
+
+        mensaje +=
+
+          `🎵 *Himno inicial:* ${himnoInicial}\n`;
+
+      }
+
+      const himnoFinal =
+
+        obtenerValor(
+
+          'himnoFinal'
+
+        );
+
+      if (himnoFinal) {
+
+        mensaje +=
+
+          `🎵 *Himno final:* ${himnoFinal}\n`;
+
+      }
+
+      mensaje +=
+
+        '\n📌 _Se adjunta la imagen con la programación completa._';
+
+      return mensaje;
+
+    }
+
+    /* =========================================================
+
+       COPIAR TEXTO
+
+    ========================================================= */
+
+    async function copiarTexto() {
+
+      const mensaje =
+
+        generarMensaje();
+
+      try {
+
+        await navigator.clipboard.writeText(
+
+          mensaje
+
+        );
+
+        mostrarToast(
+
+          '📋 Texto copiado'
+
+        );
+
+      } catch (error) {
+
+        mostrarToast(
+
+          '⚠️ No se pudo copiar automáticamente.'
+
+        );
+
+      }
+
+    }
+
+    /* =========================================================
+
+       VALIDACIÓN EXPORTACIÓN
+
+    ========================================================= */
+
+    function validarAntesDeExportar() {
+
+      const todo =
+
+        camposRequeridos.every(
+
+          input =>
+
+            input.value.trim() !== ''
+
+        );
+
+      if (!todo) {
+
+        mostrarToast(
+
+          '⚠️ Completa todos los campos.'
+
+        );
+
+        return false;
+
+      }
+
+      if (
+
+        !validarFechaSabado(true)
+
+      ) {
+
+        return false;
+
+      }
+
+      validarCamposNumericos();
+
+      return true;
+
+    }
+
+    /* =========================================================
+
+       DISEÑADOR
+
+    ========================================================= */
+
+    function abrirDiseñador() {
+
+      designerPanel.classList.toggle(
+
+        'active'
+
+      );
+
+      if (
+
+        designerPanel.classList.contains(
+
+          'active'
+
+        )
+
+      ) {
+
+        cargarControlesDiseño();
+
+      }
+
+    }
+
+    function cargarControlesDiseño() {
+
+      const id =
+
+        document.getElementById(
+
+          'designerField'
+
+        ).value;
+
+      const config =
+
+        diseno[id];
+
+      if (!config) {
+
+        return;
+
+      }
+
+      document.getElementById(
+
+        'designX'
+
+      ).value =
+
+        config.x ?? 0;
+
+      document.getElementById(
+
+        'designY'
+
+      ).value =
+
+        config.y ?? 0;
+
+      document.getElementById(
+
+        'designFontSize'
+
+      ).value =
+
+        config.fontSize ?? 20;
+
+      document.getElementById(
+
+        'designAlign'
+
+      ).value =
+
+        config.align || 'left';
+
+    }
+
+    function aplicarControlesDiseño() {
+
+      const id =
+
+        document.getElementById(
+
+          'designerField'
+
+        ).value;
+
+      const config =
+
+        diseno[id];
+
+      if (!config) {
+
+        return;
+
+      }
+
+      config.x =
+
+        Number(
+
+          document.getElementById(
+
+            'designX'
+
+          ).value
+
+        ) || 0;
+
+      config.y =
+
+        Number(
+
+          document.getElementById(
+
+            'designY'
+
+          ).value
+
+        ) || 0;
+
+      config.fontSize =
+
+        Number(
+
+          document.getElementById(
+
+            'designFontSize'
+
+          ).value
+
+        ) || 20;
+
+      config.align =
+
+        document.getElementById(
+
+          'designAlign'
+
+        ).value;
+
+      actualizarVistaPrevia();
+
+    }
+
+    document.getElementById(
+
+      'designerField'
+
+    ).addEventListener(
+
+      'change',
+
+      cargarControlesDiseño
+
+    );
+
+    [
+
+      'designX',
+
+      'designY',
+
+      'designFontSize',
+
+      'designAlign'
+
+    ]
+
+    .forEach(id => {
+
+      document.getElementById(id)
+
+        .addEventListener(
+
+          'input',
+
+          aplicarControlesDiseño
+
+        );
+
     });
+
+    function moverElemento(
+
+      dx,
+
+      dy
+
+    ) {
+
+      const id =
+
+        document.getElementById(
+
+          'designerField'
+
+        ).value;
+
+      const config =
+
+        diseno[id];
+
+      if (!config) {
+
+        return;
+
+      }
+
+      config.x =
+
+        (config.x || 0) + dx;
+
+      config.y =
+
+        (config.y || 0) + dy;
+
+      cargarControlesDiseño();
+
+      actualizarVistaPrevia();
+
+    }
+
+    document.getElementById(
+
+      'btnMoveUp'
+
+    ).onclick = () =>
+
+      moverElemento(
+
+        0,
+
+        -CONFIG.MOVIMIENTO
+
+      );
+
+    document.getElementById(
+
+      'btnMoveDown'
+
+    ).onclick = () =>
+
+      moverElemento(
+
+        0,
+
+        CONFIG.MOVIMIENTO
+
+      );
+
+    document.getElementById(
+
+      'btnMoveLeft'
+
+    ).onclick = () =>
+
+      moverElemento(
+
+        -CONFIG.MOVIMIENTO,
+
+        0
+
+      );
+
+    document.getElementById(
+
+      'btnMoveRight'
+
+    ).onclick = () =>
+
+      moverElemento(
+
+        CONFIG.MOVIMIENTO,
+
+        0
+
+      );
+
+    document.getElementById(
+
+      'btnSaveDesign'
+
+    ).onclick =
+
+      guardarDiseno;
+
+    document.getElementById(
+
+      'btnResetDesign'
+
+    ).onclick = () => {
+
+      if (
+
+        !confirm(
+
+          '¿Restablecer todas las posiciones originales?'
+
+        )
+
+      ) {
+
+        return;
+
+      }
+
+      diseno =
+
+        clonarObjeto(
+
+          DISENO_DEFAULT
+
+        );
+
+      cargarControlesDiseño();
+
+      actualizarVistaPrevia();
+
+      guardarDiseno();
+
+    };
+
+    /* =========================================================
+
+       LIMPIAR FORMULARIO
+
+    ========================================================= */
+
+    function abrirConfirmacionLimpiar() {
+
+      document.getElementById(
+
+        'confirmModal'
+
+      ).classList.add(
+
+        'active'
+
+      );
+
+    }
+
+    function cerrarConfirmacionLimpiar() {
+
+      document.getElementById(
+
+        'confirmModal'
+
+      ).classList.remove(
+
+        'active'
+
+      );
+
+    }
+
+    function limpiarFormulario() {
+
+      form.reset();
+
+      localStorage.removeItem(
+
+        CONFIG.STORAGE_DATOS
+
+      );
+
+      fechaHint.className =
+
+        'field-hint';
+
+      fechaHint.innerText =
+
+        '📅 Solo se permiten días sábados.';
+
+      actualizarInterfazEstado();
+
+      actualizarVistaPrevia();
+
+      cerrarConfirmacionLimpiar();
+
+      mostrarToast(
+
+        '🔄 Formulario limpio'
+
+      );
+
+    }
+
+    document.getElementById(
+
+      'btnLimpiar'
+
+    ).onclick =
+
+      abrirConfirmacionLimpiar;
+
+    document.getElementById(
+
+      'btnMobileClear'
+
+    ).onclick =
+
+      abrirConfirmacionLimpiar;
+
+    document.getElementById(
+
+      'btnCancelClear'
+
+    ).onclick =
+
+      cerrarConfirmacionLimpiar;
+
+    document.getElementById(
+
+      'btnConfirmClear'
+
+    ).onclick =
+
+      limpiarFormulario;
+
+    /* =========================================================
+
+       TEMA
+
+    ========================================================= */
+
+    function cargarTema() {
+
+      const tema =
+
+        localStorage.getItem(
+
+          CONFIG.STORAGE_TEMA
+
+        );
+
+      if (
+
+        tema === 'dark'
+
+      ) {
+
+        document.body.classList.add(
+
+          'dark'
+
+        );
+
+        document.getElementById(
+
+          'btnTheme'
+
+        ).innerText =
+
+          '☀️';
+
+      }
+
+    }
+
+    document.getElementById(
+
+      'btnTheme'
+
+    ).onclick = () => {
+
+      document.body.classList.toggle(
+
+        'dark'
+
+      );
+
+      const oscuro =
+
+        document.body.classList.contains(
+
+          'dark'
+
+        );
+
+      localStorage.setItem(
+
+        CONFIG.STORAGE_TEMA,
+
+        oscuro
+
+          ? 'dark'
+
+          : 'light'
+
+      );
+
+      document.getElementById(
+
+        'btnTheme'
+
+      ).innerText =
+
+        oscuro
+
+          ? '☀️'
+
+          : '🌙';
+
+    };
+
+    /* =========================================================
+
+       TOAST
+
+    ========================================================= */
+
+    let toastTimeout;
+
+    function mostrarToast(
+
+      mensaje
+
+    ) {
+
+      const container =
+
+        document.getElementById(
+
+          'toastContainer'
+
+        );
+
+      container.innerHTML = '';
+
+      const toast =
+
+        document.createElement(
+
+          'div'
+
+        );
+
+      toast.className =
+
+        'toast';
+
+      toast.innerText =
+
+        mensaje;
+
+      container.appendChild(
+
+        toast
+
+      );
+
+      clearTimeout(
+
+        toastTimeout
+
+      );
+
+      toastTimeout =
+
+        setTimeout(
+
+          () => {
+
+            toast.remove();
+
+          },
+
+          2500
+
+        );
+
+    }
+
+    /* =========================================================
+
+       EVENTOS BOTONES
+
+    ========================================================= */
+
+    btnExportar.onclick =
+
+      exportarJPG;
+
+    btnWhatsapp.onclick =
+
+      enviarWhatsApp;
+
+    btnMobileShare.onclick =
+
+      enviarWhatsApp;
+
+    document.getElementById(
+
+      'btnCopiar'
+
+    ).onclick =
+
+      copiarTexto;
+
+    document.getElementById(
+
+      'btnDesigner'
+
+    ).onclick =
+
+      abrirDiseñador;
+
+    document.getElementById(
+
+      'btnDesignerPreview'
+
+    ).onclick =
+
+      abrirDiseñador;
+
+    /* =========================================================
+
+       ATAJOS DE TECLADO
+
+    ========================================================= */
+
+    document.addEventListener(
+
+      'keydown',
+
+      event => {
+
+        if (
+
+          event.key ===
+
+          'Escape'
+
+        ) {
+
+          cerrarConfirmacionLimpiar();
+
+        }
+
+      }
+
+    );
+
+    /* =========================================================
+       INICIALIZACIÓN
+    ========================================================= */
+    cargarTema();
+    cargarDatos();
+    actualizarInterfazEstado();
+    actualizarVistaPrevia();
   </script>
 </body>
+
 </html>
