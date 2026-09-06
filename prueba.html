@@ -479,22 +479,21 @@
       if (!inputFecha.value) return true;
 
       const partes = inputFecha.value.split('-');
-      // Crear fecha usando hora local (año, mes - 1, día)
       const fechaSeleccionada = new Date(partes[0], partes[1] - 1, partes[2]);
       const diaSemana = fechaSeleccionada.getDay();
 
       if (diaSemana !== DIA_PERMITIDO) {
+        fechaHint.className = 'field-hint error';
+        fechaHint.innerText = '⚠️ La fecha seleccionada no es sábado.';
         if (mostrarAlerta) {
-          alert('⚠️ Por favor selecciona un día SÁBADO. La fecha seleccionada no corresponde al día del culto.');
+          alert('⚠️ Recuerda seleccionar un día SÁBADO en el calendario.');
         }
         inputFecha.value = '';
-        fechaHint.className = 'field-hint error';
-        fechaHint.innerText = '⚠️ Selección no válida: Debes elegir un SÁBADO.';
         return false;
       }
 
       fechaHint.className = 'field-hint';
-      fechaHint.innerText = '📅 Solo se permiten días sábados.';
+      fechaHint.innerText = '📅 Sábado seleccionado correctamente.';
       return true;
     }
 
