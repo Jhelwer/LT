@@ -34,14 +34,29 @@
 body.dark {
   --bg: #0f172a;
   --card: #1e293b;
-  --text: #f1f5f9;
+  --text: #f8fafc;
   --muted: #94a3b8;
   --border: #334155;
 
-  --secondary-light: #172554;
-  --success-bg: #052e16;
-  --warning-bg: #431407;
-  --danger-bg: #450a0a;
+  /* Títulos y acentos principales con alto contraste */
+  --primary: #38bdf8;          /* Azul celeste brillante */
+  --primary-dark: #0284c7;
+  --secondary: #38bdf8;
+  --secondary-light: #0f172a;  /* Fondo sobrio para encabezados */
+
+  /* Estados de validación translúcidos (alta legibilidad) */
+  --success: #4ade80;
+  --success-bg: rgba(34, 197, 94, 0.15);
+
+  --warning: #fb923c;
+  --warning-bg: rgba(249, 115, 22, 0.15);
+
+  --danger: #fca5a5;
+  --danger-bg: rgba(239, 68, 68, 0.15);
+
+  --focus: #38bdf8;
+  --focus-glow: rgba(56, 189, 248, 0.25);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -270,6 +285,10 @@ h3 {
   overflow: hidden;
 }
 
+body.dark .progress-bar-bg {
+  background: #334155;
+}
+
 .progress-bar-fill {
   width: 0%;
   height: 100%;
@@ -315,6 +334,8 @@ h3 {
 
 body.dark .section-title {
   color: #60a5fa;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
 }
 
 .section-number {
@@ -333,12 +354,17 @@ body.dark .section-title {
   font-size: 11px;
 }
 
+body.dark .section-number {
+  background: #0284c7;
+  color: #ffffff;
+}
+
 /* =========================================================
    CAMPOS
 ========================================================= */
+
 .field-row-2col {
   display: grid;
-  /* Forzar una sola columna vertical */
   grid-template-columns: 1fr;
   gap: 13px;
 }
@@ -483,6 +509,11 @@ input.st-focus {
   border-radius: 5px;
 }
 
+body.dark .badge-required {
+  border-color: rgba(249, 115, 22, 0.4);
+  color: #fb923c;
+}
+
 .badge-check {
   color: var(--success);
 
@@ -530,7 +561,7 @@ button {
 
   border: none;
 
-  border-radius: 9px;
+  border-radius: 99px;
 
   padding:
     10px
@@ -570,13 +601,18 @@ button:disabled {
   color: white;
 }
 
+body.dark .btn-export-jpg {
+  background: #16a34a;
+  color: white;
+}
+
 .btn-whatsapp {
   background: #25d366;
   color: white;
 }
 
 .btn-icon {
-  width: 25px;  /* Ajusta el tamaño según tu diseño */
+  width: 25px;
   height: 25px;
   object-fit: contain;
 }
@@ -584,6 +620,11 @@ button:disabled {
 .btn-reset {
   background: #e2e8f0;
   color: #334155;
+}
+
+body.dark .btn-reset {
+  background: #334155;
+  color: #f8fafc;
 }
 
 /* Ocultar botón de diseñador por defecto */
@@ -596,6 +637,11 @@ button:disabled {
 .btn-copy {
   background: #f1f5f9;
   color: #334155;
+}
+
+body.dark .btn-copy {
+  background: #334155;
+  color: #f8fafc;
 }
 
 .btn-secondary {
@@ -645,6 +691,10 @@ button:disabled {
   overflow: hidden;
 }
 
+body.dark .canvas-wrapper {
+  background: #0f172a;
+}
+
 canvas {
   width: 100%;
   height: auto;
@@ -687,6 +737,7 @@ canvas {
 body.dark .preview-empty {
   background:
     rgba(15, 23, 42, 0.88);
+  color: #94a3b8;
 }
 
 .preview-tools {
