@@ -65,11 +65,16 @@
 
         <div class="header-actions">
 
+          <!-- Botón Animado Modo Día / Noche -->
           <button
-            class="icon-button"
-            id="btnTheme"
-            title="Cambiar tema">
-            🌙
+            class="theme-toggle"
+            id="theme-toggle"
+            aria-label="Cambiar tema"
+            type="button">
+            <span class="theme-toggle-thumb">
+              <span class="theme-icon icon-sun">☀️</span>
+              <span class="theme-icon icon-moon">🌙</span>
+            </span>
           </button>
 
         </div>
@@ -85,7 +90,7 @@
         <!-- =================================================
              SECCIÓN 1
         ================================================== -->
-<div class="section-title">
+        <div class="section-title">
           <span class="section-number">
             1
           </span>
@@ -142,116 +147,118 @@
           </div>
 
 
-<!-- LECTURA BÍBLICA CON AUTOCOMPLETADO -->
-<div class="field-group">
+          <!-- LECTURA BÍBLICA CON AUTOCOMPLETADO -->
+          <div class="field-group">
 
-  <label for="lectura">
-    <span>📖 Lectura bíblica</span>
-  </label>
+            <label for="lectura">
+              <span>📖 Lectura bíblica</span>
+            </label>
 
-  <div class="input-wrapper">
+            <div class="input-wrapper">
 
-    <input
-      type="text"
-      id="lectura"
-      list="librosBiblia"
-      maxlength="80"
-      placeholder="Ej: Juan 3:16"
-      autocomplete="off"
-      required>
+              <input
+                type="text"
+                id="lectura"
+                list="librosBiblia"
+                maxlength="80"
+                placeholder="Ej: Juan 3:16"
+                autocomplete="off"
+                required>
 
-    <span
-      class="input-badge badge-required">
-      Requerido
-    </span>
+              <span
+                class="input-badge badge-required">
+                Requerido
+              </span>
 
-  </div>
+            </div>
 
-  <!-- Lista autocompletable de libros de la Biblia -->
-  <datalist id="librosBiblia">
-    <!-- Antiguo Testamento -->
-    <option value="Génesis"></option>
-    <option value="Éxodo"></option>
-    <option value="Levítico"></option>
-    <option value="Números"></option>
-    <option value="Deuteronomio"></option>
-    <option value="Josué"></option>
-    <option value="Jueces"></option>
-    <option value="Rut"></option>
-    <option value="1 Samuel"></option>
-    <option value="2 Samuel"></option>
-    <option value="1 Reyes"></option>
-    <option value="2 Reyes"></option>
-    <option value="1 Crónicas"></option>
-    <option value="2 Crónicas"></option>
-    <option value="Esdras"></option>
-    <option value="Nehemías"></option>
-    <option value="Ester"></option>
-    <option value="Job"></option>
-    <option value="Salmos"></option>
-    <option value="Proverbios"></option>
-    <option value="Eclesiastés"></option>
-    <option value="Cantares"></option>
-    <option value="Isaías"></option>
-    <option value="Jeremías"></option>
-    <option value="Lamentaciones"></option>
-    <option value="Ezequiel"></option>
-    <option value="Daniel"></option>
-    <option value="Oseas"></option>
-    <option value="Joel"></option>
-    <option value="Amós"></option>
-    <option value="Abdías"></option>
-    <option value="Jonás"></option>
-    <option value="Miqueas"></option>
-    <option value="Nahúm"></option>
-    <option value="Habacuc"></option>
-    <option value="Sofonías"></option>
-    <option value="Hageo"></option>
-    <option value="Zacarías"></option>
-    <option value="Malaquías"></option>
+            <!-- Lista autocompletable de libros de la Biblia -->
+            <datalist id="librosBiblia">
+              <!-- Antiguo Testamento -->
+              <option value="Génesis"></option>
+              <option value="Éxodo"></option>
+              <option value="Levítico"></option>
+              <option value="Números"></option>
+              <option value="Deuteronomio"></option>
+              <option value="Josué"></option>
+              <option value="Jueces"></option>
+              <option value="Rut"></option>
+              <option value="1 Samuel"></option>
+              <option value="2 Samuel"></option>
+              <option value="1 Reyes"></option>
+              <option value="2 Reyes"></option>
+              <option value="1 Crónicas"></option>
+              <option value="2 Crónicas"></option>
+              <option value="Esdras"></option>
+              <option value="Nehemías"></option>
+              <option value="Ester"></option>
+              <option value="Job"></option>
+              <option value="Salmos"></option>
+              <option value="Proverbios"></option>
+              <option value="Eclesiastés"></option>
+              <option value="Cantares"></option>
+              <option value="Isaías"></option>
+              <option value="Jeremías"></option>
+              <option value="Lamentaciones"></option>
+              <option value="Ezequiel"></option>
+              <option value="Daniel"></option>
+              <option value="Oseas"></option>
+              <option value="Joel"></option>
+              <option value="Amós"></option>
+              <option value="Abdías"></option>
+              <option value="Jonás"></option>
+              <option value="Miqueas"></option>
+              <option value="Nahúm"></option>
+              <option value="Habacuc"></option>
+              <option value="Sofonías"></option>
+              <option value="Hageo"></option>
+              <option value="Zacarías"></option>
+              <option value="Malaquías"></option>
 
-    <!-- Nuevo Testamento -->
-    <option value="Mateo"></option>
-    <option value="Marcos"></option>
-    <option value="Lucas"></option>
-    <option value="Juan"></option>
-    <option value="Hechos"></option>
-    <option value="Romanos"></option>
-    <option value="1 Corintios"></option>
-    <option value="2 Corintios"></option>
-    <option value="Gálatas"></option>
-    <option value="Efesios"></option>
-    <option value="Filipenses"></option>
-    <option value="Colosenses"></option>
-    <option value="1 Tesalonicenses"></option>
-    <option value="2 Tesalonicenses"></option>
-    <option value="1 Timoteo"></option>
-    <option value="2 Timoteo"></option>
-    <option value="Tito"></option>
-    <option value="Filemón"></option>
-    <option value="Hebreos"></option>
-    <option value="Santiago"></option>
-    <option value="1 Pedro"></option>
-    <option value="2 Pedro"></option>
-    <option value="1 Juan"></option>
-    <option value="2 Juan"></option>
-    <option value="3 Juan"></option>
-    <option value="Judas"></option>
-    <option value="Apocalipsis"></option>
-  </datalist>
+              <!-- Nuevo Testamento -->
+              <option value="Mateo"></option>
+              <option value="Marcos"></option>
+              <option value="Lucas"></option>
+              <option value="Juan"></option>
+              <option value="Hechos"></option>
+              <option value="Romanos"></option>
+              <option value="1 Corintios"></option>
+              <option value="2 Corintios"></option>
+              <option value="Gálatas"></option>
+              <option value="Efesios"></option>
+              <option value="Filipenses"></option>
+              <option value="Colosenses"></option>
+              <option value="1 Tesalonicenses"></option>
+              <option value="2 Tesalonicenses"></option>
+              <option value="1 Timoteo"></option>
+              <option value="2 Timoteo"></option>
+              <option value="Tito"></option>
+              <option value="Filemón"></option>
+              <option value="Hebreos"></option>
+              <option value="Santiago"></option>
+              <option value="1 Pedro"></option>
+              <option value="2 Pedro"></option>
+              <option value="1 Juan"></option>
+              <option value="2 Juan"></option>
+              <option value="3 Juan"></option>
+              <option value="Judas"></option>
+              <option value="Apocalipsis"></option>
+            </datalist>
 
-  <div class="coord-inputs">
-    <input
-      type="number"
-      id="lectura_x"
-      value="293">
-    <input
-      type="number"
-      id="lectura_y"
-      value="761">
-  </div>
+            <div class="coord-inputs">
+              <input
+                type="number"
+                id="lectura_x"
+                value="293">
+              <input
+                type="number"
+                id="lectura_y"
+                value="761">
+            </div>
 
-</div>
+          </div>
+        </div>
+
         <!-- =================================================
              SECCIÓN 2
         ================================================== -->
@@ -320,66 +327,69 @@
 
         <div class="field-row-2col">
 
-<!-- HIMNO INICIAL -->
-<div class="field-group">
-  <label for="himnoInicial">
-    <span>🎵 Himno inicial</span>
-  </label>
+          <!-- HIMNO INICIAL -->
+          <div class="field-group">
+            <label for="himnoInicial">
+              <span>🎵 Himno inicial</span>
+            </label>
 
-  <div class="input-wrapper">
-    <input
-      type="text"
-      id="himnoInicial"
-      placeholder="Ej. 222 - Castillo Fuerte"
-      required>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="himnoInicial"
+                placeholder="Ej. 222 - Castillo Fuerte"
+                required>
 
-    <span class="input-badge badge-required">
-      Requerido
-    </span>
-  </div>
+              <span class="input-badge badge-required">
+                Requerido
+              </span>
+            </div>
 
-  <div class="coord-inputs">
-    <input
-      type="number"
-      id="himnoInicial_x"
-      value="280">
+            <div class="coord-inputs">
+              <input
+                type="number"
+                id="himnoInicial_x"
+                value="280">
 
-    <input
-      type="number"
-      id="himnoInicial_y"
-      value="816">
-  </div>
-</div>
-<!-- HIMNO FINAL -->
-<div class="field-group">
-  <label for="himnoFinal">
-    <span>🎵 Himno final</span>
-  </label>
+              <input
+                type="number"
+                id="himnoInicial_y"
+                value="816">
+            </div>
+          </div>
 
-  <div class="input-wrapper">
-    <input
-      type="text"
-      id="himnoFinal"
-      placeholder="Ej. 333 - Grande es tu fidelidad"
-      required>
+          <!-- HIMNO FINAL -->
+          <div class="field-group">
+            <label for="himnoFinal">
+              <span>🎵 Himno final</span>
+            </label>
 
-    <span class="input-badge badge-required">
-      Requerido
-    </span>
-  </div>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="himnoFinal"
+                placeholder="Ej. 333 - Grande es tu fidelidad"
+                required>
 
-  <div class="coord-inputs">
-    <input
-      type="number"
-      id="himnoFinal_x"
-      value="280">
+              <span class="input-badge badge-required">
+                Requerido
+              </span>
+            </div>
 
-    <input
-      type="number"
-      id="himnoFinal_y"
-      value="1380">
-  </div>
-</div>
+            <div class="coord-inputs">
+              <input
+                type="number"
+                id="himnoFinal_x"
+                value="280">
+
+              <input
+                type="number"
+                id="himnoFinal_y"
+                value="1380">
+            </div>
+          </div>
+        </div>
+
         <!-- =================================================
              SECCIÓN 3
         ================================================== -->
@@ -1029,13 +1039,6 @@
       🗑️ Limpiar
 
     </button>
-   <!--  <button
-      id="btnMobileShare"
-      class="btn-whatsapp"
-      disabled>
-      <img src="share.svg" alt="Compartir" class="btn-icon">
-      <span>Compartir liturgia</span>
-    </button> -->
    
     <button
       id="btnMobileShare"

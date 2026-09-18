@@ -34,29 +34,14 @@
 body.dark {
   --bg: #0f172a;
   --card: #1e293b;
-  --text: #f8fafc;
+  --text: #f1f5f9;
   --muted: #94a3b8;
   --border: #334155;
 
-  /* Títulos y acentos principales con alto contraste */
-  --primary: #38bdf8;          /* Azul celeste brillante */
-  --primary-dark: #0284c7;
-  --secondary: #38bdf8;
-  --secondary-light: #0f172a;  /* Fondo sobrio para encabezados */
-
-  /* Estados de validación translúcidos (alta legibilidad) */
-  --success: #4ade80;
-  --success-bg: rgba(34, 197, 94, 0.15);
-
-  --warning: #fb923c;
-  --warning-bg: rgba(249, 115, 22, 0.15);
-
-  --danger: #fca5a5;
-  --danger-bg: rgba(239, 68, 68, 0.15);
-
-  --focus: #38bdf8;
-  --focus-glow: rgba(56, 189, 248, 0.25);
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --secondary-light: #172554;
+  --success-bg: #052e16;
+  --warning-bg: #431407;
+  --danger-bg: #450a0a;
 }
 
 * {
@@ -209,30 +194,75 @@ h3 {
   gap: 7px;
 }
 
-.icon-button {
-  width: 40px;
-  height: 40px;
+/* =========================================================
+   BOTÓN ANIMADO DÍA / NOCHE (.theme-toggle)
+========================================================= */
 
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
+.theme-toggle {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  border-radius: 99px;
+  background-color: #cbd5e1;
+  border: 2px solid var(--border);
+  padding: 2px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  min-height: auto;
+}
 
-  border-radius: 10px;
-
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-
-  cursor: pointer;
-
-  font-size: 18px;
-
-  transition: 0.2s;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
 }
 
-.icon-button:hover {
-  transform: translateY(-1px);
-  border-color: var(--secondary);
+.theme-icon {
+  position: absolute;
+  font-size: 13px;
+  user-select: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.icon-sun {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.icon-moon {
+  opacity: 0;
+  transform: scale(0.5) rotate(-90deg);
+}
+
+/* Estado Oscuro Activo */
+body.dark .theme-toggle {
+  background-color: #334155;
+  border-color: #475569;
+}
+
+body.dark .theme-toggle-thumb {
+  transform: translateX(28px);
+  background-color: #0f172a;
+}
+
+body.dark .icon-sun {
+  opacity: 0;
+  transform: scale(0.5) rotate(90deg);
+}
+
+body.dark .icon-moon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
 }
 
 /* =========================================================
@@ -285,10 +315,6 @@ h3 {
   overflow: hidden;
 }
 
-body.dark .progress-bar-bg {
-  background: #334155;
-}
-
 .progress-bar-fill {
   width: 0%;
   height: 100%;
@@ -334,8 +360,6 @@ body.dark .progress-bar-bg {
 
 body.dark .section-title {
   color: #60a5fa;
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--primary);
 }
 
 .section-number {
@@ -354,15 +378,9 @@ body.dark .section-title {
   font-size: 11px;
 }
 
-body.dark .section-number {
-  background: #0284c7;
-  color: #ffffff;
-}
-
 /* =========================================================
    CAMPOS
 ========================================================= */
-
 .field-row-2col {
   display: grid;
   grid-template-columns: 1fr;
@@ -509,11 +527,6 @@ input.st-focus {
   border-radius: 5px;
 }
 
-body.dark .badge-required {
-  border-color: rgba(249, 115, 22, 0.4);
-  color: #fb923c;
-}
-
 .badge-check {
   color: var(--success);
 
@@ -561,7 +574,7 @@ button {
 
   border: none;
 
-  border-radius: 99px;
+  border-radius: 9px;
 
   padding:
     10px
@@ -601,11 +614,6 @@ button:disabled {
   color: white;
 }
 
-body.dark .btn-export-jpg {
-  background: #16a34a;
-  color: white;
-}
-
 .btn-whatsapp {
   background: #25d366;
   color: white;
@@ -622,11 +630,6 @@ body.dark .btn-export-jpg {
   color: #334155;
 }
 
-body.dark .btn-reset {
-  background: #334155;
-  color: #f8fafc;
-}
-
 /* Ocultar botón de diseñador por defecto */
 .btn-designer {
   display: none;
@@ -637,11 +640,6 @@ body.dark .btn-reset {
 .btn-copy {
   background: #f1f5f9;
   color: #334155;
-}
-
-body.dark .btn-copy {
-  background: #334155;
-  color: #f8fafc;
 }
 
 .btn-secondary {
@@ -691,10 +689,6 @@ body.dark .btn-copy {
   overflow: hidden;
 }
 
-body.dark .canvas-wrapper {
-  background: #0f172a;
-}
-
 canvas {
   width: 100%;
   height: auto;
@@ -737,7 +731,6 @@ canvas {
 body.dark .preview-empty {
   background:
     rgba(15, 23, 42, 0.88);
-  color: #94a3b8;
 }
 
 .preview-tools {
