@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <meta name="theme-color" content="#004b87">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Liturgia">
+
+  <title>Asistente de Liturgia 2.0</title>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- Archivo de estilos CSS externo -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div class="main-container">
+
+    <!-- =====================================================
+         FORMULARIO
+    ====================================================== -->
+
+    <section class="form-card">
+
+      <div class="progress-container">
+
+        <div class="progress-header">
+          <span>Progreso de la liturgia</span>
+          <span id="progressText">0%</span>
+        </div>
+
+        <div class="progress-bar-bg">
+          <div
+            class="progress-bar-fill"
+            id="progressBar">
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ENCABEZADO -->
+
+      <header class="app-header">
+
+        <div class="app-title">
+
+          <div class="app-logo">
+            📄
+          </div>
+
+          <div>
+            <h1>Asistente de Liturgia</h1>
+
+            <div class="subtitle">
+              Generador de programación del culto
+            </div>
+          </div>
+
+        </div>
+
+        <div class="header-actions">
+
+          <button
+            class="icon-button"
+            id="btnTheme"
+            title="Cambiar tema">
+            🌙
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <form
+        id="liturgiaForm"
+        autocomplete="off"
+        novalidate>
+
+        <!-- =================================================
+             SECCIÓN 1
+        ================================================== -->
+<div class="section-title">
+          <span class="section-number">
+            1
+          </span>
+
+          Información general
+        </div>
+
+        <div class="field-row-2col">
+
+          <!-- FECHA -->
+
+          <div class="field-group">
+
+            <label for="fecha">
+              <span>📅 Fecha del sermón</span>
+            </label>
+
+            <div class="input-wrapper">
+
+              <input
+                type="date"
+                id="fecha"
+                required>
+
+              <span
+                class="input-badge badge-required">
+                Requerido
+              </span>
+
+            </div>
+
+            <span
+              class="field-hint"
+              id="fechaHint">
+
+              📅 Solo se permiten días sábados.
+
+            </span>
+
+            <div class="coord-inputs">
+
+              <input
+                type="number"
+                id="fecha_x"
+                value="696">
+
+              <input
+                type="number"
+                id="fecha_y"
+                value="488">
+
+            </div>
+
+          </div>
+
+
+<!-- LECTURA BÍBLICA CON AUTOCOMPLETADO -->
+<div class="field-group">
+
+  <label for="lectura">
+    <span>📖 Lectura bíblica</span>
+  </label>
+
+  <div class="input-wrapper">
+
+    <input
+      type="text"
+      id="lectura"
+      list="librosBiblia"
+      maxlength="80"
+      placeholder="Ej: Juan 3:16"
+      autocomplete="off"
+      required>
+
+    <span
+      class="input-badge badge-required">
+      Requerido
+    </span>
+
+  </div>
+
+  <!-- Lista autocompletable de libros de la Biblia -->
+  <datalist id="librosBiblia">
+    <!-- Antiguo Testamento -->
+    <option value="Génesis"></option>
+    <option value="Éxodo"></option>
+    <option value="Levítico"></option>
+    <option value="Números"></option>
+    <option value="Deuteronomio"></option>
+    <option value="Josué"></option>
+    <option value="Jueces"></option>
+    <option value="Rut"></option>
+    <option value="1 Samuel"></option>
+    <option value="2 Samuel"></option>
+    <option value="1 Reyes"></option>
+    <option value="2 Reyes"></option>
+    <option value="1 Crónicas"></option>
+    <option value="2 Crónicas"></option>
+    <option value="Esdras"></option>
+    <option value="Nehemías"></option>
+    <option value="Ester"></option>
+    <option value="Job"></option>
+    <option value="Salmos"></option>
+    <option value="Proverbios"></option>
+    <option value="Eclesiastés"></option>
+    <option value="Cantares"></option>
+    <option value="Isaías"></option>
+    <option value="Jeremías"></option>
+    <option value="Lamentaciones"></option>
+    <option value="Ezequiel"></option>
+    <option value="Daniel"></option>
+    <option value="Oseas"></option>
+    <option value="Joel"></option>
+    <option value="Amós"></option>
+    <option value="Abdías"></option>
+    <option value="Jonás"></option>
+    <option value="Miqueas"></option>
+    <option value="Nahúm"></option>
+    <option value="Habacuc"></option>
+    <option value="Sofonías"></option>
+    <option value="Hageo"></option>
+    <option value="Zacarías"></option>
+    <option value="Malaquías"></option>
+
+    <!-- Nuevo Testamento -->
+    <option value="Mateo"></option>
+    <option value="Marcos"></option>
+    <option value="Lucas"></option>
+    <option value="Juan"></option>
+    <option value="Hechos"></option>
+    <option value="Romanos"></option>
+    <option value="1 Corintios"></option>
+    <option value="2 Corintios"></option>
+    <option value="Gálatas"></option>
+    <option value="Efesios"></option>
+    <option value="Filipenses"></option>
+    <option value="Colosenses"></option>
+    <option value="1 Tesalonicenses"></option>
+    <option value="2 Tesalonicenses"></option>
+    <option value="1 Timoteo"></option>
+    <option value="2 Timoteo"></option>
+    <option value="Tito"></option>
+    <option value="Filemón"></option>
+    <option value="Hebreos"></option>
+    <option value="Santiago"></option>
+    <option value="1 Pedro"></option>
+    <option value="2 Pedro"></option>
+    <option value="1 Juan"></option>
+    <option value="2 Juan"></option>
+    <option value="3 Juan"></option>
+    <option value="Judas"></option>
+    <option value="Apocalipsis"></option>
+  </datalist>
+
+  <div class="coord-inputs">
+    <input
+      type="number"
+      id="lectura_x"
+      value="293">
+    <input
+      type="number"
+      id="lectura_y"
+      value="761">
+  </div>
+
+</div>
+        <!-- =================================================
+             SECCIÓN 2
+        ================================================== -->
+
+        <div class="section-title">
+
+          <span class="section-number">
+            2
+          </span>
+
+          Predicador y himnos
+
+        </div>
+
+
+        <!-- PREDICADOR -->
+
+        <div class="field-group">
+
+          <label for="predicador">
+            <span>🎙️ Predicador principal</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="text"
+              id="predicador"
+              maxlength="60"
+              placeholder="Ej: Pr. Juan Gómez"
+              required>
+
+            <span
+              class="input-badge badge-required">
+              Requerido
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+              type="number"
+              id="predicador_x"
+              value="260">
+
+            <input
+              type="number"
+              id="predicador_y"
+              value="1532">
+
+            <input
+              type="number"
+              id="predicador_x2"
+              value="554">
+
+            <input
+              type="number"
+              id="predicador_y2"
+              value="1336">
+
+          </div>
+
+        </div>
+
+
+        <div class="field-row-2col">
+
+<!-- HIMNO INICIAL -->
+<div class="field-group">
+  <label for="himnoInicial">
+    <span>🎵 Himno inicial</span>
+  </label>
+
+  <div class="input-wrapper">
+    <input
+      type="text"
+      id="himnoInicial"
+      placeholder="Ej. 222 - Castillo Fuerte"
+      required>
+
+    <span class="input-badge badge-required">
+      Requerido
+    </span>
+  </div>
+
+  <div class="coord-inputs">
+    <input
+      type="number"
+      id="himnoInicial_x"
+      value="280">
+
+    <input
+      type="number"
+      id="himnoInicial_y"
+      value="816">
+  </div>
+</div>
+<!-- HIMNO FINAL -->
+<div class="field-group">
+  <label for="himnoFinal">
+    <span>🎵 Himno final</span>
+  </label>
+
+  <div class="input-wrapper">
+    <input
+      type="text"
+      id="himnoFinal"
+      placeholder="Ej. 333 - Grande es tu fidelidad"
+      required>
+
+    <span class="input-badge badge-required">
+      Requerido
+    </span>
+  </div>
+
+  <div class="coord-inputs">
+    <input
+      type="number"
+      id="himnoFinal_x"
+      value="280">
+
+    <input
+      type="number"
+      id="himnoFinal_y"
+      value="1380">
+  </div>
+</div>
+        <!-- =================================================
+             SECCIÓN 3
+        ================================================== -->
+
+        <div class="section-title">
+
+          <span class="section-number">
+            3
+          </span>
+
+          Asignaciones de plataforma
+
+        </div>
+
+
+        <!-- ACOMPAÑANTE 1 -->
+
+        <div class="field-group">
+
+          <label for="acompanante1">
+            <span>👤 Acompañante 1</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="text"
+              id="acompanante1"
+              maxlength="60"
+              placeholder="Ej: Hno. Carlos Ruiz"
+              required>
+
+            <span
+              class="input-badge badge-required">
+              Requerido
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+              type="number"
+              id="acompanante1_x"
+              value="300">
+
+            <input
+              type="number"
+              id="acompanante1_y"
+              value="1560">
+
+            <input
+              type="number"
+              id="acompanante1_x2"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante1_y2"
+              value="758">
+
+            <input
+              type="number"
+              id="acompanante1_x3"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante1_y3"
+              value="812">
+
+            <input
+              type="number"
+              id="acompanante1_x4"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante1_y4"
+              value="1300">
+
+            <input
+              type="number"
+              id="acompanante1_x5"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante1_y5"
+              value="1426">
+
+            <input
+              type="number"
+              id="acompanante1_x6"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante1_y6"
+              value="1100">
+
+          </div>
+
+        </div>
+
+
+        <!-- ACOMPAÑANTE 2 -->
+
+        <div class="field-group">
+
+          <label for="acompanante2">
+            <span>👤 Acompañante 2</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="text"
+              id="acompanante2"
+              maxlength="60"
+              placeholder="Ej: Hna. Ana López"
+              required>
+
+            <span
+              class="input-badge badge-required">
+              Requerido
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+              type="number"
+              id="acompanante2_x"
+              value="300">
+
+            <input
+              type="number"
+              id="acompanante2_y"
+              value="1587">
+
+            <input
+              type="number"
+              id="acompanante2_x2"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante2_y2"
+              value="883">
+
+            <input
+              type="number"
+              id="acompanante2_x3"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante2_y3"
+              value="991">
+
+            <input
+              type="number"
+              id="acompanante2_x4"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante2_y4"
+              value="1224">
+
+            <input
+              type="number"
+              id="acompanante2_x5"
+              value="554">
+
+            <input
+              type="number"
+              id="acompanante2_y5"
+              value="1378">
+
+          </div>
+
+        </div>
+
+
+        <!-- FAMILIA -->
+
+        <div class="field-group">
+
+          <label for="familiaOracion">
+            <span>🙏 Familia para oración</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="text"
+              id="familiaOracion"
+              maxlength="70"
+              placeholder="Ej: Familia Méndez Castro"
+              required>
+
+            <span
+              class="input-badge badge-required">
+              Requerido
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+              type="number"
+              id="familiaOracion_x"
+              value="554">
+
+            <input
+              type="number"
+              id="familiaOracion_y"
+              value="930">
+
+          </div>
+
+        </div>
+
+
+        <!-- ADORACIÓN INFANTIL -->
+
+        <div class="field-group">
+
+          <label for="adoracionInfantil">
+            <span>👶 Responsable adoración infantil</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="text"
+              id="adoracionInfantil"
+              maxlength="70"
+              placeholder="Ej: Hna. María Silva"
+              required>
+
+            <span
+              class="input-badge badge-required">
+              Requerido
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+              type="number"
+              id="adoracionInfantil_x"
+              value="554">
+
+            <input
+              type="number"
+              id="adoracionInfantil_y"
+              value="1019">
+
+          </div>
+
+        </div>
+
+
+        <!-- MENSAJE MUSICAL -->
+
+        <div class="field-group">
+
+          <label for="mensajeMusical">
+            <span>🎶 Responsable mensaje musical</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="text"
+              id="mensajeMusical"
+              maxlength="70"
+              placeholder="Ej: Coro Central"
+              required>
+
+            <span
+              class="input-badge badge-required">
+              Requerido
+            </span>
+
+          </div>
+
+          <div class="coord-inputs">
+
+            <input
+              type="number"
+              id="mensajeMusical_x"
+              value="554">
+
+            <input
+              type="number"
+              id="mensajeMusical_y"
+              value="1258">
+
+          </div>
+
+        </div>
+
+      </form>
+
+
+      <!-- BOTONES DESKTOP -->
+
+      <div class="btn-group">
+
+        <button
+          id="btnExportar"
+          class="btn-export-jpg"
+          disabled>
+
+          🖼️ Descargar JPG
+
+        </button>
+
+        <button
+          id="btnWhatsapp"
+          class="btn-whatsapp"
+          disabled>
+
+          📤 Compartir
+
+        </button>
+
+        <button
+          id="btnDesigner"
+          class="btn-designer">
+
+          ⚙️ Diseñador
+
+        </button>
+
+        <button
+          id="btnLimpiar"
+          class="btn-reset">
+
+          🗑️ Limpiar
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         VISTA PREVIA
+    ====================================================== -->
+
+    <section
+      class="preview-card"
+      id="previewCard">
+
+      <div class="preview-header">
+
+        <div>
+
+          <h3>Vista previa</h3>
+
+        </div>
+
+        <span
+          class="preview-status"
+          id="previewStatus">
+
+          En edición
+
+        </span>
+
+      </div>
+
+
+      <div class="canvas-wrapper">
+
+        <canvas
+          id="canvasLiturgia"
+          width="864"
+          height="1821">
+        </canvas>
+
+        <div
+          class="preview-empty"
+          id="previewEmpty">
+
+          <div>
+
+            <strong>
+              📄 Vista previa de la liturgia
+            </strong>
+
+            <br><br>
+
+            Completa los datos para visualizar
+            la programación.
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- HERRAMIENTAS -->
+
+      <div class="preview-tools">
+
+        <button
+          class="btn-secondary"
+          id="btnCopiar">
+
+          📄 Copiar texto
+
+        </button>
+
+        <button
+          class="btn-designer"
+          id="btnDesignerPreview">
+
+          ⚙️ Diseñar
+
+        </button>
+
+      </div>
+
+
+      <!-- ===================================================
+           PANEL DISEÑADOR
+      ==================================================== -->
+
+      <div
+        class="designer-panel"
+        id="designerPanel">
+
+        <div class="designer-title">
+
+          ⚙️ Editor de diseño
+
+        </div>
+
+
+        <div class="designer-control">
+
+          <label>
+            Elemento
+          </label>
+
+          <select id="designerField">
+
+            <option value="fecha">
+              Fecha
+            </option>
+
+            <option value="predicador">
+              Predicador
+            </option>
+
+            <option value="lectura">
+              Lectura
+            </option>
+
+            <option value="himnoInicial">
+              Himno inicial
+            </option>
+
+            <option value="himnoFinal">
+              Himno final
+            </option>
+
+            <option value="acompanante1">
+              Acompañante 1
+            </option>
+
+            <option value="acompanante2">
+              Acompañante 2
+            </option>
+
+            <option value="familiaOracion">
+              Familia de oración
+            </option>
+
+            <option value="adoracionInfantil">
+              Adoración infantil
+            </option>
+
+            <option value="mensajeMusical">
+              Mensaje musical
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <br>
+
+
+        <div class="designer-grid">
+
+          <div class="designer-control">
+
+            <label>X</label>
+
+            <input
+              type="number"
+              id="designX">
+
+          </div>
+
+
+          <div class="designer-control">
+
+            <label>Y</label>
+
+            <input
+              type="number"
+              id="designY">
+
+          </div>
+
+
+          <div class="designer-control">
+
+            <label>Tamaño</label>
+
+            <input
+              type="number"
+              id="designFontSize"
+              min="8"
+              max="100">
+
+          </div>
+
+
+          <div class="designer-control">
+
+            <label>Alineación</label>
+
+            <select id="designAlign">
+
+              <option value="left">
+                Izquierda
+              </option>
+
+              <option value="center">
+                Centro
+              </option>
+
+              <option value="right">
+                Derecha
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="designer-actions">
+
+          <button
+            class="btn-secondary"
+            id="btnMoveUp">
+
+            ↑ Subir
+
+          </button>
+
+          <button
+            class="btn-secondary"
+            id="btnMoveDown">
+
+            ↓ Bajar
+
+          </button>
+
+          <button
+            class="btn-secondary"
+            id="btnMoveLeft">
+
+            ← Izquierda
+
+          </button>
+
+          <button
+            class="btn-secondary"
+            id="btnMoveRight">
+
+            → Derecha
+
+          </button>
+
+          <button
+            class="btn-reset"
+            id="btnResetDesign">
+
+            ↩ Restablecer
+
+          </button>
+
+          <button
+            class="btn-export-jpg"
+            id="btnSaveDesign">
+
+            💾 Guardar diseño
+
+          </button>
+
+        </div>
+
+
+        <div class="designer-help">
+
+          💡 Puedes modificar las coordenadas
+          directamente. Los cambios se reflejan
+          inmediatamente en la vista previa.
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- =======================================================
+       BARRA MÓVIL
+  ======================================================== -->
+
+  <div class="mobile-actions">
+
+    <button
+      id="btnMobileClear"
+      class="btn-reset">
+
+      🗑️ Limpiar
+
+    </button>
+   <!--  <button
+      id="btnMobileShare"
+      class="btn-whatsapp"
+      disabled>
+      <img src="share.svg" alt="Compartir" class="btn-icon">
+      <span>Compartir liturgia</span>
+    </button> -->
+   
+    <button
+      id="btnMobileShare"
+      class="btn-whatsapp"
+      disabled>
+
+      📤 Compartir liturgia
+
+    </button>
+
+  </div>
+
+  <!-- =======================================================
+       MODAL CONFIRMACIÓN
+  ======================================================== -->
+  <div
+    class="modal-overlay"
+    id="confirmModal">
+    <div class="modal">
+      <h3>
+        ¿Limpiar liturgia?
+      </h3>
+      <p>
+        Se eliminarán los datos introducidos
+        y se restaurará el formulario.
+      </p>
+      <div class="modal-buttons">
+        <button
+          class="btn-reset"
+          id="btnCancelClear">
+          Cancelar
+        </button>
+        <button
+          class="btn-export-jpg"
+          id="btnConfirmClear">
+          Sí, limpiar
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       TOAST
+  ======================================================== -->
+  <div
+    class="toast-container"
+    id="toastContainer">
+  </div>
+  <!-- Archivo de JavaScript externo -->
+  <script src="script.js"></script>
+
+</body>
+</html>
