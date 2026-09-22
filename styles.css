@@ -1110,3 +1110,17 @@ body.dark .preview-empty {
     grid-template-columns: 1fr;
   }
 }
+
+/* Animación de destello de error para el campo de fecha */
+@keyframes errorFlash {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); border-color: var(--danger); background-color: var(--danger-bg); }
+  100% { transform: scale(1); }
+}
+
+input.st-error-flash {
+  animation: errorFlash 0.4s ease;
+  border-color: var(--danger) !important;
+  background-color: var(--danger-bg) !important;
+  color: var(--danger) !important;
+}

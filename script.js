@@ -12,6 +12,26 @@ const CONFIG = {
   MOVIMIENTO: 5
 };
 
+
+// ==========================================
+// CONFIGURACIÓN DE VERSIÓN GLOBAL
+// ==========================================
+const CONFIG_VERSION = "2.2"; // <-- ¡Solo cambias la versión aquí en adelante!
+
+function aplicarVersionGlobal() {
+  // Buscamos todos los elementos que tengan el id o clase de versión
+  const elementosVersion = document.querySelectorAll('#app-version, #app-version-footer');
+  
+  elementosVersion.forEach(el => {
+    el.textContent = `v${CONFIG_VERSION}`;
+  });
+}
+
+// Ejecutar al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+  aplicarVersionGlobal();
+});
+
 /* =========================================================
    REFERENCIAS
 ========================================================= */
@@ -256,11 +276,25 @@ function validarFechaSabado(mostrarAlerta = true) {
       mostrarToast('⚠️ Solo se permiten días sábados.');
     }
 
-    const proximo = obtenerProximoSabado();
-    inputFecha.value = formatearFechaISO(proximo);
-
+    // Activar clase de error visual
+    inputFecha.classList.add('st-error-flash');
+    
     fechaHint.className = 'field-hint error';
-    fechaHint.innerText = '⚠️ Ajustado automáticamente al próximo sábado.';
+    fechaHint.innerText = '⚠️ Día no permitido. Debe ser sábado.';
+
+    // Retardar ligeramente la corrección automática para que el usuario note el error en el input
+    setTimeout(() => {
+      const proximo = obtenerProximoSabado();
+      inputFecha.value = formatearFechaISO(proximo);
+      
+      inputFecha.classList.remove('st-error-flash');
+      fechaHint.className = 'field-hint';
+      fechaHint.innerText = '📅 Ajustado automáticamente al próximo sábado.';
+      
+      actualizarInterfazEstado();
+      actualizarVistaPrevia();
+    }, 1200);
+
     return false;
   }
 
