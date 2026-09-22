@@ -923,6 +923,18 @@ function cerrarConfirmacionLimpiar() {
 }
 
 function limpiarFormulario() {
+  const campos = form.querySelectorAll('input, select, textarea');
+  
+  // Recorremos los campos aplicando el efecto en cascada
+  campos.forEach((campo, index) => {
+    setTimeout(() => {
+      campo.classList.add('st-clear-flash');
+      setTimeout(() => {
+        campo.classList.remove('st-clear-flash');
+      }, 450); // Sincronizado con la duración de la animación CSS
+    }, index * 45); // 45ms de retraso por cada campo sucesivo
+  });
+
   form.reset();
   localStorage.removeItem(CONFIG.STORAGE_DATOS);
 
@@ -938,7 +950,6 @@ document.getElementById('btnLimpiar').onclick = abrirConfirmacionLimpiar;
 document.getElementById('btnMobileClear').onclick = abrirConfirmacionLimpiar;
 document.getElementById('btnCancelClear').onclick = cerrarConfirmacionLimpiar;
 document.getElementById('btnConfirmClear').onclick = limpiarFormulario;
-
 /* =========================================================
    TEMA (SOPORTE BOTÓN ANIMADO .theme-toggle)
 ========================================================= */
