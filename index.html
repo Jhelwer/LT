@@ -9,9 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Liturgia">
 
-  <title>
-    <h1>Asistente de Liturgia <span id="app-version">v2.0</span></h1>
-  </title>
+  <title>Asistente de Liturgia v2.0</title>
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <!-- Archivo de estilos CSS externo -->
@@ -28,23 +26,6 @@
 
     <section class="form-card">
 
-      <div class="progress-container">
-
-        <div class="progress-header">
-          <span>Progreso de la liturgia</span>
-          <span id="progressText">0%</span>
-        </div>
-
-        <div class="progress-bar-bg">
-          <div
-            class="progress-bar-fill"
-            id="progressBar">
-          </div>
-        </div>
-
-      </div>
-
-
       <!-- ENCABEZADO -->
 
       <header class="app-header">
@@ -52,14 +33,41 @@
         <div class="app-title">
 
           <div class="app-logo">
-            📄
+            <svg viewBox="0 0 120 120"
+                width="44"
+                height="44"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+
+              <rect width="120" height="120"
+                    rx="26" fill="#004b87"/>
+
+              <!-- Cruz -->
+              <path d="M60 25 V64 M45 39 H75"
+                    stroke="#F4CE6B"
+                    stroke-width="7"
+                    stroke-linecap="round"/>
+
+              <!-- Biblia abierta -->
+              <path d="M21 70 Q39 62 60 76
+                      Q81 62 99 70
+                      L99 93 Q80 85 60 98
+                      Q40 85 21 93 Z"
+                    fill="none"
+                    stroke="white"
+                    stroke-width="3.5"/>
+
+              <path d="M60 76 L60 98"
+                    stroke="white"
+                    stroke-width="3"/>
+            </svg>
           </div>
 
           <div>
-            <h1>Asistente de Liturgia</h1>
+            <h1>Asistente de <span class="title-highlight">Liturgia</span></h1>
 
             <div class="subtitle">
-              <small>Versión <span id="app-version-footer">2.0</span> | Powered by Jhelwer</small>
+              <small>Versión <span id="app-version-footer">2.2</span> | Powered by Jhelwer</small>
             </div>
           </div>
 
@@ -93,21 +101,32 @@
              SECCIÓN 1
         ================================================== -->
         <div class="section-title">
-          <span class="section-number">
-            1
-          </span>
-
+          <span class="section-number">1</span>
           Información general
         </div>
 
-        <div class="field-row-2col">
-
+        <div class="field-row-2col info-general-grid">
           <!-- FECHA -->
 
           <div class="field-group">
-
+                   
             <label for="fecha">
-              <span>📅 Fecha del sermón</span>
+              <span class="label-icon">
+                <svg viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="2"/>
+                  <path d="M16 3v4M8 3v4M3 10h18"/>
+                  <path d="M8 14h2M14 14h2M8 18h2"/>
+                </svg>
+                Fecha del sermón
+              </span>
             </label>
 
             <div class="input-wrapper">
@@ -127,24 +146,8 @@
             <span
               class="field-hint"
               id="fechaHint">
-
               📅 Solo se permiten días sábados.
-
             </span>
-
-            <div class="coord-inputs">
-
-              <input
-                type="number"
-                id="fecha_x"
-                value="696">
-
-              <input
-                type="number"
-                id="fecha_y"
-                value="488">
-
-            </div>
 
           </div>
 
@@ -153,7 +156,24 @@
           <div class="field-group">
 
             <label for="lectura">
-              <span>📖 Lectura bíblica</span>
+              <span class="label-icon">
+                <svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+                  <path d="M12 7v14"/>
+                  <path d="M3 18V5a2 2 0 0 1 2-2h3
+                          a4 4 0 0 1 4 4
+                          4 4 0 0 1 4-4h3
+                          a2 2 0 0 1 2 2v13
+                          a1 1 0 0 1-1 1h-4
+                          a4 4 0 0 0-4 2
+                          4 4 0 0 0-4-2H4
+                          a1 1 0 0 1-1-1z"/>
+                </svg>
+                Lectura bíblica
+              </span>
             </label>
 
             <div class="input-wrapper">
@@ -247,17 +267,6 @@
               <option value="Apocalipsis"></option>
             </datalist>
 
-            <div class="coord-inputs">
-              <input
-                type="number"
-                id="lectura_x"
-                value="293">
-              <input
-                type="number"
-                id="lectura_y"
-                value="761">
-            </div>
-
           </div>
         </div>
 
@@ -266,13 +275,8 @@
         ================================================== -->
 
         <div class="section-title">
-
-          <span class="section-number">
-            2
-          </span>
-
+          <span class="section-number">2</span>
           Predicador y himnos
-
         </div>
 
 
@@ -281,7 +285,31 @@
         <div class="field-group">
 
           <label for="predicador">
-            <span>🎙️ Predicador principal</span>
+            <span class="label-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true">
+
+                <!-- Cápsula del micrófono -->
+                <rect x="9" y="2" width="6" height="12" rx="3"/>
+
+                <!-- Soporte inferior -->
+                <path d="M5 10a7 7 0 0 0 14 0"/>
+
+                <!-- Base -->
+                <path d="M12 17v5"/>
+                <path d="M8 22h8"/>
+
+              </svg>
+              Predicador principal
+            </span>
           </label>
 
           <div class="input-wrapper">
@@ -300,291 +328,867 @@
 
           </div>
 
-          <div class="coord-inputs">
-
-            <input
-              type="number"
-              id="predicador_x"
-              value="260">
-
-            <input
-              type="number"
-              id="predicador_y"
-              value="1532">
-
-            <input
-              type="number"
-              id="predicador_x2"
-              value="554">
-
-            <input
-              type="number"
-              id="predicador_y2"
-              value="1336">
-
-          </div>
-
         </div>
 
 
-        <div class="field-row-2col">
-
+          <div class="field-row-2col info-general-grid">
           <!-- HIMNO INICIAL -->
           <div class="field-group">
+
             <label for="himnoInicial">
-              <span>🎵 Himno inicial</span>
+              <span class="label-icon">
+                <svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+                  <circle cx="8" cy="18" r="4"/>
+                  <path d="M12 18V2l7 4"/>
+                </svg>
+                Himno inicial
+              </span>
             </label>
 
             <div class="input-wrapper">
               <input
                 type="text"
                 id="himnoInicial"
-                placeholder="Ej. 222 - Castillo Fuerte"
+                list="listaHimnos"
+                maxlength="60"
+                placeholder="Ej. 222 -Del trono celestial"
+                autocomplete="off"
                 required>
 
               <span class="input-badge badge-required">
                 Requerido
               </span>
             </div>
-
-            <div class="coord-inputs">
-              <input
-                type="number"
-                id="himnoInicial_x"
-                value="280">
-
-              <input
-                type="number"
-                id="himnoInicial_y"
-                value="816">
-            </div>
           </div>
 
           <!-- HIMNO FINAL -->
           <div class="field-group">
+
             <label for="himnoFinal">
-              <span>🎵 Himno final</span>
+              <span class="label-icon">
+                <svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+                  <circle cx="8" cy="18" r="4"/>
+                  <path d="M12 18V2l7 4"/>
+                </svg>
+                Himno final
+              </span>
             </label>
 
             <div class="input-wrapper">
               <input
                 type="text"
                 id="himnoFinal"
-                placeholder="Ej. 333 - Grande es tu fidelidad"
+                list="listaHimnos"
+                maxlength="60"
+                placeholder="Ej. 333 -Aunque en esta vida"
+                autocomplete="off"
                 required>
 
               <span class="input-badge badge-required">
                 Requerido
               </span>
             </div>
-
-            <div class="coord-inputs">
-              <input
-                type="number"
-                id="himnoFinal_x"
-                value="280">
-
-              <input
-                type="number"
-                id="himnoFinal_y"
-                value="1380">
-            </div>
           </div>
         </div>
+
+        <!-- Lista autocompletable compartida para los Himnos -->
+        <datalist id="listaHimnos">
+          <option value="1 -Cantad alegres al Señor"></option>
+          <option value="2 -Da gloria al Señor"></option>
+          <option value="3 -Unidos en espíritu"></option>
+          <option value="4 -Alabanzas sin cesar"></option>
+          <option value="5 -A ti, glorioso Dios"></option>
+          <option value="6 -¡Hosanna!"></option>
+          <option value="7 -Oh Dios, mi soberano Rey"></option>
+          <option value="8 -¡Suenen dulces himnos!"></option>
+          <option value="9 -Alabemos al Señor"></option>
+          <option value="10 -Alaba al Dios de Abraham"></option>
+          <option value="11 -Alma, bendice al Señor"></option>
+          <option value="12 -Todos juntos reunidos"></option>
+          <option value="13 -Al Dios invisible"></option>
+          <option value="14 -Engrandecido sea Dios"></option>
+          <option value="15 -Loámoste, ¡oh Dios!"></option>
+          <option value="16 -A nuestro Padre Dios"></option>
+          <option value="17 -Oh Padre, eterno Dios"></option>
+          <option value="18 -Load al Padre"></option>
+          <option value="19 -Padre nuestro"></option>
+          <option value="20 -A Dios, el Padre celestial"></option>
+          <option value="21 -Gloria sea al Padre"></option>
+          <option value="22 -Jehová está en su santo templo"></option>
+          <option value="23 -¡Silencio! ¡Silencio!"></option>
+          <option value="24 -Imploramos tu presencia"></option>
+          <option value="25 -Siento la presencia del Señor"></option>
+          <option value="26 -Aquí reunidos"></option>
+          <option value="27 -¡Oh Pastor divino, escucha!"></option>
+          <option value="28 -Tu pueblo jubiloso"></option>
+          <option value="29 -Del culto el tiempo llega"></option>
+          <option value="30 -Abre mis ojos"></option>
+          <option value="31 -¡Oh, Señor! al orar"></option>
+          <option value="32 -Nos reunimos en tu santuario"></option>
+          <option value="33 -Tu presencia, Padre amante, invocamos"></option>
+          <option value="34 -En momentos así"></option>
+          <option value="35 -Oye, oh Señor"></option>
+          <option value="36 -¡Oh, Dios, que oyes cada oración!"></option>
+          <option value="37 -Dios os guarde"></option>
+          <option value="38 -Que Dios te guarde"></option>
+          <option value="39 -Despide hoy tu grey"></option>
+          <option value="40 -Shalom"></option>
+          <option value="41 -Gracia, amor y comunión"></option>
+          <option value="42 -Queda, Señor"></option>
+          <option value="43 -Agua de vida"></option>
+          <option value="44 -Despídenos con tu bendición"></option>
+          <option value="45 -Después, Señor"></option>
+          <option value="46 -Hoy amanece"></option>
+          <option value="47 -Por la mañana"></option>
+          <option value="48 -Oh Dios, si he ofendido un corazón"></option>
+          <option value="49 -Cristo, ya la noche cierra"></option>
+          <option value="50 -Baja el sol"></option>
+          <option value="51 -Nuestro sol se pone ya"></option>
+          <option value="52 -Señor Jesús, el día ya se fue"></option>
+          <option value="53 -¡Oh amor de Dios!"></option>
+          <option value="54 -Tan bueno es Dios"></option>
+          <option value="55 -Grande, Señor, es tu misericordia"></option>
+          <option value="56 -De tal manera amó"></option>
+          <option value="57 -Mi Dios me ama"></option>
+          <option value="58 -Grande es el amor divino"></option>
+          <option value="59 -Mirad qué amor"></option>
+          <option value="60 -¡Santo! ¡Santo! ¡Santo! Tu gloria llena"></option>
+          <option value="61 -Santo, Santo, Santo, Dios Omnipotente"></option>
+          <option value="62 -Santo, Santo, Santo, Santo es el Señor"></option>
+          <option value="63 -Al Rey adorad"></option>
+          <option value="64 -Yo canto el poder de Dios"></option>
+          <option value="65 -El mundo es de mi Dios"></option>
+          <option value="66 -¿Sabes cuántos?"></option>
+          <option value="67 -¡Señor, yo te conozco!"></option>
+          <option value="68 -Todo lo que ha creado Dios"></option>
+          <option value="69 -Señor, mi Dios"></option>
+          <option value="70 -¡Nuestro Dios reina!"></option>
+          <option value="71 -Cada cosa hermosa"></option>
+          <option value="72 -Fue un milagro"></option>
+          <option value="73 -La creación"></option>
+          <option value="74 -Himno al Creador"></option>
+          <option value="75 -Grande es Jehová"></option>
+          <option value="76 -Eterno Dios, mi Creador"></option>
+          <option value="77 -Sea exaltado"></option>
+          <option value="78 -¡Al mundo paz!"></option>
+          <option value="79 -Se oye un canto en alta esfera"></option>
+          <option value="80 -Venid, pastorcillos"></option>
+          <option value="81 -Noche de paz"></option>
+          <option value="82 -Ya repican las campanas"></option>
+          <option value="83 -La primera Navidad"></option>
+          <option value="84 -Ve, dilo en las montañas"></option>
+          <option value="85 -Allá en el pesebre"></option>
+          <option value="86 -A medianoche en Belén"></option>
+          <option value="87 -Venid, fieles todos"></option>
+          <option value="88 -Oh, aldehuela de Belén"></option>
+          <option value="89 -Cristianos, alegraos hoy"></option>
+          <option value="90 -Somos del oriente"></option>
+          <option value="91 -¿Qué niño es este?"></option>
+          <option value="92 -Ángeles cantando están"></option>
+          <option value="93 -Hubo Uno que quiso"></option>
+          <option value="94 -Sangró mi soberano Dios"></option>
+          <option value="95 -Un día"></option>
+          <option value="96 -Al contemplar la excelsa cruz"></option>
+          <option value="97 -En el monte Calvario"></option>
+          <option value="98 -Rostro divino"></option>
+          <option value="99 -Jamás podrá alguien separarnos"></option>
+          <option value="100 -¡Dulces momentos!"></option>
+          <option value="101 -Cabeza sacrosanta"></option>
+          <option value="102 -Cordero de Dios"></option>
+          <option value="103 -Jesús resucitado"></option>
+          <option value="104 -La tumba le encerró"></option>
+          <option value="105 -Cristo ha resucitado"></option>
+          <option value="106 -Tuya es la gloria"></option>
+          <option value="107 -Canto el gran amor"></option>
+          <option value="108 -Amigo fiel es Cristo"></option>
+          <option value="109 -Un buen amigo tengo yo"></option>
+          <option value="110 -Cristo es el mejor amigo"></option>
+          <option value="111 -Como Jesús no hay otro amigo"></option>
+          <option value="112 -Ningún otro me amó cual Cristo"></option>
+          <option value="113 -Amor que no me dejarás"></option>
+          <option value="114 -Dime la antigua historia"></option>
+          <option value="115 -¡Oh, cuán grande amor!"></option>
+          <option value="116 -Cristo está a mi lado"></option>
+          <option value="117 -No sé por qué"></option>
+          <option value="118 -Cuando estés cansado y abatido"></option>
+          <option value="119 -De su trono, mi Jesús"></option>
+          <option value="120 -¡Cuánto me alegra!"></option>
+          <option value="121 -Es Jesucristo la vida, la luz"></option>
+          <option value="122 -Divino pastor"></option>
+          <option value="123 -¡Cuánto nos ama Jesús!"></option>
+          <option value="124 -Ama el Pastor sus ovejas"></option>
+          <option value="125 -Infinito amor de Cristo"></option>
+          <option value="126 -Abrigadas y salvas en el redil"></option>
+          <option value="127 -Cristo, nombre dulce"></option>
+          <option value="128 -¡Tu nombre es dulce, buen Jesús!"></option>
+          <option value="129 -Cual Jesús no hay otro nombre"></option>
+          <option value="130 -Cristo, Cristo, Cristo"></option>
+          <option value="131 -Bendito es el nombre de Jesús"></option>
+          <option value="132 -Dulce, hermoso nombre es Jesús"></option>
+          <option value="133 -Venid, con cánticos venid"></option>
+          <option value="134 -Cual mirra fragante"></option>
+          <option value="135 -Cristo, nombre sublime"></option>
+          <option value="136 -¡Oh, cuánto amo a Cristo!"></option>
+          <option value="137 -De Jesús el nombre invoca"></option>
+          <option value="138 -De mi amante Salvador"></option>
+          <option value="139 -La tierna voz del Salvador"></option>
+          <option value="140 -Te quiero, te quiero"></option>
+          <option value="141 -¡Alabadle!"></option>
+          <option value="142 -Venid, cantad de gozo en plenitud"></option>
+          <option value="143 -Digno eres tú"></option>
+          <option value="144 -Mi Salvador"></option>
+          <option value="145 -Con acentos de alegría"></option>
+          <option value="146 -Ni en la tierra"></option>
+          <option value="147 -A Dios sea gloria"></option>
+          <option value="148 -Solo Cristo"></option>
+          <option value="149 -Junto a la cruz do Jesús murió"></option>
+          <option value="150 -A Cristo doy mi canto"></option>
+          <option value="151 -Por eso lo amo"></option>
+          <option value="152 -A ti, Jesús"></option>
+          <option value="153 -Ved a Cristo"></option>
+          <option value="154 -Dad gloria al Cordero Rey"></option>
+          <option value="155 -En Sion Jesús hoy reina"></option>
+          <option value="156 -A Cristo coronad"></option>
+          <option value="157 -¡Majestad!"></option>
+          <option value="158 -Amanece ya la mañana de oro"></option>
+          <option value="159 -Yo espero la mañana"></option>
+          <option value="160 -Viene otra vez nuestro Salvador"></option>
+          <option value="161 -¡Oh! cuán gratas las nuevas"></option>
+          <option value="162 -En presencia estar de Cristo"></option>
+          <option value="163 -Cristo viene, esto es cierto"></option>
+          <option value="164 -Jesús pronto volverá"></option>
+          <option value="165 -¡Vendrá el Señor!"></option>
+          <option value="166 -Siervos de Dios, la trompeta tocad"></option>
+          <option value="167 -¿Quién en deslumbrante gloria?"></option>
+          <option value="168 -El Rey que viene"></option>
+          <option value="169 -Cuando suene la trompeta"></option>
+          <option value="170 -La segunda venida de Cristo"></option>
+          <option value="171 -¿Has oído el mensaje?"></option>
+          <option value="172 -Promesa dulce"></option>
+          <option value="173 -¿Será al albor?"></option>
+          <option value="174 -Mira los hitos"></option>
+          <option value="175 -Ved a Cristo, que se acerca"></option>
+          <option value="176 -Tú verás al Rey viniendo"></option>
+          <option value="177 -Los tres mensajes angélicos"></option>
+          <option value="178 -Contemplé la gloria"></option>
+          <option value="179 -¡Cristo viene! Aquel día se acerca"></option>
+          <option value="180 -Sí, lo veremos"></option>
+          <option value="181 -Una esperanza"></option>
+          <option value="182 -Veremos a Cristo"></option>
+          <option value="183 -No me olvidé de ti"></option>
+          <option value="184 -Nunca te rindas"></option>
+          <option value="185 -Al cielo voy"></option>
+          <option value="186 -Hace años escuché"></option>
+          <option value="187 -Aunque anochezca"></option>
+          <option value="188 -Gran alegría"></option>
+          <option value="189 -Cristo muy pronto vendrá"></option>
+          <option value="190 -Santo Espíritu de Cristo"></option>
+          <option value="191 -La nueva proclamad"></option>
+          <option value="192 -Llena mi ser"></option>
+          <option value="193 -Dios nos ha dado promesa"></option>
+          <option value="194 -Vive en mí"></option>
+          <option value="195 -Abre mis ojos a la luz"></option>
+          <option value="196 -Santo Espíritu de Dios"></option>
+          <option value="197 -Dulce Espíritu"></option>
+          <option value="198 -Desciende, Espíritu de amor"></option>
+          <option value="199 -Movidos por tu Espíritu"></option>
+          <option value="200 -Bautízanos hoy"></option>
+          <option value="201 -Canción del Espíritu"></option>
+          <option value="202 -Danos el fuego"></option>
+          <option value="203 -Santo Espíritu llena mi vida"></option>
+          <option value="204 -Oh, cantádmelas otra vez"></option>
+          <option value="205 -Dadme la Biblia"></option>
+          <option value="206 -Padre, tu Palabra es mi delicia"></option>
+          <option value="207 -Dios nos habla"></option>
+          <option value="208 -¡Santa Biblia!"></option>
+          <option value="209 -La Biblia nos habla de Cristo"></option>
+          <option value="210 -Huye cual ave"></option>
+          <option value="211 -Fija tus ojos en Cristo"></option>
+          <option value="212 -A tu puerta Cristo está"></option>
+          <option value="213 -Tierno y amante, Jesús nos invita"></option>
+          <option value="214 -Mientras Jesús te llama"></option>
+          <option value="215 -Con voz benigna te llama Jesús"></option>
+          <option value="216 -Dios al pródigo llama"></option>
+          <option value="217 -Bienvenida da Jesús"></option>
+          <option value="218 -A Jesucristo ven sin tardar"></option>
+          <option value="219 -Tan triste y tan lejos de Dios"></option>
+          <option value="220 -Allá la puerta abierta está"></option>
+          <option value="221 -Puertas abiertas encontrarán"></option>
+          <option value="222 -Del trono celestial"></option>
+          <option value="223 -Oí la voz del Salvador"></option>
+          <option value="224 -Oí la voz del buen Jesús"></option>
+          <option value="225 -Un hombre llegóse de noche a Jesús"></option>
+          <option value="226 -Buscad primero"></option>
+          <option value="227 -Preste oídos el humano"></option>
+          <option value="228 -Me buscaréis y me hallaréis"></option>
+          <option value="229 -¿Has pensado lo que puede costar?"></option>
+          <option value="230 -Abre tu corazón"></option>
+          <option value="231 -Todo en el altar"></option>
+          <option value="232 -Entrégate en oración"></option>
+          <option value="233 -Ven a la Fuente de vida"></option>
+          <option value="234 -¿Temes que en la lucha?"></option>
+          <option value="235 -La razón de vivir"></option>
+          <option value="236 -A Jesús entrega todo"></option>
+          <option value="237 -Jesús hoy espera entrar en tu ser"></option>
+          <option value="238 -Yo escucho, buen Jesús"></option>
+          <option value="239 -De Dios vagaba lejos yo"></option>
+          <option value="240 -Te ruego, oh Dios"></option>
+          <option value="241 -Perdón te ruego, mi Señor y Dios"></option>
+          <option value="242 -Una es, Señor, mi petición"></option>
+          <option value="243 -Entrego todo a Cristo"></option>
+          <option value="244 -Padre, Dios"></option>
+          <option value="245 -Cúmplase, oh Cristo, tu voluntad"></option>
+          <option value="246 -Te quiero, mi Señor"></option>
+          <option value="247 -Yo te seguiré"></option>
+          <option value="248 -Que mi vida entera esté"></option>
+          <option value="249 -Tal como soy"></option>
+          <option value="250 -Padre, a tus pies me postro"></option>
+          <option value="251 -No yo, sino él"></option>
+          <option value="252 -Dejo el mundo"></option>
+          <option value="253 -Tuyo soy, Jesús"></option>
+          <option value="254 -Anhelo ser limpio"></option>
+          <option value="255 -Oh Cristo, te adoro"></option>
+          <option value="256 -Jesús, yo he prometido"></option>
+          <option value="257 -¡Oh! ven, te invito, Cristo"></option>
+          <option value="258 -Tú dejaste tu trono"></option>
+          <option value="259 -Mi espíritu, alma y cuerpo"></option>
+          <option value="260 -Junto a la cruz de Cristo"></option>
+          <option value="261 -Salvador, a ti me rindo"></option>
+          <option value="262 -Los tesoros del mundo"></option>
+          <option value="263 -Entra en este corazón"></option>
+          <option value="264 -Un día más por Cristo"></option>
+          <option value="265 -La senda ancha dejaré"></option>
+          <option value="266 -Vivo por Cristo"></option>
+          <option value="267 -A la cruz de Cristo voy"></option>
+          <option value="268 -Puedo oír tu voz llamando"></option>
+          <option value="269 -Prefiero a mi Cristo"></option>
+          <option value="270 -Meditar en Jesús"></option>
+          <option value="271 -Hoy me llama el mundo en vano"></option>
+          <option value="272 -De esclavitud"></option>
+          <option value="273 -Tu vida, oh Salvador"></option>
+          <option value="274 -¿Qué te daré, Maestro?"></option>
+          <option value="275 -Humilde oración"></option>
+          <option value="276 -Con nuestras mentes"></option>
+          <option value="277 -Amarte más"></option>
+          <option value="278 -¿Puede el mundo ver a Jesús en mí?"></option>
+          <option value="279 -Transfórmame a tu imagen"></option>
+          <option value="280 -Ser semejante a Jesús"></option>
+          <option value="281 -He decidido seguir a Cristo"></option>
+          <option value="282 -¡Brilla, Jesús!"></option>
+          <option value="283 -Ven, Señor Jesús"></option>
+          <option value="284 -Me dice el Salvador"></option>
+          <option value="285 -Confío en Jesucristo"></option>
+          <option value="286 -Hay una fuente sin igual"></option>
+          <option value="287 -Rey de mi vida"></option>
+          <option value="288 -Al contemplarte, mi Salvador"></option>
+          <option value="289 -¿Qué me puede dar perdón?"></option>
+          <option value="290 -Fuente de la vida eterna"></option>
+          <option value="291 -Perdido, fui a mi Jesús"></option>
+          <option value="292 -Por fe en Cristo, el Redentor"></option>
+          <option value="293 -¿Quieres ser salvo de toda maldad?"></option>
+          <option value="294 -En Jesús por fe confío"></option>
+          <option value="295 -Las manos, Padre"></option>
+          <option value="296 -Comprado con sangre por Cristo"></option>
+          <option value="297 -Salvado con sangre por Cristo"></option>
+          <option value="298 -Al Calvario, solo, Jesús ascendió"></option>
+          <option value="299 -Hay vida en mirar"></option>
+          <option value="300 -Lejos de mi Padre Dios"></option>
+          <option value="301 -Cristo es mi amante Salvador"></option>
+          <option value="302 -Grato es contar la historia"></option>
+          <option value="303 -Sublime gracia"></option>
+          <option value="304 -Mi Redentor, el Rey de gloria"></option>
+          <option value="305 -Maravillosa su gracia es"></option>
+          <option value="306 -Llegó Jesús"></option>
+          <option value="307 -Roca de la eternidad"></option>
+          <option value="308 -Dios descendió"></option>
+          <option value="309 -La voz de Jesús"></option>
+          <option value="310 -Cristo, centro de mi vida"></option>
+          <option value="311 -Cuando junte Jesús las naciones"></option>
+          <option value="312 -Día grande viene"></option>
+          <option value="313 -La hora del Juicio"></option>
+          <option value="314 -Cristo, Rey omnipotente"></option>
+          <option value="315 -El Juicio empezó"></option>
+          <option value="316 -Hay un mundo feliz más allá"></option>
+          <option value="317 -En el hogar do nunca habrá"></option>
+          <option value="318 -En la mansión de mi Señor"></option>
+          <option value="319 -Cuando mi lucha termine al final"></option>
+          <option value="320 -Jamás se dice &quot;adiós&quot; allá"></option>
+          <option value="321 -Allá sobre montes"></option>
+          <option value="322 -Busquemos la patria"></option>
+          <option value="323 -He de conocerle entonces"></option>
+          <option value="324 -Pronto yo veré a Jesús"></option>
+          <option value="325 -No puede el mundo ser mi hogar"></option>
+          <option value="326 -Un día yo he de faltar"></option>
+          <option value="327 -Jerusalén, mi amado hogar"></option>
+          <option value="328 -¿Nos veremos junto al río?"></option>
+          <option value="329 -En la célica morada"></option>
+          <option value="330 -Hay un feliz Edén"></option>
+          <option value="331 -La mañana gloriosa"></option>
+          <option value="332 -En la tierra adonde iré"></option>
+          <option value="333 -Aunque en esta vida"></option>
+          <option value="334 -Cuánto anhelo llegar"></option>
+          <option value="335 -Mi hogar celestial"></option>
+          <option value="336 -Del bello país he leído"></option>
+          <option value="337 -Nunca más adiós"></option>
+          <option value="338 -Las riberas de dicha inmortal"></option>
+          <option value="339 -A veces oigo un himno"></option>
+          <option value="340 -¡Oh, qué música divina!"></option>
+          <option value="341 -Más cerca del hogar"></option>
+          <option value="342 -Después del río"></option>
+          <option value="343 -Quiero llegar a ser parte del cielo"></option>
+          <option value="344 -Entonad un himno"></option>
+          <option value="345 -Canta, y tus penas se irán"></option>
+          <option value="346 -¡Feliz el día!"></option>
+          <option value="347 -Con gozo canto al Señor"></option>
+          <option value="348 -Dicha grande"></option>
+          <option value="349 -Gran gozo hay en mi alma hoy"></option>
+          <option value="350 -Andando en la luz de Dios"></option>
+          <option value="351 -Yo tengo gozo"></option>
+          <option value="352 -Gozaos, Cristo es Rey"></option>
+          <option value="353 -Suenan melodías en mi ser"></option>
+          <option value="354 -Voy caminando"></option>
+          <option value="355 -Yo voy feliz"></option>
+          <option value="356 -Gozo es conocer a Cristo"></option>
+          <option value="357 -Jesús, tú eres mi alegría"></option>
+          <option value="358 -En el seno de mi alma"></option>
+          <option value="359 -Regocijaos siempre"></option>
+          <option value="360 -En Jesucristo, mártir de paz"></option>
+          <option value="361 -Percibe mi alma un son"></option>
+          <option value="362 -Con sin igual amor"></option>
+          <option value="363 -Hay un canto nuevo en mi ser"></option>
+          <option value="364 -Jesús da paz"></option>
+          <option value="365 -Elevemos al Señor"></option>
+          <option value="366 -En Cristo hallo amigo"></option>
+          <option value="367 -Gracias, Dios"></option>
+          <option value="368 -Padre amado"></option>
+          <option value="369 -Gratitud y alabanza"></option>
+          <option value="370 -Por la excelsa majestad"></option>
+          <option value="371 -Jesús te ama"></option>
+          <option value="372 -¿Cómo agradecer?"></option>
+          <option value="373 -Mi Redentor es Cristo"></option>
+          <option value="374 -Dulce comunión"></option>
+          <option value="375 -Sed puros y santos"></option>
+          <option value="376 -Dulce oración"></option>
+          <option value="377 -A los pies de Jesucristo"></option>
+          <option value="378 -¡Oh, qué amigo nos es Cristo!"></option>
+          <option value="379 -Habla, Señor, a mi alma"></option>
+          <option value="380 -Ando con Cristo"></option>
+          <option value="381 -De mañana veo su faz"></option>
+          <option value="382 -A solas al huerto yo voy"></option>
+          <option value="383 -Habla a tu Dios de mañana"></option>
+          <option value="384 -El jardín de oración"></option>
+          <option value="385 -Hablando con Jesús"></option>
+          <option value="386 -Hay un lugar de paz"></option>
+          <option value="387 -Aparte del mundo"></option>
+          <option value="388 -Debo decir a Cristo"></option>
+          <option value="389 -Conversar con Jesucristo"></option>
+          <option value="390 -Soy yo, Señor"></option>
+          <option value="391 -¿Le importará a Jesús?"></option>
+          <option value="392 -Hay quien vela mis pisadas"></option>
+          <option value="393 -Mi fe contempla a ti"></option>
+          <option value="394 -¡Cuán firme cimiento!"></option>
+          <option value="395 -¡Oh, cuán dulce es fiar en Cristo!"></option>
+          <option value="396 -¡Oh qué Salvador!"></option>
+          <option value="397 -Oh buen Señor, velada está"></option>
+          <option value="398 -Cuando sopla airada la tempestad"></option>
+          <option value="399 -En estos tiempos"></option>
+          <option value="400 -Castillo fuerte es nuestro Dios"></option>
+          <option value="401 -Eterna Roca es mi Jesús"></option>
+          <option value="402 -¡Oh!, salvo en la Roca"></option>
+          <option value="403 -Cuando en la lucha"></option>
+          <option value="404 -A cualquiera parte"></option>
+          <option value="405 -Sé quién es Jesús"></option>
+          <option value="406 -Jesús es mi luz"></option>
+          <option value="407 -Muy cerca de mi Redentor"></option>
+          <option value="408 -Cristo me ayuda por él a vivir"></option>
+          <option value="409 -Si mi débil fe flaqueare"></option>
+          <option value="410 -Cuando te quiero"></option>
+          <option value="411 -Bajo sus alas"></option>
+          <option value="412 -Todas las promesas"></option>
+          <option value="413 -Si la carga es pesada"></option>
+          <option value="414 -¡Oh, buen Maestro, despierta!"></option>
+          <option value="415 -Salvo en los tiernos brazos"></option>
+          <option value="416 -¡Oh!, tenga yo la ardiente fe"></option>
+          <option value="417 -Dame la fe de mi Jesús"></option>
+          <option value="418 -Padre, yo vengo a ti"></option>
+          <option value="419 -Por la justicia de Jesús"></option>
+          <option value="420 -Nunca desmayes"></option>
+          <option value="421 -Cariñoso Salvador"></option>
+          <option value="422 -Nada puede ya faltarme"></option>
+          <option value="423 -Pertenezco a mi Rey"></option>
+          <option value="424 -¿Cómo podré estar triste?"></option>
+          <option value="425 -Día en día"></option>
+          <option value="426 -Tengo paz"></option>
+          <option value="427 -Lleva todo tu pesar a Cristo"></option>
+          <option value="428 -Su oveja soy"></option>
+          <option value="429 -Él puede"></option>
+          <option value="430 -Solo no estoy"></option>
+          <option value="431 -A él mis problemas le doy"></option>
+          <option value="432 -Como el ciervo"></option>
+          <option value="433 -Conmigo marcha un ángel"></option>
+          <option value="434 -Jesús es mi vida"></option>
+          <option value="435 -Dios sabe, Dios oye, Dios ve"></option>
+          <option value="436 -Él vive hoy"></option>
+          <option value="437 -Tu presencia, Padre amado, da consuelo"></option>
+          <option value="438 -Mira hacia Dios"></option>
+          <option value="439 -¡Oh!, quién pudiera andar con Dios"></option>
+          <option value="440 -Quiero, Jesús, contigo andar"></option>
+          <option value="441 -Jesús, te necesito"></option>
+          <option value="442 -¡Oh! ¡Maestro y Salvador!"></option>
+          <option value="443 -Hay un lugar do quiero estar, cerca de ti"></option>
+          <option value="444 -No me pases"></option>
+          <option value="445 -Más de Jesús"></option>
+          <option value="446 -Más cerca, oh Dios, de ti"></option>
+          <option value="447 -Más santidad dame"></option>
+          <option value="448 -Salvador, mi bien eterno"></option>
+          <option value="449 -Cristo, mi piloto sé"></option>
+          <option value="450 -¡Oh Jesús, Pastor divino!"></option>
+          <option value="451 -Cerca, más cerca"></option>
+          <option value="452 -Contigo quiero andar"></option>
+          <option value="453 -Cómo ser cual Cristo"></option>
+          <option value="454 -Yo quisiera andar con Cristo"></option>
+          <option value="455 -Mi mano ten"></option>
+          <option value="456 -Como la mujer de junto al pozo"></option>
+          <option value="457 -More en mí la belleza del Salvador"></option>
+          <option value="458 -Orad por mí"></option>
+          <option value="459 -Háblame más de Cristo"></option>
+          <option value="460 -Quiero estar cerca de Cristo"></option>
+          <option value="461 -A tu lado anhelo estar"></option>
+          <option value="462 -Dame a Cristo"></option>
+          <option value="463 -Mi oración"></option>
+          <option value="464 -Ven, inspíranos"></option>
+          <option value="465 -Ven junto a mí"></option>
+          <option value="466 -Guíame, ¡oh Salvador!"></option>
+          <option value="467 -¡Siempre el Salvador conmigo!"></option>
+          <option value="468 -Paso a paso Dios me guía"></option>
+          <option value="469 -Jesús me guía"></option>
+          <option value="470 -Guíame, Dios"></option>
+          <option value="471 -Condúceme, Maestro"></option>
+          <option value="472 -Jesús, mi guía es"></option>
+          <option value="473 -Háblame, y hablaré"></option>
+          <option value="474 -¿Qué me importan?"></option>
+          <option value="475 -El camino es escabroso"></option>
+          <option value="476 -¿Muy lejos el hogar está?"></option>
+          <option value="477 -Los que aman al Señor"></option>
+          <option value="478 -Sé fiel siempre, hermano"></option>
+          <option value="479 -De la mano, Señor"></option>
+          <option value="480 -Digno eres, oh Señor"></option>
+          <option value="481 -Voy al cielo"></option>
+          <option value="482 -Quiero cantar"></option>
+          <option value="483 -Cuando al cielo lleguemos"></option>
+          <option value="484 -Busca al Señor"></option>
+          <option value="485 -Unidos en verdad"></option>
+          <option value="486 -En los pasos de Jesús"></option>
+          <option value="487 -Cristo, eres justo Rey"></option>
+          <option value="488 -Al andar con Jesús"></option>
+          <option value="489 -Solo anhelo, Cristo amado"></option>
+          <option value="490 -Mejor que los sacrificios"></option>
+          <option value="491 -Levántate, cristiano"></option>
+          <option value="492 -¡Trabajad! ¡Trabajad!"></option>
+          <option value="493 -Hoy quiero trabajar contigo"></option>
+          <option value="494 -Cerca un alma agobiada está"></option>
+          <option value="495 -Mi deber"></option>
+          <option value="496 -Sus manos somos"></option>
+          <option value="497 -Manos"></option>
+          <option value="498 -Puedes demostrar con tus manos"></option>
+          <option value="499 -Jesús anduvo por aquí"></option>
+          <option value="500 -Hazme tu siervo"></option>
+          <option value="501 -Mi vida al servicio de Dios"></option>
+          <option value="502 -Brilla en el sitio donde estés"></option>
+          <option value="503 -Oh Dios, que deseas la vida"></option>
+          <option value="504 -Señor de todos"></option>
+          <option value="505 -Hijo del reino"></option>
+          <option value="506 -¡De pie, de pie, cristianos!"></option>
+          <option value="507 -Tentado, no cedas"></option>
+          <option value="508 -Contendamos siempre por nuestra fe"></option>
+          <option value="509 -¡Firmes! ¡Fuertes!"></option>
+          <option value="510 -¿Quién está por Cristo?"></option>
+          <option value="511 -Marcharé en la divina luz"></option>
+          <option value="512 -Nunca estéis desanimados"></option>
+          <option value="513 -Honra al hombre de valor"></option>
+          <option value="514 -¡Despertad, despertad, oh cristianos!"></option>
+          <option value="515 -Despliegue el cristiano su santa bandera"></option>
+          <option value="516 -¡Firmes y adelante!"></option>
+          <option value="517 -De pie, oh grey de Dios"></option>
+          <option value="518 -Jesús está buscando voluntarios hoy"></option>
+          <option value="519 -Despierta, hermano, sin demorar"></option>
+          <option value="520 -¡Adelante! manda el Señor"></option>
+          <option value="521 -Al Cristo ved"></option>
+          <option value="522 -Suenen las palabras"></option>
+          <option value="523 -Los sabios dan su ciencia"></option>
+          <option value="524 -Traían en silencio presentes al Señor"></option>
+          <option value="525 -Con gratitud, llegamos"></option>
+          <option value="526 -Oh, mi patria, te prometo hoy"></option>
+          <option value="527 -Señor Jehová, omnipotente Dios"></option>
+          <option value="528 -Por montañas, muy cansado"></option>
+          <option value="529 -Iglesia de Cristo"></option>
+          <option value="530 -Somos un pequeño pueblo muy feliz"></option>
+          <option value="531 -La familia de Dios"></option>
+          <option value="532 -Sagrado es el amor"></option>
+          <option value="533 -Cuán bueno y agradable"></option>
+          <option value="534 -En tu nombre comenzamos"></option>
+          <option value="535 -Las faenas terminadas"></option>
+          <option value="536 -En sombras de la tarde"></option>
+          <option value="537 -Sábado santo"></option>
+          <option value="538 -Hoy es día de reposo"></option>
+          <option value="539 -¡Oh, día delicioso!"></option>
+          <option value="540 -Ya asoma el sol brillante"></option>
+          <option value="541 -Señor, reposamos"></option>
+          <option value="542 -Amo tu sábado"></option>
+          <option value="543 -No te olvides nunca del día del Señor"></option>
+          <option value="544 -Hoy el sábado glorioso"></option>
+          <option value="545 -Santo día"></option>
+          <option value="546 -Santo sábado, bendito"></option>
+          <option value="547 -Sábado es"></option>
+          <option value="548 -Mi corazón se llena de alegría"></option>
+          <option value="549 -Ya el fin se acerca"></option>
+          <option value="550 -Día santo del Señor"></option>
+          <option value="551 -Embajador soy de mi Rey"></option>
+          <option value="552 -¡Oh!, cuánto necesita"></option>
+          <option value="553 -¿Os pusisteis a arar?"></option>
+          <option value="554 -Con Cristo avanza hoy"></option>
+          <option value="555 -Hoy gozoso medito"></option>
+          <option value="556 -Yo quiero siempre brillar"></option>
+          <option value="557 -¿Qué estás haciendo por Cristo?"></option>
+          <option value="558 -Ama a tus prójimos"></option>
+          <option value="559 -No te dé temor"></option>
+          <option value="560 -Cristo está buscando obreros"></option>
+          <option value="561 -Oigo del Señor la voz llamando"></option>
+          <option value="562 -Esparcid la luz de Cristo"></option>
+          <option value="563 -Escuchad, Jesús nos dice"></option>
+          <option value="564 -Pronto la noche viene"></option>
+          <option value="565 -¡Ve, ve oh Sion!"></option>
+          <option value="566 -Centinelas del Maestro"></option>
+          <option value="567 -Si en valles de peligros"></option>
+          <option value="568 -Hay lugar en la amplia viña"></option>
+          <option value="569 -Id y predicad el evangelio"></option>
+          <option value="570 -Voluntario del Señor"></option>
+          <option value="571 -La historia de Cristo contemos"></option>
+          <option value="572 -Pescadores de hombres"></option>
+          <option value="573 -Te envío a ti"></option>
+          <option value="574 -Testimonio"></option>
+          <option value="575 -Tocad trompeta ya"></option>
+          <option value="576 -Proclamo hoy que soy cristiano"></option>
+          <option value="577 -Yo quiero trabajar"></option>
+          <option value="578 -El pueblo que conoce a su Dios"></option>
+          <option value="579 -La fuente veo"></option>
+          <option value="580 -Las aguas del bautismo"></option>
+          <option value="581 -El Pan de vida soy"></option>
+          <option value="582 -Hoy venimos cual hermanos"></option>
+          <option value="583 -La Cena de la Comunión"></option>
+          <option value="584 -Amémonos, hermanos"></option>
+          <option value="585 -De rodillas partimos hoy el pan"></option>
+          <option value="586 -En memoria de mí"></option>
+          <option value="587 -Te dedicamos, oh Señor"></option>
+          <option value="588 -Ven, alma que lloras"></option>
+          <option value="589 -Perfecto amor"></option>
+          <option value="590 -Guía a ti, Señor"></option>
+          <option value="591 -Todo es bello en el hogar"></option>
+          <option value="592 -Si Dios está, ¡feliz hogar!"></option>
+          <option value="593 -Hogar de mis recuerdos"></option>
+          <option value="594 -Señor, gracias por mi hogar"></option>
+          <option value="595 -Feliz hogar"></option>
+          <option value="596 -Edificamos familias"></option>
+          <option value="597 -Oración por un niño"></option>
+          <option value="598 -Cristo, yo te seguiré"></option>
+          <option value="599 -En este bello día"></option>
+          <option value="600 -Cuando venga Jesucristo"></option>
+          <option value="601 -Cuando leo en la Biblia"></option>
+          <option value="602 -Es el amor divino"></option>
+          <option value="603 -Yo temprano busco a Cristo"></option>
+          <option value="604 -Bellas las manitas son"></option>
+          <option value="605 -Jesús tiene tiempo"></option>
+          <option value="606 -Llama Jesús, el Buen Pastor"></option>
+          <option value="607 -Nítido rayo por Cristo"></option>
+          <option value="608 -Corazones siempre alegres"></option>
+          <option value="609 -¡Oh jóvenes, venid!"></option>
+          <option value="610 -Escuchamos tu llamada"></option>
+          <option value="611 -Oh, juventud del Rey"></option>
+          <option value="612 -Jesús te necesita hoy"></option>
+          <option value="613 -Hoy nos toca trabajar"></option>
+        </datalist>
 
         <!-- =================================================
              SECCIÓN 3
         ================================================== -->
 
         <div class="section-title">
-
-          <span class="section-number">
-            3
-          </span>
-
+          <span class="section-number">3</span>
           Asignaciones de plataforma
-
         </div>
 
 
         <!-- ACOMPAÑANTE 1 -->
-
         <div class="field-group">
 
           <label for="acompanante1">
-            <span>👤 Acompañante 1</span>
+            <span class="label-icon">
+              <svg viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true">
+                <circle cx="12" cy="8" r="5"/>
+                <path d="M20 21a8 8 0 0 0-16 0"/>
+              </svg>
+              Acompañante 1
+            </span>
           </label>
-
           <div class="input-wrapper">
-
             <input
               type="text"
               id="acompanante1"
               maxlength="60"
               placeholder="Ej: Hno. Carlos Ruiz"
               required>
-
-            <span
-              class="input-badge badge-required">
-              Requerido
-            </span>
-
+            <span class="input-badge badge-required">Requerido</span>
           </div>
-
-          <div class="coord-inputs">
-
-            <input
-              type="number"
-              id="acompanante1_x"
-              value="300">
-
-            <input
-              type="number"
-              id="acompanante1_y"
-              value="1560">
-
-            <input
-              type="number"
-              id="acompanante1_x2"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante1_y2"
-              value="758">
-
-            <input
-              type="number"
-              id="acompanante1_x3"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante1_y3"
-              value="812">
-
-            <input
-              type="number"
-              id="acompanante1_x4"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante1_y4"
-              value="1300">
-
-            <input
-              type="number"
-              id="acompanante1_x5"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante1_y5"
-              value="1426">
-
-            <input
-              type="number"
-              id="acompanante1_x6"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante1_y6"
-              value="1100">
-
-          </div>
-
         </div>
 
-
         <!-- ACOMPAÑANTE 2 -->
-
         <div class="field-group">
 
           <label for="acompanante2">
-            <span>👤 Acompañante 2</span>
+            <span class="label-icon">
+              <svg viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true">
+                <circle cx="12" cy="8" r="5"/>
+                <path d="M20 21a8 8 0 0 0-16 0"/>
+              </svg>
+              Acompañante 2
+            </span>
           </label>
-
           <div class="input-wrapper">
-
             <input
               type="text"
               id="acompanante2"
               maxlength="60"
               placeholder="Ej: Hna. Ana López"
               required>
+            <span class="input-badge badge-required">Requerido</span>
+          </div>
+        </div>
 
-            <span
-              class="input-badge badge-required">
-              Requerido
-            </span>
+        <!-- BOTÓN PARA MOSTRAR/OCULTAR MÁS ACOMPAÑANTES -->
+        <div style="margin-bottom: 12px;">
+          <button
+            type="button"
+            id="btnToggleAcompanantes"
+            class="btn-secondary"
+            style="width: 100%;">
+            ➕ Agregar más acompañantes (Opcional)
+          </button>
+        </div>
 
+        <!-- CONTENEDOR OCULTO PARA ACOMPAÑANTES 3, 4 Y 5 -->
+        <div id="extraAcompanantes" class="extra-acompanantes-hidden">
+          
+          <!-- ACOMPAÑANTE 3 -->
+          <div class="field-group">
+            <label for="acompanante3">
+              <span class="label-icon">
+                <svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+                  <circle cx="12" cy="8" r="5"/>
+                  <path d="M20 21a8 8 0 0 0-16 0"/>
+                </svg>
+                Acompañante 3
+              </span>
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="acompanante3"
+                maxlength="60"
+                placeholder="Ej: Hno. Pedro Pérez (Opcional)">
+            </div>
           </div>
 
-          <div class="coord-inputs">
+          <!-- ACOMPAÑANTE 4 -->
+          <div class="field-group">
+            <label for="acompanante4">
+              <span class="label-icon">
+                <svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+                  <circle cx="12" cy="8" r="5"/>
+                  <path d="M20 21a8 8 0 0 0-16 0"/>
+                </svg>
+                Acompañante 4
+              </span>
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="acompanante4"
+                maxlength="60"
+                placeholder="Ej: Hna. Rosa Gómez (Opcional)">
+            </div>
+          </div>
 
-            <input
-              type="number"
-              id="acompanante2_x"
-              value="300">
-
-            <input
-              type="number"
-              id="acompanante2_y"
-              value="1587">
-
-            <input
-              type="number"
-              id="acompanante2_x2"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante2_y2"
-              value="883">
-
-            <input
-              type="number"
-              id="acompanante2_x3"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante2_y3"
-              value="991">
-
-            <input
-              type="number"
-              id="acompanante2_x4"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante2_y4"
-              value="1224">
-
-            <input
-              type="number"
-              id="acompanante2_x5"
-              value="554">
-
-            <input
-              type="number"
-              id="acompanante2_y5"
-              value="1378">
-
+          <!-- ACOMPAÑANTE 5 -->
+          <div class="field-group">
+            <label for="acompanante5">
+              <span class="label-icon">
+                <svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+                  <circle cx="12" cy="8" r="5"/>
+                  <path d="M20 21a8 8 0 0 0-16 0"/>
+                </svg>
+                Acompañante 5
+              </span>
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="acompanante5"
+                maxlength="60"
+                placeholder="Ej: Hno. Luis Torres (Opcional)">
+            </div>
           </div>
 
         </div>
-
 
         <!-- FAMILIA -->
 
         <div class="field-group">
 
           <label for="familiaOracion">
-            <span>🙏 Familia para oración</span>
+            <span class="label-icon">
+              <svg viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true">
+                <path d="M11 14H8a2 2 0 0 0-2 2
+                        v1a2 2 0 0 0 2 2h5
+                        a4 4 0 0 0 2.8-1.2L21 13"/>
+                <path d="M2 14h4v7H2z"/>
+                <path d="M12 11 7.5 6.5
+                        a3 3 0 0 1 4.2-4.2L12 3
+                        l.3-.7a3 3 0 0 1 4.2 4.2z"/>
+              </svg>
+              Familia para oración
+            </span>
           </label>
 
           <div class="input-wrapper">
@@ -603,20 +1207,6 @@
 
           </div>
 
-          <div class="coord-inputs">
-
-            <input
-              type="number"
-              id="familiaOracion_x"
-              value="554">
-
-            <input
-              type="number"
-              id="familiaOracion_y"
-              value="930">
-
-          </div>
-
         </div>
 
 
@@ -625,7 +1215,19 @@
         <div class="field-group">
 
           <label for="adoracionInfantil">
-            <span>👶 Responsable adoración infantil</span>
+            <span class="label-icon">
+              <svg viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true">
+                <circle cx="12" cy="13" r="9"/>
+                <path d="M9 9h.01M15 9h.01"/>
+                <path d="M9 16c1.5 2 4.5 2 6 0"/>
+                <path d="M12 4c-1-2 1-3 2-2"/>
+              </svg>
+              Responsable adoración infantil
+            </span>
           </label>
 
           <div class="input-wrapper">
@@ -644,20 +1246,6 @@
 
           </div>
 
-          <div class="coord-inputs">
-
-            <input
-              type="number"
-              id="adoracionInfantil_x"
-              value="554">
-
-            <input
-              type="number"
-              id="adoracionInfantil_y"
-              value="1019">
-
-          </div>
-
         </div>
 
 
@@ -666,7 +1254,18 @@
         <div class="field-group">
 
           <label for="mensajeMusical">
-            <span>🎶 Responsable mensaje musical</span>
+            <span class="label-icon">
+              <svg viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true">
+                <path d="M9 18V5l12-2v13"/>
+                <circle cx="6" cy="18" r="3"/>
+                <circle cx="18" cy="16" r="3"/>
+              </svg>
+              Responsable mensaje musical
+            </span>
           </label>
 
           <div class="input-wrapper">
@@ -685,20 +1284,6 @@
 
           </div>
 
-          <div class="coord-inputs">
-
-            <input
-              type="number"
-              id="mensajeMusical_x"
-              value="554">
-
-            <input
-              type="number"
-              id="mensajeMusical_y"
-              value="1258">
-
-          </div>
-
         </div>
 
       </form>
@@ -712,34 +1297,57 @@
           id="btnExportar"
           class="btn-export-jpg"
           disabled>
-
           🖼️ Descargar JPG
-
         </button>
 
         <button
           id="btnWhatsapp"
           class="btn-whatsapp"
           disabled>
-
-          📤 Compartir
-
-        </button>
-
-        <button
-          id="btnDesigner"
-          class="btn-designer">
-
-          ⚙️ Diseñador
-
+          <svg
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true">
+            <circle cx="18" cy="5" r="3"/>
+            <circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <path d="m8.7 13.5 6.6 4"/>
+            <path d="m15.3 6.5-6.6 4"/>
+          </svg>
+          <span>Compartir</span>
         </button>
 
         <button
           id="btnLimpiar"
-          class="btn-reset">
+          class="btn-reset"
+          type="button">
 
-          🗑️ Limpiar
+          <svg
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true">
 
+            <path d="M3 6h18"/>
+            <path d="M8 6V4h8v2"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 10v7"/>
+            <path d="M14 10v7"/>
+
+          </svg>
+
+          <span>Limpiar</span>
         </button>
 
       </div>
@@ -756,273 +1364,43 @@
       id="previewCard">
 
       <div class="preview-header">
-
         <div>
-
           <h3>Vista previa</h3>
-
         </div>
-
         <span
           class="preview-status"
           id="previewStatus">
-
           En edición
-
         </span>
-
       </div>
 
 
-      <div class="canvas-wrapper">
+<div class="canvas-wrapper">
 
         <canvas
           id="canvasLiturgia"
-          width="864"
-          height="1821">
+          width="1728"
+          height="3642">
         </canvas>
+
+        <!-- Loader para conexiones lentas -->
+        <div class="preview-loading" id="previewLoading">
+          <div class="spinner"></div>
+          <span>Cargando plantilla en alta resolución...</span>
+        </div>
 
         <div
           class="preview-empty"
-          id="previewEmpty">
-
+          id="previewEmpty"
+          style="display: none;">
           <div>
-
-            <strong>
-              📄 Vista previa de la liturgia
-            </strong>
-
+            <strong>📄 Vista previa de la liturgia</strong>
             <br><br>
-
-            Completa los datos para visualizar
-            la programación.
-
+            Completa los datos para visualizar la programación.
           </div>
-
         </div>
 
       </div>
-
-
-      <!-- HERRAMIENTAS -->
-
-      <div class="preview-tools">
-
-        <button
-          class="btn-secondary"
-          id="btnCopiar">
-
-          📄 Copiar texto
-
-        </button>
-
-        <button
-          class="btn-designer"
-          id="btnDesignerPreview">
-
-          ⚙️ Diseñar
-
-        </button>
-
-      </div>
-
-
-      <!-- ===================================================
-           PANEL DISEÑADOR
-      ==================================================== -->
-
-      <div
-        class="designer-panel"
-        id="designerPanel">
-
-        <div class="designer-title">
-
-          ⚙️ Editor de diseño
-
-        </div>
-
-
-        <div class="designer-control">
-
-          <label>
-            Elemento
-          </label>
-
-          <select id="designerField">
-
-            <option value="fecha">
-              Fecha
-            </option>
-
-            <option value="predicador">
-              Predicador
-            </option>
-
-            <option value="lectura">
-              Lectura
-            </option>
-
-            <option value="himnoInicial">
-              Himno inicial
-            </option>
-
-            <option value="himnoFinal">
-              Himno final
-            </option>
-
-            <option value="acompanante1">
-              Acompañante 1
-            </option>
-
-            <option value="acompanante2">
-              Acompañante 2
-            </option>
-
-            <option value="familiaOracion">
-              Familia de oración
-            </option>
-
-            <option value="adoracionInfantil">
-              Adoración infantil
-            </option>
-
-            <option value="mensajeMusical">
-              Mensaje musical
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <br>
-
-
-        <div class="designer-grid">
-
-          <div class="designer-control">
-
-            <label>X</label>
-
-            <input
-              type="number"
-              id="designX">
-
-          </div>
-
-
-          <div class="designer-control">
-
-            <label>Y</label>
-
-            <input
-              type="number"
-              id="designY">
-
-          </div>
-
-
-          <div class="designer-control">
-
-            <label>Tamaño</label>
-
-            <input
-              type="number"
-              id="designFontSize"
-              min="8"
-              max="100">
-
-          </div>
-
-
-          <div class="designer-control">
-
-            <label>Alineación</label>
-
-            <select id="designAlign">
-
-              <option value="left">
-                Izquierda
-              </option>
-
-              <option value="center">
-                Centro
-              </option>
-
-              <option value="right">
-                Derecha
-              </option>
-
-            </select>
-
-          </div>
-
-        </div>
-
-
-        <div class="designer-actions">
-
-          <button
-            class="btn-secondary"
-            id="btnMoveUp">
-
-            ↑ Subir
-
-          </button>
-
-          <button
-            class="btn-secondary"
-            id="btnMoveDown">
-
-            ↓ Bajar
-
-          </button>
-
-          <button
-            class="btn-secondary"
-            id="btnMoveLeft">
-
-            ← Izquierda
-
-          </button>
-
-          <button
-            class="btn-secondary"
-            id="btnMoveRight">
-
-            → Derecha
-
-          </button>
-
-          <button
-            class="btn-reset"
-            id="btnResetDesign">
-
-            ↩ Restablecer
-
-          </button>
-
-          <button
-            class="btn-export-jpg"
-            id="btnSaveDesign">
-
-            💾 Guardar diseño
-
-          </button>
-
-        </div>
-
-
-        <div class="designer-help">
-
-          💡 Puedes modificar las coordenadas
-          directamente. Los cambios se reflejan
-          inmediatamente en la vista previa.
-
-        </div>
-
-      </div>
-
     </section>
 
   </div>
@@ -1036,10 +1414,29 @@
 
     <button
       id="btnMobileClear"
-      class="btn-reset">
+      class="btn-reset"
+      type="button">
 
-      🗑️ Limpiar
+      <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
 
+        <path d="M3 6h18"/>
+        <path d="M8 6V4h8v2"/>
+        <path d="M19 6l-1 14H6L5 6"/>
+        <path d="M10 10v7"/>
+        <path d="M14 10v7"/>
+
+      </svg>
+
+      <span>Limpiar</span>
     </button>
    
     <button
@@ -1047,7 +1444,26 @@
       class="btn-whatsapp"
       disabled>
 
-      📤 Compartir liturgia
+      <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
+
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <path d="m8.7 13.5 6.6 4"/>
+        <path d="m15.3 6.5-6.6 4"/>
+
+      </svg>
+
+      <span>Compartir liturgia</span>
 
     </button>
 
@@ -1060,13 +1476,8 @@
     class="modal-overlay"
     id="confirmModal">
     <div class="modal">
-      <h3>
-        ¿Limpiar liturgia?
-      </h3>
-      <p>
-        Se eliminarán los datos introducidos
-        y se restaurará el formulario.
-      </p>
+      <h3>¿Limpiar liturgia?</h3>
+      <p>Se eliminarán los datos introducidos y se restaurará el formulario.</p>
       <div class="modal-buttons">
         <button
           class="btn-reset"
@@ -1090,6 +1501,7 @@
     class="toast-container"
     id="toastContainer">
   </div>
+
   <!-- Archivo de JavaScript externo -->
   <script src="script.js"></script>
 
